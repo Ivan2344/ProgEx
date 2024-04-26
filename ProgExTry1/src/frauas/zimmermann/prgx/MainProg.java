@@ -1,4 +1,6 @@
 package frauas.zimmermann.prgx;
+import java.sql.*;
+
 
 public class MainProg {
 
