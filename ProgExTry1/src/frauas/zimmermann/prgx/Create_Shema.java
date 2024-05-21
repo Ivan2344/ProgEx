@@ -8,7 +8,7 @@ public class Create_Shema
 	private String password;
 	Create_Shema(String usr, String pwd)
 	{
-		this.url = "jdbc:mysql://localhost:3306/jdbc";
+		this.url = "jdbc:mysql://localhost:3306/";
         this.user = usr;
         this.password = pwd;
 	}
@@ -20,11 +20,11 @@ public class Create_Shema
 
 	            // Erstelle das Schema
 	            
-	            String createSchemaQuery = "CREATE SCHEMA IF NOT EXISTS SEIFEN1";
+	            String createSchemaQuery = "CREATE SCHEMA IF NOT EXISTS SEIFENdemo";
 	            stmt.executeUpdate(createSchemaQuery);
 
 	            // Verwende das Schema
-	            String useSchemaQuery = "USE SEIFEN1";
+	            String useSchemaQuery = "USE SEIFENdemo";
 	            stmt.executeUpdate(useSchemaQuery);
 
 	            // Erstelle die Tabellen
