@@ -29,7 +29,7 @@ public class Create_Shema
 
 	            // Erstelle die Tabellen
 	            
-	            String createTable1Query = "CREATE TABLE IF NOT EXISTS table1 (id INT PRIMARY KEY, name VARCHAR(255))";
+	            String createTable1Query = "CREATE TABLE IF NOT EXISTS Seifen (id INT PRIMARY KEY, name VARCHAR(255))";
 	            String createTable2Query = "CREATE TABLE IF NOT EXISTS table2 (id INT PRIMARY KEY, age INT)";
 	            String createTable3Query = "CREATE TABLE IF NOT EXISTS table3 (id INT PRIMARY KEY, address VARCHAR(255))";
 
@@ -43,5 +43,10 @@ public class Create_Shema
 	        } catch (Exception e) {
 	            System.err.println("Fehler beim Erstellen des Schemas und der Tabellen: " + e.getMessage());
 	        }
+	}
+	
+	void InsertDemoValues() 
+	{
+		
 	}
 }
