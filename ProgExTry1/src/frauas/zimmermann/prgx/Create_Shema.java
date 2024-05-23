@@ -29,14 +29,20 @@ public class Create_Shema
 
 	            // Erstelle die Tabellen
 	            
-	            String createTable1Query = "CREATE TABLE IF NOT EXISTS Seifen (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
-	            String createTable2Query = "CREATE TABLE IF NOT EXISTS Kunde (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
-	            String createTable3Query = "CREATE TABLE IF NOT EXISTS Order (id INT PRIMARY KEY, user_id INT, order_date DATE, status VARCHAR(50), total INT, subtotal INT, tax FLOAT, discount INT)";
-
-	            stmt.executeUpdate(createTable1Query);
-	            stmt.executeUpdate(createTable2Query);
-	            stmt.executeUpdate(createTable3Query);
-
+	            String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Seifen (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
+	            String createKundeQuery = "CREATE TABLE IF NOT EXISTS Kunde (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
+	            String createOrderQuery = "CREATE TABLE IF NOT EXISTS Order (id INT PRIMARY KEY, user_id INT, order_date DATE, status VARCHAR(50), total INT, subtotal INT, tax FLOAT, discount INT)";
+	            String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT Primary KEY, Oid INT, Sid INT)"; //erstellen der referenztabelle
+	            String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
+	            String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT Primary KEY, Oid INT, Eid INT)";
+	            
+	            stmt.executeUpdate(createSeifenQuery);
+	            stmt.executeUpdate(createKundeQuery);
+	            stmt.executeUpdate(createOrderQuery);
+	            stmt.executeUpdate(createOrderProd);
+	            stmt.executeUpdate(createEmployer);
+	            stmt.executeUpdate(createOrdEmp);
+	            
 	            System.out.println("Schema und Tabellen erfolgreich erstellt.");
 
 	            conn.close();
