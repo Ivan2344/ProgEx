@@ -29,9 +29,9 @@ public class Create_Shema
 
 	            // Erstelle die Tabellen
 	            
-	            String createTable1Query = "CREATE TABLE IF NOT EXISTS Seifen (id INT PRIMARY KEY, name VARCHAR(255))";
-	            String createTable2Query = "CREATE TABLE IF NOT EXISTS table2 (id INT PRIMARY KEY, age INT)";
-	            String createTable3Query = "CREATE TABLE IF NOT EXISTS table3 (id INT PRIMARY KEY, address VARCHAR(255))";
+	            String createTable1Query = "CREATE TABLE IF NOT EXISTS Seifen (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
+	            String createTable2Query = "CREATE TABLE IF NOT EXISTS Kunde (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
+	            String createTable3Query = "CREATE TABLE IF NOT EXISTS Order (id INT PRIMARY KEY, user_id INT, order_date DATE, status VARCHAR(50), total INT, subtotal INT, tax FLOAT, discount INT)";
 
 	            stmt.executeUpdate(createTable1Query);
 	            stmt.executeUpdate(createTable2Query);
