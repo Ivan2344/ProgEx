@@ -1,6 +1,7 @@
 package frauas.zimmermann.prgx;
 
 
+import java.sql.*;
 import java.sql.Driver;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +23,7 @@ public class Connection_establishment{
 	public void fetchProductsFromDatabase() {
 	
 		try {       
-			Class.forName("com.mysql.cj.jdbc.Driver");        
+			//Class.forName("com.mysql.cj.jdbc.Driver");        
 			Connection connection = DriverManager.getConnection(url, username, password);  
 			Statement statement = connection.createStatement();  
 			ResultSet resultSet = statement.executeQuery("select * from products");  
