@@ -10,7 +10,7 @@ import java.sql.Statement;
 
 public class Connection_establishment{
 	
-	private String url = "jdbc:mysql://localhost:3306/jdbc";  
+	private String url = "jdbc:mysql://localhost:3306/";  
 	private String username = "root";
 	private String password = "12345678";
 	
