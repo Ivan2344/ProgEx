@@ -1,5 +1,8 @@
 package frauas.zimmermann.prgx;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 public class Customers {
 	int id;
 	String address;
@@ -7,8 +10,8 @@ public class Customers {
 	String password;
 	String name;
 	String city;
-	String birth_date;
-	String created_at;
+	Date birth_date;
+    Timestamp created_at;
 	
 	public int getId() {
 		return id;
@@ -46,16 +49,20 @@ public class Customers {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getBirth_date() {
-		return birth_date;
-	}
-	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
-	}
-	public String getCreated_at() {
-		return created_at;
-	}
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
-	}
+	public Date getBirthDate() {
+	    return birth_date;
+	    }
+
+	public void setBirthDate(Date birth_date) {
+	    this.birth_date = birth_date;
+	    }
+
+	public Timestamp getCreatedAt() {
+	    return created_at;
+	 }
+
+	public void setCreatedAt(Timestamp created_at) {
+	    this.created_at = created_at;
+	 }
+	
 }

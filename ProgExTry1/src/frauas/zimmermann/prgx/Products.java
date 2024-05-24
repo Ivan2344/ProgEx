@@ -1,13 +1,16 @@
 package frauas.zimmermann.prgx;
 
+import java.sql.Timestamp;
+
 public class Products {
 
-	int id;
-	int EAN;
-	String title;
-	String category;
-	float price;
-	String created_at;
+	private int id;
+	private int EAN;
+	private String title;
+	private String category;
+	private double price;
+	private Timestamp created_at;
+
 	
 	public int getId() {
 		return id;
@@ -33,16 +36,17 @@ public class Products {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
-	public String getCreated_at() {
-		return created_at;
+	public Timestamp getCreatedAt() {
+        return created_at;
 	}
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+
+	public void setCreatedAt(Timestamp created_at) {
+	    this.created_at = created_at;
 	}
 }

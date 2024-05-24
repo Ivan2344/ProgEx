@@ -43,7 +43,7 @@ public class Connection_establishment{
 	
 		}
 		catch (Exception e) {
-			System.out.println(e);  
+			System.out.println("Error fetching data from the database: " + e.getMessage());  
 		}
 	}
 	
