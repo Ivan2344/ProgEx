@@ -2,7 +2,8 @@ package frauas.zimmermann.prgx;
 
 import java.sql.Timestamp;
 
-public class Products {
+
+public class Soap {
 
 	private int id;
 	private int EAN;
