@@ -20,7 +20,7 @@ public class Create_Shema
 
 	            // Erstelle das Schema
 	            
-	            String createSchemaQuery = "CREATE SCHEMA IF NOT EXISTS SEIFENdemo";
+	            String createSchemaQuery = "CREATE SCHEMA IF NOT EXISTS SEIFENdemo1";
 	            stmt.executeUpdate(createSchemaQuery);
 
 	            // Verwende das Schema

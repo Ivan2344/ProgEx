@@ -8,5 +8,7 @@ public class MainProg {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
 		System.out.print("Lolz3");
+		Create_Shema c1 = new Create_Shema("", "");
+		c1.CreateDB();
 	}
 }
