@@ -24,7 +24,7 @@ public class Create_Shema
 	            stmt.executeUpdate(createSchemaQuery);
 
 	            // Verwende das Schema
-	            String useSchemaQuery = "USE SEIFENdemo";
+	            String useSchemaQuery = "USE SEIFENdemo1";
 	            stmt.executeUpdate(useSchemaQuery);
 
 	            // Erstelle die Tabellen
