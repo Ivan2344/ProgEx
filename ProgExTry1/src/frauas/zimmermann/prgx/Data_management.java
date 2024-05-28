@@ -70,7 +70,7 @@ public class Data_management {
         try {       
             Connection connection = DriverManager.getConnection(url, username, password);  
             Statement statement = connection.createStatement();  
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");  
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Orders");  
             
             while(resultSet.next()) { 
                 Orders order = new Orders();

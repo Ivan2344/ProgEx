@@ -29,8 +29,8 @@ public class Create_Shema
 
 	            // Erstelle die Tabellen
 	            
-	            String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Seifen (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
-	            String createKundeQuery = "CREATE TABLE IF NOT EXISTS Kunde (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
+	            String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Soap (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
+	            String createKundeQuery = "CREATE TABLE IF NOT EXISTS customers (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
 	            String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT PRIMARY KEY, user_id INT, order_date TIMESTAMP, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
 	            
 	            String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT Primary KEY, Oid INT, Sid INT)"; //erstellen der referenztabelle
