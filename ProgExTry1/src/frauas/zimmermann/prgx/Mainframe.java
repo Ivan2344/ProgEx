@@ -14,14 +14,15 @@ import javax.swing.JPanel;
 
 public class Mainframe {
 	JFrame frame; 
-	JPanel header, footer, right, left, center, namePanel, 
+	protected JPanel header, footer, right, left, center, namePanel, 
 	innerCenterPanel, northCenterPanel, leftInnerCenterPanel, 
 	middleInnerCenterPanel, rightInnerCenterPanel, wedummy, nsdummy, cLeftInnerCenterPanel;
 	JLabel label;
 	private static final int LEFT_PANEL = 0;
     private static final int RIGHT_PANEL = 1;
     private static final int INNER_LEFT_PANEL = 2;
-    private static final Color BORDER_COLOR = Color.LIGHT_GRAY;
+    protected static final Color BORDER_COLOR = Color.LIGHT_GRAY, LIGHT_BLUE = new Color (230,230,255);
+    
     
 	public Mainframe(){
 		initializeFrame();
@@ -51,7 +52,7 @@ public class Mainframe {
 		
 		label = new JLabel("Your Shop");
 		label.setFont(new Font("Arial",Font.BOLD,36));
-		label.setForeground(Color.WHITE);
+		label.setForeground(LIGHT_BLUE);
 		
 		namePanel.add(label);
 		header.add(namePanel);	
@@ -61,7 +62,7 @@ public class Mainframe {
 	public void setFooter() {
 		footer = new JPanel();
 		footer.setBackground(Color.BLACK);
-		footer.setPreferredSize(new Dimension(1400,50));
+		footer.setPreferredSize(new Dimension(1400,100));
 		frame.add(footer,BorderLayout.SOUTH);
 	}
 	
@@ -72,7 +73,7 @@ public class Mainframe {
 	    
 	    northCenterPanel = new JPanel();
 	    northCenterPanel.setBackground(Color.GRAY);
-	    northCenterPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+	    northCenterPanel.setLayout(new GridLayout(1, 4));
 	    northCenterPanel.setPreferredSize(new Dimension(1300, 50));
 	    
 	    innerCenterPanel = new JPanel();
@@ -101,23 +102,23 @@ public class Mainframe {
 
 	private JPanel createPanelWithBorder(int panelType) {
 		JPanel panel = new JPanel();
-	    panel.setBackground(Color.WHITE);
+		Color myColor = new Color(230,230,255);
+	    panel.setBackground(myColor);
 	    
 	    int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
-	    Color borderColor;
 	    
 	    
 	    switch(panelType){
 	    	case RIGHT_PANEL: 
 	    		topBorderWidth = 100;
 	    		leftBorderWidth = 20;
-	    		bottomBorderWidth = 50;
+	    		bottomBorderWidth = 100;
 	    		rightBorderWidth = 20;
 	    		break;
 	    	case INNER_LEFT_PANEL:
 				 topBorderWidth = 0; 
 				 leftBorderWidth = 10;
-			     bottomBorderWidth = 50;
+			     bottomBorderWidth = 100;
 			     rightBorderWidth = 10;
 				 break;
 	    	case LEFT_PANEL:
@@ -131,7 +132,6 @@ public class Mainframe {
 	                leftBorderWidth = 0;
 	                bottomBorderWidth = 0;
 	                rightBorderWidth = 0;
-	                borderColor = Color.BLACK;
 	                break;
 			}
 		
