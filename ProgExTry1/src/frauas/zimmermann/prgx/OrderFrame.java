@@ -7,8 +7,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 	import java.awt.FlowLayout;
 	import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
@@ -16,12 +14,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 	import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 	import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
@@ -36,7 +34,7 @@ import javax.swing.tree.DefaultTreeModel;
 		JFrame frame; 
 		JTextField customerEnt;
 		JTextField employeeEnt,textField ;
-		JPanel header, footer, right, left, center,text,jTreePanel;
+		JPanel header, footer, right, left, center,text,jTreePanel, tabelPanel;
 		DefaultTreeModel model ;
 		JButton namePage, orderButton, employeeButton, productButton, customerButton;
 		Color headerColor = new java.awt.Color(184, 235, 209);//new java.awt.Color(71, 20, 46)
@@ -76,7 +74,7 @@ import javax.swing.tree.DefaultTreeModel;
 			JLabel nameShop = new JLabel();
 			nameShop.setBackground(headerColor);
 			nameShop.setFont(new java.awt.Font("Felix Titling", 0, 36));
-			nameShop.setText("Soap Paradise");
+			nameShop.setText("Your Shop");
 			namePanel.add(nameShop);
 			header.add(namePanel, BorderLayout.NORTH);	
 			header.add(setupOption_Panel(),BorderLayout.CENTER);
@@ -124,9 +122,25 @@ import javax.swing.tree.DefaultTreeModel;
 		Soaps.add(new DefaultMutableTreeNode("Aloe Vera"));
 		Soaps.add(new DefaultMutableTreeNode("Botanical"));
 		Soaps.add(new DefaultMutableTreeNode("Tumeric"));
+		Handwash.add(new DefaultMutableTreeNode("Cucumber"));
+		Handwash.add(new DefaultMutableTreeNode("Freshness"));
+		Handwash.add(new DefaultMutableTreeNode("Roses"));
+		Handwash.add(new DefaultMutableTreeNode("Tea tree"));
+		ShampooBars.add(new DefaultMutableTreeNode("Cucumber"));
+		ShampooBars.add(new DefaultMutableTreeNode("Freshness"));
+		ShampooBars.add(new DefaultMutableTreeNode("Roses"));
+		ShampooBars.add(new DefaultMutableTreeNode("Tea tree"));
+		BathBombs.add(new DefaultMutableTreeNode("Cucumber"));
+		BathBombs.add(new DefaultMutableTreeNode("Freshness"));
+		BathBombs.add(new DefaultMutableTreeNode("Roses"));
+		BathBombs.add(new DefaultMutableTreeNode("Tea tree"));
 		
 		model = new DefaultTreeModel(products);
+		
 		javax.swing.JTree tree = new javax.swing.JTree(model);
+		  tree.setBorder(new javax.swing.border.MatteBorder(null));
+	        tree.setFont(new java.awt.Font("Amiri", 0, 18)); // NOI18N
+		tree.setEditable(true);
 		// Add a TreeSelectionListener to handle node selection
         tree.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
@@ -143,6 +157,7 @@ import javax.swing.tree.DefaultTreeModel;
         });
 		
 		JScrollPane treeScrollPane = new JScrollPane(tree);
+		treeScrollPane.setPreferredSize(new Dimension(300, 400));
 		jtree.add(treeScrollPane,BorderLayout.CENTER);
 		return jtree;
 		
@@ -169,16 +184,6 @@ import javax.swing.tree.DefaultTreeModel;
 			frame.add(left,BorderLayout.WEST);
 		}
 		
-//		private JPanel setupperPanel() {
-//			JPanel upperPanel = new JPanel();
-//			upperPanel.setLayout(new BorderLayout());
-//			upperPanel.setPreferredSize(new Dimension(1150,320));
-//			// set upperPanel left
-//			upperPanel.add(setUpperLeft_Panel(),BorderLayout.WEST);    
-//			//set upperPanel right    
-//			upperPanel.add(setUpperRight_Panel(),BorderLayout.CENTER);
-//			return upperPanel;
-//		}
 //		
 //		  jComboBox1.setFont(new java.awt.Font("Amiri", 0, 18)); // NOI18N
 //	        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Order 1", "Order 2", "Order 3", "Order 4", "Order 5", "Order 6", "Order 7", "Order 8", "Order 9", "Order 10" }));
@@ -193,11 +198,13 @@ import javax.swing.tree.DefaultTreeModel;
 		    center = new JPanel();
 		    text = new JPanel();
 		    jTreePanel = new JPanel();
+		    tabelPanel = new JPanel();
 		    center.setBackground(new java.awt.Color(254, 238, 205)); 
 		    center.setLayout(new FlowLayout(FlowLayout.LEADING,20,10));
 		    text.setPreferredSize(new Dimension(375, 400));
 		    text.setLayout(new FlowLayout(FlowLayout.LEADING,20,10)); // Set BoxLayout Y_AXIS for vertical layout
-		    text.setBackground(Color.blue);
+		    text.setBackground(new java.awt.Color(254, 238, 205));
+		    tabelPanel.add(setTable());
 		    jTreePanel.add(JTree());
 		    customerEnt = setUpTextField("Enter Customer name");
 		    employeeEnt = setUpTextField("Enter Employee name");
@@ -205,6 +212,7 @@ import javax.swing.tree.DefaultTreeModel;
 		    text.add(customerEnt);
 		    center.add(text);
 		    center.add(jTreePanel);
+		    center.add(tabelPanel);
 		    frame.add(center, BorderLayout.CENTER);
 		    
 		}
@@ -224,6 +232,50 @@ import javax.swing.tree.DefaultTreeModel;
 		        });	
 
 			return textField;
+        }
+        
+        private JScrollPane setTable() {
+        	
+
+        	        String[] columnNames = {
+        	            "", ""
+        	        };
+
+        	        // Create data for the table
+        	        Object[][] data = {
+        	            {"ID", "Data 1-2"},
+        	            {"Customer ID", "Data 2-2"},
+        	            {"Status", "Data 3-2"},
+        	            {"Sub-Total", "Data 1-10"},
+        	            {"Tax", "Data 1-8"},
+        	            {"Total","Data 1-6"},
+        	            { "Discount", "Data 1-4"},
+        	            { "Order Date", "Data 1-4"},
+        	            { "Product ID", "Data 1-4mwefm;oqiwekf;oqwekf;opqkf;oqpwk;fok;q;rogkqw"}
+        	        };
+
+        	        // Create the table with the data and column names
+        	        JTable table = new JTable(data, columnNames);
+
+        	        // Set preferred size for the table to enable horizontal scrolling
+        	        table.setRowHeight(30);
+        	       // table.set
+        	        table.setFont(new java.awt.Font("Amiri", 0, 20));
+        	       table.setPreferredSize(new Dimension(375, 400));
+        	        table.setPreferredScrollableViewportSize(new Dimension(375, 400));
+        	        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        	        table.getColumnModel().getColumn(0).setPreferredWidth(15);
+        	        table.setFillsViewportHeight(true);
+
+        	        // Add the table to a scroll pane
+        	        JScrollPane scrollPane = new JScrollPane(table);
+
+        	        // Set the horizontal scroll bar policy
+        	        scrollPane.setPreferredSize(new Dimension(375, 400));
+        	     //  scrollPane.setHorizontalScrollBarPolicy(JScrollPane.);
+
+        	     
+        	return scrollPane;
         }
 		
 		/**
