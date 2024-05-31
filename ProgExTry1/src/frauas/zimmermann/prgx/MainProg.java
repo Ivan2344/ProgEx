@@ -10,6 +10,6 @@ public class MainProg {
 		System.out.print("Lolz3");
 		Create_Shema c1 = new Create_Shema("", "");
 		c1.CreateDB();
-		Mainframe new2 = new Mainframe();
+		GUI new2 = new GUI();
 	}
 }
