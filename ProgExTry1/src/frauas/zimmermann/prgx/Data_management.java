@@ -70,7 +70,7 @@ public class Data_management {
         try {       
             Connection connection = DriverManager.getConnection(url, username, password);  
             Statement statement = connection.createStatement();  
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Orders");  
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");  
             
             while(resultSet.next()) { 
                 Orders order = new Orders();
@@ -232,9 +232,9 @@ public class Data_management {
     
  //delete methods
     public void deleteEmployer(Employer employer) {
-        try (
+        try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement()) {
+            Statement statement = connection.createStatement();
 
             String sql = "DELETE FROM employer WHERE employer_id = " + employer.getEmployerId();
             int affectedRows = statement.executeUpdate(sql);
@@ -250,9 +250,9 @@ public class Data_management {
     }
 
     public void deleteCustomer(Customers customer) {
-        try (
+        try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement()) {
+            Statement statement = connection.createStatement();
 
             String sql = "DELETE FROM customers WHERE id = " + customer.getId();
             int affectedRows = statement.executeUpdate(sql);
@@ -268,9 +268,9 @@ public class Data_management {
     }
 
     public void deleteOrder(Orders order) {
-        try (
+        try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement()) {
+            Statement statement = connection.createStatement();
 
             String sql = "DELETE FROM orders WHERE id = " + order.getId();
             int affectedRows = statement.executeUpdate(sql);
@@ -286,9 +286,9 @@ public class Data_management {
     }
 
     public void deleteSoap(Soap soap) {
-        try (
+        try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement()) {
+            Statement statement = connection.createStatement();
 
             String sql = "DELETE FROM soap WHERE id = " + soap.getId();
             int affectedRows = statement.executeUpdate(sql);
@@ -302,5 +302,40 @@ public class Data_management {
             System.out.println("Error deleting soap: " + e.getMessage());
         }
     }
+    
+    
+    
+    public void fetchProductsByOrderId(int orderId) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+        	
+            String sql = "SELECT s.id, s.EAN, s.title, s.category, s.price, s.created_at " +
+            			 "FROM soap AS s " +
+                         "INNERJOIN RefOrderProd AS ref ON s.id = ref.Sid " +
+                         "INNERJOIN orders AS o ON o.id = ref.Oid " +
+                         "WHERE o.id = " + orderId;
+            
+            
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+            	Soap soap = new Soap();
+                soap.setId(resultSet.getInt("id"));
+                soap.setEAN(resultSet.getInt("EAN"));
+                soap.setTitle(resultSet.getString("title"));
+                soap.setCategory(resultSet.getString("category"));
+                soap.setPrice(resultSet.getDouble("price"));
+                soap.setCreatedAt(resultSet.getTimestamp("created_at"));
+
+                System.out.println(soap.getId() + " " + soap.getEAN() + " " + soap.getTitle() + " " + soap.getCategory() + " " + soap.getPrice() + " " + soap.getCreatedAt());
+            }
+            
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error fetching products by order id: " + e.getMessage());
+        }
+    }
+    
 }
     
