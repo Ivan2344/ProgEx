@@ -29,7 +29,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-	public class OrderFrame implements ActionListener{	
+import com.mysql.cj.log.Log;
+
+	public class OrderFrame {// implements ActionListener{	
 		protected int count;
 		protected static int limit = 9;
 		protected static int offset = 0;
@@ -102,7 +104,7 @@ import javax.swing.tree.DefaultTreeModel;
 			JButton nameButton = new JButton(name);
 			nameButton.setFont(new java.awt.Font("Amiri", 0, 24));
 			nameButton.setPreferredSize(new Dimension(250,40));
-			nameButton.addActionListener(this);
+			//nameButton.addActionListener(this);
 			nameButton.setBackground(headerColor);
 			//nameButton.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
 			nameButton.setFocusable(false);
@@ -219,7 +221,7 @@ import javax.swing.tree.DefaultTreeModel;
 			textField.setToolTipText(name);
 			 textField.addActionListener(new java.awt.event.ActionListener() {
 		            public void actionPerformed(java.awt.event.ActionEvent evt) {
-		            	customerEntActionPerformed(evt);
+//		            	customerEntActionPerformed(evt);
 		            }
 		        });	
 
@@ -245,52 +247,52 @@ import javax.swing.tree.DefaultTreeModel;
 	     *
 	     * @param e The ActionEvent representing the action performed.
 	     */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			if(e.getSource()== namePage) {
-				Log.getLog("User goes to Dashboard");
-				
-				frame.dispose();
-			//	new Dashboard();
-	 		}
-			if(e.getSource()== orderButton) {
-				Log.getLog("User goes to Drone Page");
-				frame.dispose();
-			
-//				new DronePage();
-			}
-			if(e.getSource()== productButton) {
-				Log.getLog("User goes to Drone Type Page");
-				frame.dispose();
-			
-//				new DroneTypePage();
-			}
-			if(e.getSource()== employeeButton) {
-				Log.getLog("User goes to Flight Dynamic Page");
-				frame.dispose();
-//				new FlightDynamics();
-			}
-			if(e.getSource()== textField) {
-				customerEntActionPerformed(e);
-//				new FlightDynamics();
-			}
-			
-			if(e.getSource()== employeeEnt) {
-				employeeEntActionPerformed(e);
-//				new FlightDynamics();
-			}
-			
-		}
-		
-		 private void customerEntActionPerformed(java.awt.event.ActionEvent e) {                                            
-		        // TODO add your handling code here:
-		    }                                           
-
-		    private void employeeEntActionPerformed(java.awt.event.ActionEvent e) {                                            
-		        // TODO add your handling code here:
-		    }     
-		
-	
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//
+//			if(e.getSource()== namePage) {
+//				Log.getLog("User goes to Dashboard");
+//				
+//				frame.dispose();
+//			//	new Dashboard();
+//	 		}
+//			if(e.getSource()== orderButton) {
+//				Log.getLog("User goes to Drone Page");
+//				frame.dispose();
+//			
+////				new DronePage();
+//			}
+//			if(e.getSource()== productButton) {
+//				Log.getLog("User goes to Drone Type Page");
+//				frame.dispose();
+//			
+////				new DroneTypePage();
+//			}
+//			if(e.getSource()== employeeButton) {
+//				Log.getLog("User goes to Flight Dynamic Page");
+//				frame.dispose();
+////				new FlightDynamics();
+//			}
+//			if(e.getSource()== textField) {
+//				customerEntActionPerformed(e);
+////				new FlightDynamics();
+//			}
+//			
+//			if(e.getSource()== employeeEnt) {
+//				employeeEntActionPerformed(e);
+////				new FlightDynamics();
+//			}
+//			
+//		}
+//		
+//		 private void customerEntActionPerformed(java.awt.event.ActionEvent e) {                                            
+//		        // TODO add your handling code here:
+//		    }                                           
+//
+//		    private void employeeEntActionPerformed(java.awt.event.ActionEvent e) {                                            
+//		        // TODO add your handling code here:
+//		    }     
+//		
+//	
 	}
 
