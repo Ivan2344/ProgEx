@@ -39,7 +39,7 @@ public class GUI extends Mainframe {
         menuList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         menuList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         menuList.setVisibleRowCount(1); // Show all items
-        menuList.setFont(new Font("Arial", Font.PLAIN, 18));
+        menuList.setFont(new java.awt.Font("Felix Titling", 0, 18));
         menuList.setBackground(Color.DARK_GRAY);
         menuList.setForeground(LIGHT_BLUE);
 

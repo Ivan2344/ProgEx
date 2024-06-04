@@ -19,7 +19,7 @@ public class Mainframe {
 	middleInnerCenterPanel, rightInnerCenterPanel, wedummy, nsdummy, cLeftInnerCenterPanel;
 	JLabel label;
 	protected static final int LEFT_PANEL = 0, RIGHT_PANEL = 1,INNER_LEFT_PANEL = 2;
-    protected static final Color BORDER_COLOR = Color.LIGHT_GRAY, LIGHT_BLUE = new Color (230,230,255);
+    protected static final Color BORDER_COLOR = Color.LIGHT_GRAY, LIGHT_BLUE = new Color (230,230,255), headerColor = new java.awt.Color(184, 235, 209);
     
     
 	public Mainframe(){
@@ -42,17 +42,17 @@ public class Mainframe {
 	
 	public void setHeader() {
 		header = new JPanel();
-		Color myColor = new Color(0,0,0);//rgb
+		Color myColor = new Color(184, 235, 209);//rgb
 		header.setBackground(myColor);
 		header.setPreferredSize(new Dimension(1400,100));
 		header.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		namePanel.setBackground(Color.BLACK);
+		namePanel.setBackground(myColor);
 		
 		label = new JLabel("Your Shop");
 		label.setFont(new java.awt.Font("Felix Titling", 0, 36));
-		label.setForeground(LIGHT_BLUE);
+		label.setForeground(Color.DARK_GRAY);
 		
 		namePanel.add(label);
 		header.add(namePanel);	
@@ -61,7 +61,7 @@ public class Mainframe {
 	
 	public void setFooter() {
 		footer = new JPanel();
-		footer.setBackground(Color.BLACK);
+		footer.setBackground(Color.DARK_GRAY);
 		footer.setPreferredSize(new Dimension(1400,100));
 		frame.add(footer,BorderLayout.SOUTH);
 	}
