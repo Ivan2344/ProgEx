@@ -51,7 +51,7 @@ public class Mainframe {
 		namePanel.setBackground(Color.BLACK);
 		
 		label = new JLabel("Your Shop");
-		label.setFont(new Font("Arial",Font.BOLD,36));
+		label.setFont(new java.awt.Font("Felix Titling", 0, 36));
 		label.setForeground(LIGHT_BLUE);
 		
 		namePanel.add(label);
