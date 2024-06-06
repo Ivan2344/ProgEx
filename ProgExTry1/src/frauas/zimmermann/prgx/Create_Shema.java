@@ -32,9 +32,9 @@ public class Create_Shema {
 			String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Soap (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
 			String createKundeQuery = "CREATE TABLE IF NOT EXISTS customers (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
 			String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
+			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT PRIMARY KEY, user_id INT, order_date TIMESTAMP, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
 			
 			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT Primary KEY, Oid INT, Sid INT)";
-			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT PRIMARY KEY, user_id INT, order_date TIMESTAMP, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
 			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT Primary KEY, Oid INT, Eid INT)";
 
 			stmt.executeUpdate(createSeifenQuery);
@@ -163,5 +163,52 @@ public class Create_Shema {
 		} catch (SQLException e) {
 			System.out.println("Fehler beim Hinzufügen des Datensatzes: " + e.getMessage());
 		}
+		
+		//referenytabellen
+		try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Verbindung zur Datenbank hergestellt!");
+
+            String insertQuery = "INSERT INTO RefOrderProd (id, Oid, Sid) VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setInt(1, 1); //id
+            preparedStatement.setInt(2, 1); // Wert für Oid
+            preparedStatement.setInt(3, 1);	//Wert für Sid
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Datensatz erfolgreich eingefügt!");
+            } else {
+                System.out.println("Fehler beim Einfügen des Datensatzes.");
+            }
+
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Fehler beim Verbindungsaufbau zur Datenbank oder beim Einfügen des Datensatzes: " + e.getMessage());
+        }
+		
+		try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Verbindung zur Datenbank hergestellt!");
+
+            String insertQuery = "INSERT INTO RefOrdEmp (id, Oid, Eid) VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setInt(1, 1); // Wert für id
+            preparedStatement.setInt(2, 1); // Wert für Oid
+            preparedStatement.setInt(3, 1); // Wert für Eid
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Datensatz erfolgreich eingefügt!");
+            } else {
+                System.out.println("Fehler beim Einfügen des Datensatzes.");
+            }
+
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("Fehler beim Verbindungsaufbau zur Datenbank oder beim Einfügen des Datensatzes: " + e.getMessage());
+        }
 	}
 }
