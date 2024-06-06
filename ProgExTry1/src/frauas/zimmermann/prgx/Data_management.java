@@ -1,6 +1,7 @@
 package frauas.zimmermann.prgx;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Data_management {
 
@@ -15,7 +16,8 @@ public class Data_management {
     }
 
  // Fetch methods
-    public void fetchEmployersFromDatabase() {
+    public ArrayList<Employer> fetchEmployersFromDatabase() {
+        ArrayList<Employer> employers = new ArrayList<>();
         try {       
             Connection connection = DriverManager.getConnection(url, username, password);  
             Statement statement = connection.createStatement();  
@@ -30,6 +32,7 @@ public class Data_management {
                 employer.setPhoneNumber(resultSet.getString("phone_number"));
                 employer.setIndustry(resultSet.getString("industry"));
                 employer.setEstablishedDate(resultSet.getDate("established_date"));
+                employers.add(employer);
                 
                 System.out.println(employer.getEmployerId() + " " + employer.getEmployerName() + " " + employer.getAddress() + " " + employer.getEmail() + " " + employer.getPhoneNumber() + " " + employer.getIndustry() + " " + employer.getEstablishedDate());
             }
@@ -38,9 +41,11 @@ public class Data_management {
         } catch (Exception e) {
             System.out.println("Error fetching data from the database: " + e.getMessage());  
         }
+        return employers;
     }
 
-    public void fetchCustomersFromDatabase() {
+    public ArrayList<Customers> fetchCustomersFromDatabase() {
+        ArrayList<Customers> customers = new ArrayList<>();
         try {       
             Connection connection = DriverManager.getConnection(url, username, password);  
             Statement statement = connection.createStatement();  
@@ -57,6 +62,8 @@ public class Data_management {
                 customer.setBirthDate(resultSet.getDate("birth_date"));
                 customer.setCreatedAt(resultSet.getTimestamp("created_at"));
                 
+                customers.add(customer);
+                
                 System.out.println(customer.getId() + " " + customer.getAddress() + " " + customer.getEmail() + " " + customer.getPassword() + " " + customer.getName() + " " + customer.getCity() + " " + customer.getBirthDate() + " " + customer.getCreatedAt());
             }
             
@@ -64,9 +71,11 @@ public class Data_management {
         } catch (Exception e) {
             System.out.println("Error fetching data from the database: " + e.getMessage());  
         }
+        return customers;
     }
 
-    public void fetchOrdersFromDatabase() {
+    public ArrayList<Orders> fetchOrdersFromDatabase() {
+        ArrayList<Orders> orders = new ArrayList<>();
         try {       
             Connection connection = DriverManager.getConnection(url, username, password);  
             Statement statement = connection.createStatement();  
@@ -83,6 +92,8 @@ public class Data_management {
                 order.setTax(resultSet.getFloat("tax"));
                 order.setDiscount(resultSet.getInt("discount"));
                 
+                orders.add(order);
+                
                 System.out.println(order.getId() + " " + order.getUser_id() + " " + order.getOrder_date() + " " + order.getStatus() + " " + order.getTotal() + " " + order.getSubtotal() + " " + order.getTax() + " " + order.getDiscount());
             }
             
@@ -90,9 +101,11 @@ public class Data_management {
         } catch (Exception e) {
             System.out.println("Error fetching data from the database: " + e.getMessage());  
         }
+        return orders;
     }
 
-    public void fetchSoapsFromDatabase() {
+    public ArrayList<Soap> fetchSoapsFromDatabase() {
+        ArrayList<Soap> soaps = new ArrayList<>();
         try {       
             Connection connection = DriverManager.getConnection(url, username, password);  
             Statement statement = connection.createStatement();  
@@ -107,6 +120,8 @@ public class Data_management {
                 soap.setPrice(resultSet.getDouble("price"));
                 soap.setCreatedAt(resultSet.getTimestamp("created_at"));
                 
+                soaps.add(soap);
+                
                 System.out.println(soap.getId() + " " + soap.getEAN() + " " + soap.getTitle() + " " + soap.getCategory() + " " + soap.getPrice() + " " + soap.getCreatedAt());
             }
             
@@ -114,6 +129,7 @@ public class Data_management {
         } catch (Exception e) {
             System.out.println("Error fetching data from the database: " + e.getMessage());  
         }
+        return soaps;
     }
 
   // Add methods
