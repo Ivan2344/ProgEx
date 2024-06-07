@@ -71,7 +71,7 @@ public class GUI extends Mainframe {
                             System.out.print(i);
                             System.out.print("\n");
                             String selectedItem = menuItems[selectedIndex];
-                            setViewPanel(selectedItem, (JPanel) panelList[selectedIndex].getComponent(1));
+                            setViewPanel(selectedItem);
       
                         } else {
                             panelList[i].setVisible(false);
@@ -135,7 +135,7 @@ public class GUI extends Mainframe {
         return tempPanel;
     }
 
-    public void setViewPanel(String viewName, JPanel panel) {
+    public void setViewPanel(String viewName) {
         switch (viewName) {
             case "Employees":
                 setEmployerPanel();
