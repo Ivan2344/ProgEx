@@ -146,7 +146,7 @@ public class GUI extends Mainframe {
             case "Orders":
                 setOrderPanel();
                 break;
-            case "Soaps":
+            case "Products":
                 setSoapPanel();
                 break;
             default:
