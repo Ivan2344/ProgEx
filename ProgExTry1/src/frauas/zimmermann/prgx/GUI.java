@@ -172,7 +172,7 @@ public class GUI extends Mainframe {
 
         JPanel employerPanel = new JPanel();
         employerPanel.setLayout(new BorderLayout());
-        employerPanel.setPreferredSize(new Dimension(200, 200));
+        employerPanel.setPreferredSize(new Dimension(300, 300));
 
         setUpper(employerPanel); // Header hinzufügen
         setLeft(employerPanel);
@@ -227,7 +227,7 @@ public class GUI extends Mainframe {
     private void setUpper(JPanel employerPanel) {
         JPanel upper = new JPanel();
         upper.setBackground(Color.LIGHT_GRAY);
-        upper.setPreferredSize(new Dimension(0, 50));
+        upper.setPreferredSize(new Dimension(0, 30));
         upper.add(createLabel("Employer Database"));
         employerPanel.add(upper, BorderLayout.NORTH);
     }
@@ -235,20 +235,20 @@ public class GUI extends Mainframe {
     private void setLeft(JPanel employerPanel) {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.LIGHT_GRAY);
-        leftPanel.setPreferredSize(new Dimension(100, 0)); // Breite einstellen
+        leftPanel.setPreferredSize(new Dimension(40, 0)); // Breite einstellen
         employerPanel.add(leftPanel, BorderLayout.WEST);
     }
 
     private void setRight(JPanel employerPanel) {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.LIGHT_GRAY);
-        rightPanel.setPreferredSize(new Dimension(100, 0)); // Breite einstellen
+        rightPanel.setPreferredSize(new Dimension(40, 0)); // Breite einstellen
         employerPanel.add(rightPanel, BorderLayout.EAST);
     }
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font(null, Font.BOLD, 20));
+        label.setFont(new Font("Georgia", Font.PLAIN, 20));
         return label;
     }
 
