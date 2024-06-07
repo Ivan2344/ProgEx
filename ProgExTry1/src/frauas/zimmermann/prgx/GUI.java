@@ -32,7 +32,6 @@ import javax.swing.table.DefaultTableModel;
 public class GUI extends Mainframe {
     JPanel[] panelList;
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
-    private DefaultTableModel employerTableModel;
 
     
     GUI() {
@@ -118,7 +117,6 @@ public class GUI extends Mainframe {
         secondLeftPanel.add(secondLabel);
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
         rightPanel.add(rightLabel);
-        setEmployerPanel(rightPanel);
         
         
         
@@ -166,95 +164,6 @@ public class GUI extends Mainframe {
         return panel;
     }
     
-    private void setEmployerPanel(JPanel rightPanel) {
-        rightPanel.setLayout(new BorderLayout());
-        rightPanel.setBackground(Color.LIGHT_GRAY);
-
-        JPanel employerPanel = new JPanel();
-        employerPanel.setLayout(new BorderLayout());
-        employerPanel.setPreferredSize(new Dimension(300, 300));
-
-        setUpper(employerPanel); // Header hinzufügen
-        setLeft(employerPanel);
-        setRight(employerPanel);
-
-        employerTableModel = new DefaultTableModel();
-        employerTableModel.addColumn("ID");
-        employerTableModel.addColumn("Name");
-        employerTableModel.addColumn("Address");
-        employerTableModel.addColumn("Email");
-        employerTableModel.addColumn("Phone Number");
-        employerTableModel.addColumn("Industry");
-        employerTableModel.addColumn("Established Date");
-
-        JTable employerDatabase = new JTable(employerTableModel);
-        employerDatabase.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = employerDatabase.getSelectedRow();
-                if (row != -1) {
-                    handleSelectedEmployer(row, employerDatabase);
-                }
-            }
-        });
-
-        JScrollPane scrollPane = new JScrollPane(employerDatabase);
-        employerPanel.add(scrollPane, BorderLayout.CENTER);
-
-        addEmployerData(); // Daten aus der Datenbank hinzufügen
-
-        rightPanel.add(employerPanel, BorderLayout.CENTER);
-    }
-
-    private void addEmployerData() {
-        Data_management dataManagement = new Data_management("username", "password");
-        ArrayList<Employer> employers = dataManagement.fetchEmployersFromDatabase();
-
-        for (Employer employer : employers) {
-            Object[] rowData = {
-                employer.getEmployerId(),
-                employer.getEmployerName(),
-                employer.getAddress(),
-                employer.getEmail(),
-                employer.getPhoneNumber(),
-                employer.getIndustry(),
-                employer.getEstablishedDate()
-            };
-            employerTableModel.addRow(rowData);
-        }
-    }
-
-    private void setUpper(JPanel employerPanel) {
-        JPanel upper = new JPanel();
-        upper.setBackground(Color.LIGHT_GRAY);
-        upper.setPreferredSize(new Dimension(0, 30));
-        upper.add(createLabel("Employer Database"));
-        employerPanel.add(upper, BorderLayout.NORTH);
-    }
-
-    private void setLeft(JPanel employerPanel) {
-        JPanel leftPanel = new JPanel();
-        leftPanel.setBackground(Color.LIGHT_GRAY);
-        leftPanel.setPreferredSize(new Dimension(40, 0)); // Breite einstellen
-        employerPanel.add(leftPanel, BorderLayout.WEST);
-    }
-
-    private void setRight(JPanel employerPanel) {
-        JPanel rightPanel = new JPanel();
-        rightPanel.setBackground(Color.LIGHT_GRAY);
-        rightPanel.setPreferredSize(new Dimension(40, 0)); // Breite einstellen
-        employerPanel.add(rightPanel, BorderLayout.EAST);
-    }
-
-    private JLabel createLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Georgia", Font.PLAIN, 20));
-        return label;
-    }
-
-    private void handleSelectedEmployer(int row, JTable employerDatabase) {
-        JOptionPane.showMessageDialog(null, "Selected Employer: " + employerDatabase.getValueAt(row, 1));
-    }
     
 //    public JPanel setContents(int i) {
 //    	JPanel contentPanel = new JPanel();
