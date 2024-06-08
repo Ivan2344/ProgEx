@@ -70,8 +70,8 @@ public class GUI extends Mainframe {
                             System.out.print("item click is recognized\n");
                             System.out.print(i);
                             System.out.print("\n");
-                            String selectedItem = menuItems[selectedIndex];
-                            setViewPanel(selectedItem);
+//                            String selectedItem = menuItems[selectedIndex];
+//                            setViewPanel(selectedItem);
       
                         } else {
                             panelList[i].setVisible(false);
@@ -116,6 +116,8 @@ public class GUI extends Mainframe {
 		JPanel secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		
 		
+		
+		
         JLabel firstLabel = new JLabel(String.valueOf(menuItem), SwingConstants.CENTER);
         firstLeftPanel.add(firstLabel);
         JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
@@ -123,7 +125,8 @@ public class GUI extends Mainframe {
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
         rightPanel.add(rightLabel);
         
-        
+        String selectedItem = menuItems[menuItem];
+        setViewPanel(selectedItem);
         
         leftPanel.add(firstLeftPanel);
         leftPanel.add(secondLeftPanel);
