@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+//Mainframe class
 public class Mainframe {
 	JFrame frame; 
 	protected JPanel header, footer, right, left, center, namePanel, 
