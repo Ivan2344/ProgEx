@@ -125,6 +125,7 @@ public class GUI extends Mainframe {
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
         rightPanel.add(rightLabel);
         
+        //code eingefügt bzw gui fix
         String selectedItem = menuItems[menuItem];
         setViewPanel(selectedItem);
         
