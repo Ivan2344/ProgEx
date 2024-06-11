@@ -321,22 +321,22 @@ public class Data_management {
     
     
     
-    public void fetchProductsByOrderId(int orderId) {
+    public ArrayList<Soap> fetchProductsByOrderId(int orderId) {
+        ArrayList<Soap> soaps = new ArrayList<>();
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
-        	
-            String sql = "SELECT s.id, s.EAN, s.title, s.category, s.price, s.created_at " +
-            			 "FROM soap AS s " +
-                         "INNERJOIN RefOrderProd AS ref ON s.id = ref.Sid " +
-                         "INNERJOIN orders AS o ON o.id = ref.Oid " +
-                         "WHERE o.id = " + orderId;
             
+            String sql = "SELECT s.id, s.EAN, s.title, s.category, s.price, s.created_at " +
+                         "FROM soap AS s " +
+                         "INNER JOIN RefOrderProd AS ref ON s.id = ref.Sid " +
+                         "INNER JOIN orders AS o ON o.id = ref.Oid " +
+                         "WHERE o.id = " + orderId;
             
             ResultSet resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {
-            	Soap soap = new Soap();
+                Soap soap = new Soap();
                 soap.setId(resultSet.getInt("id"));
                 soap.setEAN(resultSet.getInt("EAN"));
                 soap.setTitle(resultSet.getString("title"));
@@ -344,6 +344,7 @@ public class Data_management {
                 soap.setPrice(resultSet.getDouble("price"));
                 soap.setCreatedAt(resultSet.getTimestamp("created_at"));
 
+                soaps.add(soap);
                 System.out.println(soap.getId() + " " + soap.getEAN() + " " + soap.getTitle() + " " + soap.getCategory() + " " + soap.getPrice() + " " + soap.getCreatedAt());
             }
             
@@ -351,6 +352,7 @@ public class Data_management {
         } catch (Exception e) {
             System.out.println("Error fetching products by order id: " + e.getMessage());
         }
+        return soaps;
     }
     
 }
