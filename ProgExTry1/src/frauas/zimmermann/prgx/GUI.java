@@ -193,7 +193,7 @@ public class GUI extends Mainframe {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
         rightPanel.setBackground(Color.LIGHT_GRAY);
-
+        
         JPanel employerPanel = new JPanel();
         employerPanel.setLayout(new BorderLayout());
         employerPanel.setPreferredSize(new Dimension(200, 200));
