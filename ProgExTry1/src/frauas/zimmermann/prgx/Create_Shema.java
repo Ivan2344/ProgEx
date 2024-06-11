@@ -54,6 +54,7 @@ public class Create_Shema {
 	}
 
 	void InsertDemoValues() {
+		
 		try (Connection conn = DriverManager.getConnection(url, user, password)) {
 			String sql = "INSERT INTO orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -212,5 +213,9 @@ public class Create_Shema {
 			System.out.println("Fehler beim Verbindungsaufbau zur Datenbank oder beim Einfügen des Datensatzes: "
 					+ e.getMessage());
 		}
+	}
+	void setSch(String sh) 
+	{
+		this.url = sh;
 	}
 }
