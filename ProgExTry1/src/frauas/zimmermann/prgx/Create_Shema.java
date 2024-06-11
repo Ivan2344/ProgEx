@@ -20,11 +20,11 @@ public class Create_Shema {
 
 			// Erstelle das Schema
 
-			String createSchemaQuery = "CREATE SCHEMA IF NOT EXISTS SEIFENdemo1";
+			String createSchemaQuery = "CREATE SCHEMA IF NOT EXISTS SEIFENdemo2";
 			stmt.executeUpdate(createSchemaQuery);
 
 			// Verwende das Schema
-			String useSchemaQuery = "USE SEIFENdemo1";
+			String useSchemaQuery = "USE SEIFENdemo2";
 			stmt.executeUpdate(useSchemaQuery);
 
 			// Erstelle die Tabellen
@@ -56,7 +56,7 @@ public class Create_Shema {
 	void InsertDemoValues() {
 		
 		try (Connection conn = DriverManager.getConnection(url, user, password)) {
-			String sql = "INSERT INTO orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO Orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, 1);
 			statement.setInt(2, 1);
@@ -76,12 +76,12 @@ public class Create_Shema {
 		}
 
 		try (Connection conn = DriverManager.getConnection(url, user, password)) {
-			String sql = "INSERT INTO soap (id, EAN, title, category, price, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
+			String sql = "INSERT INTO Soap (id, EAN, titel, category, price, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
 			PreparedStatement statement = conn.prepareStatement(sql);
 
 			// Datensatz 1
 			statement.setInt(1, 1);
-			statement.setString(2, "1234567890123");
+			statement.setString(2, "1234");
 			statement.setString(3, "SeifeSauber");
 			statement.setString(4, "Seife");
 			statement.setDouble(5, 5.99);
@@ -89,7 +89,7 @@ public class Create_Shema {
 
 			// Datensatz 2
 			statement.setInt(1, 2);
-			statement.setString(2, "2345678901234");
+			statement.setString(2, "2345");
 			statement.setString(3, "Shampoo");
 			statement.setString(4, "Dusche");
 			statement.setDouble(5, 6.99);
@@ -97,7 +97,7 @@ public class Create_Shema {
 
 			// Datensatz 3
 			statement.setInt(1, 3);
-			statement.setString(2, "3456789012345");
+			statement.setString(2, "3456");
 			statement.setString(3, "Spueli");
 			statement.setString(4, "Other");
 			statement.setDouble(5, 7.99);
