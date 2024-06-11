@@ -34,7 +34,7 @@ public class GUI extends Mainframe {
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
     JPanel rightPanel;
     private DefaultTableModel employerTableModel;
-    public Data_management dataManagement = new Data_management("username", "password");
+    public Data_management dataManagement = new Data_management("", "");
     
     GUI() {
         super();
@@ -484,7 +484,7 @@ public class GUI extends Mainframe {
 
     private void handleSelectedRow(int row, JTable table, String tableName) {
         String selectedData = "";
-        switch (tableName) {
+        /*switch (tableName) {
             case "Employer":
                 selectedData = "Selected " + tableName + ": " + table.getValueAt(row, 1);
                 break;
@@ -500,7 +500,7 @@ public class GUI extends Mainframe {
             default:
                 break;
         }
-        JOptionPane.showMessageDialog(null, selectedData);
+        JOptionPane.showMessageDialog(null, selectedData);*/
     }
     
 //    public JPanel setContents(int i) {
