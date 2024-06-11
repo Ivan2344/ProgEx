@@ -10,7 +10,7 @@ public class Data_management {
 	private String password;
 	
     public Data_management(String usr, String pwd) { 
-    	this.url = "jdbc:mysql://localhost:3306/";
+    	this.url = "jdbc:mysql://localhost:3306/SEIFENdemo2";
         this.username = usr;
         this.password = pwd;
     }
