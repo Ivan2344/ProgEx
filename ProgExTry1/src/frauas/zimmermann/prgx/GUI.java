@@ -34,6 +34,7 @@ public class GUI extends Mainframe {
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
     JPanel rightPanel;
     private DefaultTableModel employerTableModel;
+    public Data_management dataManagement = new Data_management("username", "password");
     
     GUI() {
         super();
@@ -243,7 +244,6 @@ public class GUI extends Mainframe {
     }
     
     private void addEmployerData() {
-        Data_management dataManagement = new Data_management("username", "password");
         ArrayList<Employer> employers = dataManagement.fetchEmployersFromDatabase();
 
         for (Employer employer : employers) {
@@ -309,7 +309,6 @@ public class GUI extends Mainframe {
     }
 
     private void addSoapData(DefaultTableModel soapTableModel) {
-        Data_management dataManagement = new Data_management("username", "password");
         ArrayList<Soap> soaps = dataManagement.fetchSoapsFromDatabase();
 
         for (Soap soap : soaps) {
@@ -378,7 +377,6 @@ public class GUI extends Mainframe {
     
 
     private void addOrderData(DefaultTableModel orderTableModel) {
-        Data_management dataManagement = new Data_management("username", "password");
         ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
 
         for (Orders order : orders) {
@@ -447,7 +445,6 @@ public class GUI extends Mainframe {
     }
 
     private void addCustomerData(DefaultTableModel customerTableModel) {
-        Data_management dataManagement = new Data_management("username", "password");
         ArrayList<Customers> customers = dataManagement.fetchCustomersFromDatabase();
 
         for (Customers customer : customers) {
