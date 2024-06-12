@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,8 +22,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -125,8 +128,13 @@ public class GUI extends Mainframe {
 		firstLeftPanel.add(setEditButtons("Edit", BUTTON_PANEL));
 		firstLeftPanel.add(setEditButtons("Refresh", BUTTON_PANEL));
 		
-        JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
-        secondLeftPanel.add(secondLabel);
+		
+		
+       // JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
+		secondLeftPanel.setLayout(new BorderLayout());
+		
+		
+//        secondLeftPanel.add(setEditMask());
         
         
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
@@ -145,7 +153,38 @@ public class GUI extends Mainframe {
         
         return tempPanel;
     }
-    
+//    public JPanel setEditMask() {
+//    	JPanel tempPanel = new JPanel();
+//    	JPanel leftTempPanel = new JPanel();
+//    	JPanel rightTempPanel = new JPanel();
+//    	
+//    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
+//    	leftTempPanel.add(new JLabel("ID"));
+//    	leftTempPanel.add(new JLabel("User ID"));
+//    	leftTempPanel.add(new JLabel("Order Date"));
+//    	leftTempPanel.add(new JLabel("Status"));
+//    	leftTempPanel.add(new JLabel("Total"));
+//    	leftTempPanel.add(new JLabel("Subtotal"));
+//    	leftTempPanel.add(new JLabel("Tax"));
+//    	leftTempPanel.add(new JLabel("Discount"));
+//        
+//    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//    	rightTempPanel.add(new JTextField());
+//        
+//
+//        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
+//        splitPane.setDividerLocation(1.0 / 3.0); 
+//        splitPane.setResizeWeight(0.33);
+//        tempPanel.add(splitPane, BorderLayout.CENTER);
+//    	return tempPanel;
+//    }
     public JPanel setEditButtons(String buttonName, int i) {
     	JPanel tempPanel = new JPanel();
     	tempPanel = createPanelWithBorder(BUTTON_PANEL);
