@@ -50,7 +50,7 @@ public class GUI extends Mainframe {
         menuList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         menuList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         menuList.setVisibleRowCount(1); // Show all items
-        menuList.setFont(new java.awt.Font("Felix Titling", 0, 18));
+        menuList.setFont(new java.awt.Font("Book Antiqua", 0, 18));
         menuList.setBackground(Color.DARK_GRAY);
         menuList.setForeground(LIGHT_BLUE);
 
@@ -105,6 +105,7 @@ public class GUI extends Mainframe {
         frame.add(center, BorderLayout.CENTER);
     }
 
+    
     public JPanel setMainPanels(int menuItem) {
         JPanel tempPanel = new JPanel();
         tempPanel.setBackground(Color.WHITE);
@@ -115,14 +116,19 @@ public class GUI extends Mainframe {
         rightPanel = createPanelWithBorder(RIGHT_PANEL);        
         JPanel firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		JPanel secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
+		firstLeftPanel.setLayout(new GridLayout(5, 1));
+
 		
+		firstLeftPanel.add(setEditButtons("Commands", 0));
+		firstLeftPanel.add(setEditButtons("Add", BUTTON_PANEL));
+		firstLeftPanel.add(setEditButtons("Delete", BUTTON_PANEL));
+		firstLeftPanel.add(setEditButtons("Edit", BUTTON_PANEL));
+		firstLeftPanel.add(setEditButtons("Refresh", BUTTON_PANEL));
 		
-		
-		
-        JLabel firstLabel = new JLabel(String.valueOf(menuItem), SwingConstants.CENTER);
-        firstLeftPanel.add(firstLabel);
         JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
         secondLeftPanel.add(secondLabel);
+        
+        
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
         rightPanel.add(rightLabel);
         
@@ -138,6 +144,26 @@ public class GUI extends Mainframe {
 //        setContents(menuItem);
         
         return tempPanel;
+    }
+    
+    public JPanel setEditButtons(String buttonName, int i) {
+    	JPanel tempPanel = new JPanel();
+    	tempPanel = createPanelWithBorder(BUTTON_PANEL);
+    	if(i == BUTTON_PANEL) {
+    	JButton addButton = new JButton(buttonName);
+		addButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+		addButton.setBackground(LIGHT_BLUE);
+		addButton.setForeground(Color.DARK_GRAY);
+		tempPanel.add(addButton);
+    	} else {
+    		tempPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    		JTextArea addText = new JTextArea("Commands:");
+    		addText.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+    		addText.setBackground(LIGHT_BLUE);
+    		addText.setForeground(Color.DARK_GRAY);
+    		tempPanel.add(addText);
+    	}
+    	return tempPanel;
     }
 
     public void setViewPanel(String viewName) {
@@ -177,6 +203,12 @@ public class GUI extends Mainframe {
                 topBorderWidth = 0;
                 leftBorderWidth = 10;
                 bottomBorderWidth = 100;
+                rightBorderWidth = 10;
+                break;
+            case BUTTON_PANEL:
+            	topBorderWidth = 0;
+                leftBorderWidth = 10;
+                bottomBorderWidth = 10;
                 rightBorderWidth = 10;
                 break;
             default: // LEFT_PANEL
@@ -502,40 +534,4 @@ public class GUI extends Mainframe {
         }
         JOptionPane.showMessageDialog(null, selectedData);*/
     }
-    
-//    public JPanel setContents(int i) {
-//    	JPanel contentPanel = new JPanel();
-//    	
-//    	switch(i){
-//    	case 0: 
-//    		
-////    		JButton addButton = new JButton("Add");
-////    		JButton deleteButton = new JButton("Delete");
-////    		JButton editButton = new JButton("Edit");
-////    		JButton refreshButton = new JButton("Refresh");
-//    		
-//    		
-//    		break;
-//    	case 1: 
-//    		 
-//    	    break;
-//    	    
-//    	case 2: 
-//    		
-//    	case 3: 
-//   		
-// 	    break;
-//    	        
-//    	        
-//    	       
-//    		
-//    		
-//    	}
-//    	
-//    	  	        
-//    	return contentPanel;
-//    }
-    
-    
-    
 }
