@@ -32,10 +32,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-public class GUI extends Mainframe {
+public class GUI extends Mainframe implements OrderFrame1 {
     JPanel[] panelList;
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
-    JPanel rightPanel;
+    JPanel rightPanel ,secondLeftPanel;
     private DefaultTableModel employerTableModel;
     public Data_management dataManagement = new Data_management("", "");
     
@@ -118,7 +118,7 @@ public class GUI extends Mainframe {
         JPanel leftPanel = createPanelWithBorder(LEFT_PANEL);
         rightPanel = createPanelWithBorder(RIGHT_PANEL);        
         JPanel firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
-		JPanel secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
+		secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		firstLeftPanel.setLayout(new GridLayout(5, 1));
 
 		
@@ -134,7 +134,7 @@ public class GUI extends Mainframe {
 		secondLeftPanel.setLayout(new BorderLayout());
 		
 		
-//        secondLeftPanel.add(setEditMask());
+		
         
         
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
@@ -154,11 +154,11 @@ public class GUI extends Mainframe {
         return tempPanel;
     }
 //    public JPanel setEditMask() {
-//    	JPanel tempPanel = new JPanel();
-//    	JPanel leftTempPanel = new JPanel();
-//    	JPanel rightTempPanel = new JPanel();
-//    	
-//    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
+//    	JPanel tempPanel = new JPanel(new BorderLayout()); // Set BorderLayout to tempPanel
+//        JPanel leftTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for left panel
+//        JPanel rightTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for right panel
+//        
+////    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
 //    	leftTempPanel.add(new JLabel("ID"));
 //    	leftTempPanel.add(new JLabel("User ID"));
 //    	leftTempPanel.add(new JLabel("Order Date"));
@@ -168,7 +168,7 @@ public class GUI extends Mainframe {
 //    	leftTempPanel.add(new JLabel("Tax"));
 //    	leftTempPanel.add(new JLabel("Discount"));
 //        
-//    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+////    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 //    	rightTempPanel.add(new JTextField());
 //    	rightTempPanel.add(new JTextField());
 //    	rightTempPanel.add(new JTextField());
@@ -178,7 +178,7 @@ public class GUI extends Mainframe {
 //    	rightTempPanel.add(new JTextField());
 //    	rightTempPanel.add(new JTextField());
 //        
-//
+//    
 //        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
 //        splitPane.setDividerLocation(1.0 / 3.0); 
 //        splitPane.setResizeWeight(0.33);
@@ -209,22 +209,26 @@ public class GUI extends Mainframe {
         switch (viewName) {
             case "Employees":
                 setEmployerPanel();
+                secondLeftPanel.add(setEmployeeMask());
                 break;
             case "Customers":
                 setCustomerPanel();
+               secondLeftPanel.add(setCustomerMask());
                 break;
             case "Orders":
                 setOrderPanel();
+                secondLeftPanel.add(setOrderMask());
                 break;
             case "Products":
                 setSoapPanel();
+                secondLeftPanel.add(setSoapMask());
                 break;
             default:
                 // Handle unknown view
                 break;
         }
     }
-    private JPanel createPanelWithBorder(int panelType) {
+    protected JPanel createPanelWithBorder(int panelType) {
         JPanel panel = new JPanel();
         Color myColor = new Color(230, 230, 255);
         panel.setBackground(myColor);
@@ -416,7 +420,7 @@ public class GUI extends Mainframe {
         setRight(orderPanel);
 
         DefaultTableModel orderTableModel = new DefaultTableModel();
-        orderTableModel.addColumn("ID");
+        orderTableModel.addColumn("ID");;
         orderTableModel.addColumn("User ID");
         orderTableModel.addColumn("Order Date");
         orderTableModel.addColumn("Status");

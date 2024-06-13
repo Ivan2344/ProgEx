@@ -29,7 +29,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import com.mysql.cj.log.Log;
 
-	public class OrderFrame {// implements ActionListener{	
+	public class OrderFrame  {// implements ActionListener{	
 		protected int count;
 		protected static int limit = 9;
 		protected static int offset = 0;
