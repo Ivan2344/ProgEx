@@ -7,11 +7,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
@@ -178,6 +173,7 @@ import javax.swing.*;
 
 public interface OrderFrame1 {
     static final Color BLUE = new Color(230, 230, 255);
+    static final Color BORDER = Color.LIGHT_GRAY;
 
     public default JPanel setOrderMask() {
         String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
@@ -223,8 +219,16 @@ public interface OrderFrame1 {
         label.setBackground(BLUE);
         label.setForeground(Color.DARK_GRAY);
         label.setOpaque(true); // Needed for background color to be visible
+        int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
+        topBorderWidth = 0;
+        leftBorderWidth = 10;
+        bottomBorderWidth = 10;
+        rightBorderWidth = 10;
         Border border = BorderFactory.createLineBorder(Color.gray);
+//        Border border =BorderFactory.createMatteBorder(
+//                topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth, BORDER);
         label.setBorder(border);
         return label;
     }
+
 }
