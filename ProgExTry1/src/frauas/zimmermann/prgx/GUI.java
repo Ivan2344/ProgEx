@@ -48,6 +48,8 @@ public class GUI extends Mainframe implements OrderFrame1 {
         
     }
 
+    //create the menulist
+    
     public void createMenuList(String[] items) {
         JList<String> menuList = new JList<>(items);
         menuList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
