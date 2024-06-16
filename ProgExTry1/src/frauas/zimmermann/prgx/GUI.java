@@ -281,11 +281,7 @@ public class GUI extends Mainframe implements OrderFrame1 {
         employerPanel.setPreferredSize(new Dimension(200, 200));
 
         // Set upper panel
-        JPanel upper = new JPanel();
-        upper.setBackground(Color.LIGHT_GRAY);
-        upper.setPreferredSize(new Dimension(0, 30));
-        upper.add(createLabel("Employer Database"));
-        employerPanel.add(upper, BorderLayout.NORTH);
+        employerPanel.add(setUpper("Employer Database"), BorderLayout.NORTH);
 
         setLeft(employerPanel);
         setRight(employerPanel);
@@ -347,11 +343,7 @@ public class GUI extends Mainframe implements OrderFrame1 {
         soapPanel.setPreferredSize(new Dimension(300, 300));
 
         // Set upper panel
-        JPanel upper = new JPanel();
-        upper.setBackground(Color.LIGHT_GRAY);
-        upper.setPreferredSize(new Dimension(0, 30));
-        upper.add(createLabel("Soap Database"));
-        soapPanel.add(upper, BorderLayout.NORTH);
+        soapPanel.add(setUpper("Product Database"), BorderLayout.NORTH);
 
         setLeft(soapPanel);
         setRight(soapPanel);
@@ -412,11 +404,7 @@ public class GUI extends Mainframe implements OrderFrame1 {
         orderPanel.setPreferredSize(new Dimension(300, 300));
 
         // Set upper panel
-        JPanel upper = new JPanel();
-        upper.setBackground(Color.LIGHT_GRAY);
-        upper.setPreferredSize(new Dimension(0, 30));
-        upper.add(createLabel("Order Database"));
-        orderPanel.add(upper, BorderLayout.NORTH);
+        orderPanel.add(setUpper("Order Database"), BorderLayout.NORTH);
 
         setLeft(orderPanel);
         setRight(orderPanel);
@@ -481,11 +469,7 @@ public class GUI extends Mainframe implements OrderFrame1 {
         customerPanel.setPreferredSize(new Dimension(300, 300));
 
         // Set upper panel
-        JPanel upper = new JPanel();
-        upper.setBackground(Color.LIGHT_GRAY);
-        upper.setPreferredSize(new Dimension(0, 30));
-        upper.add(createLabel("Customer Database"));
-        customerPanel.add(upper, BorderLayout.NORTH);
+        customerPanel.add(setUpper("Customer Database"), BorderLayout.NORTH);
 
         setLeft(customerPanel);
         setRight(customerPanel);
@@ -537,6 +521,15 @@ public class GUI extends Mainframe implements OrderFrame1 {
             };
             customerTableModel.addRow(rowData);
         }
+    }
+    
+
+    private JPanel setUpper(String header) {
+        JPanel upper = new JPanel();
+        upper.setBackground(Color.LIGHT_GRAY);
+        upper.setPreferredSize(new Dimension(0, 30));
+        upper.add(createLabel(header));
+        return upper;
     }
 
     private void setLeft(JPanel Panel) {
