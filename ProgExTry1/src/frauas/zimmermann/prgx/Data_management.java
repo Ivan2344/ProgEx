@@ -157,7 +157,7 @@ public class Data_management {
 
             connection.close();
         } catch (Exception e) {
-            System.out.println(e);
+        	System.out.println("Error adding employer: " + e.getMessage());
         }
     }
 
@@ -186,7 +186,7 @@ public class Data_management {
 
             connection.close();
         } catch (Exception e) {
-            System.out.println(e);
+        	System.out.println("Error adding customer: " + e.getMessage());
         }
     }
 
@@ -215,7 +215,7 @@ public class Data_management {
 
             connection.close();
         } catch (Exception e) {
-            System.out.println(e);
+        	System.out.println("Error adding order: " + e.getMessage());
         }
     }
 
@@ -242,7 +242,7 @@ public class Data_management {
 
             connection.close();
         } catch (Exception e) {
-            System.out.println(e);
+        	System.out.println("Error adding soap: " + e.getMessage());
         }
     }
     
@@ -353,6 +353,29 @@ public class Data_management {
             System.out.println("Error fetching products by order id: " + e.getMessage());
         }
         return soaps;
+    }
+    
+    public void addOrderProductReference(int orderId, int soapId) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+            
+            String sql = "INSERT INTO RefOrderProd (Oid, Sid) VALUES (" 
+                         + orderId + ", "
+                         + soapId + ")";
+            
+            int affectedRows = statement.executeUpdate(sql);
+
+            if (affectedRows > 0) {
+                System.out.println("Order-Product reference successfully added.");
+            } else { 
+                System.out.println("Error adding Order-Product reference."); 
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error adding Order-Product reference: " + e.getMessage());
+        }
     }
     
 }
