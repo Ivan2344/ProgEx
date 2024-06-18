@@ -9,11 +9,64 @@ public class Data_management {
 	private String username;
 	private String password;
 	
+	private static int employerId = 0;
+    private static int customerId = 0;
+    private static int orderId = 0;
+    private static int soapId = 0;
+	
     public Data_management(String usr, String pwd) { 
     	this.url = "jdbc:mysql://localhost:3306/SEIFENdemo2";
         this.username = usr;
         this.password = pwd;
+        findMaxId();
     }
+    
+    
+ // Initialize the IDs by fetching the maximum values from the database
+    private void findMaxId() {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+            
+            // Fetch the maximum employer_id
+            ResultSet resultSet = statement.executeQuery("SELECT MAX(employer_id) FROM employer"); //resultSet.next(): Bewegt den Cursor auf den ersten Datensatz (die erste Zeile des ResultSet). Da die Abfrage SELECT MAX(employer_id) immer eine Zeile zurückgibt, wird diese Bedingung immer true sein, es sei denn, es gibt ein Problem bei der Ausführung der Abfrage.
+            if (resultSet.next()) {
+                employerId = resultSet.getInt(1) + 1;  //resultSet.getInt(1): Liest den Wert der ersten Spalte der aktuellen Zeile des ResultSet. Da wir die maximale employer_id abgefragt haben, wird dieser Wert die höchste employer_id in der Tabelle sein. Wenn die Tabelle leer ist, wird dieser Wert null sein.
+            } else {
+                employerId = 1;
+            }
+
+            // Fetch the maximum customer_id
+            resultSet = statement.executeQuery("SELECT MAX(id) FROM customers");
+            if (resultSet.next()) {
+                customerId = resultSet.getInt(1) + 1;
+            } else {
+                customerId = 1;
+            }
+
+            // Fetch the maximum order_id
+            resultSet = statement.executeQuery("SELECT MAX(id) FROM orders");
+            if (resultSet.next()) {
+                orderId = resultSet.getInt(1) + 1;
+            } else {
+                orderId = 1;
+            }
+
+            // Fetch the maximum soap_id
+            resultSet = statement.executeQuery("SELECT MAX(id) FROM soap");
+            if (resultSet.next()) {
+                soapId = resultSet.getInt(1) + 1;
+            } else {
+                soapId = 1;
+            }
+
+            connection.close();
+            
+        } catch (Exception e) {
+            System.out.println("Error finding maximal ID " + e.getMessage());
+        }
+    }
+    
 
  // Fetch methods
     public ArrayList<Employer> fetchEmployersFromDatabase() {
@@ -139,7 +192,7 @@ public class Data_management {
             Statement statement = connection.createStatement();
             
             String sql = "INSERT INTO employer (employer_id, employer_name, address, email, phone_number, industry, established_date) VALUES (" 
-                         + employer.getEmployerId() + ", '" 
+                         + (employerId++) + ", '" 
                          + employer.getEmployerName() + "', '" 
                          + employer.getAddress() + "', '" 
                          + employer.getEmail() + "', '" 
@@ -167,7 +220,7 @@ public class Data_management {
             Statement statement = connection.createStatement();
             
             String sql = "INSERT INTO customers (id, address, email, password, name, city, birth_date, created_at) VALUES (" 
-                         + customer.getId() + ", '" 
+                         + (customerId++) + ", '" 
                          + customer.getAddress() + "', '" 
                          + customer.getEmail() + "', '" 
                          + customer.getPassword() + "', '" 
@@ -196,7 +249,7 @@ public class Data_management {
             Statement statement = connection.createStatement();
             
             String sql = "INSERT INTO orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (" 
-                         + order.getId() + ", " 
+                         + (orderId++) + ", " 
                          + order.getUser_id() + ", '" 
                          + order.getOrder_date() + "', '" 
                          + order.getStatus() + "', " 
@@ -225,7 +278,7 @@ public class Data_management {
             Statement statement = connection.createStatement();
             
             String sql = "INSERT INTO soap (id, EAN, titel, category, price, created_at) VALUES (" 
-                         + soap.getId() + ", " 
+                         + (soapId++) + ", " 
                          + soap.getEAN() + ", '" 
                          + soap.getTitle() + "', '" 
                          + soap.getCategory() + "', " 
