@@ -115,7 +115,7 @@ public class Data_management {
                 Soap soap = new Soap();
                 soap.setId(resultSet.getInt("id"));
                 soap.setEAN(resultSet.getInt("EAN"));
-                soap.setTitle(resultSet.getString("title"));
+                soap.setTitle(resultSet.getString("titel"));
                 soap.setCategory(resultSet.getString("category"));
                 soap.setPrice(resultSet.getDouble("price"));
                 soap.setCreatedAt(resultSet.getTimestamp("created_at"));
@@ -224,7 +224,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO soap (id, EAN, title, category, price, created_at) VALUES (" 
+            String sql = "INSERT INTO soap (id, EAN, titel, category, price, created_at) VALUES (" 
                          + soap.getId() + ", " 
                          + soap.getEAN() + ", '" 
                          + soap.getTitle() + "', '" 
@@ -318,8 +318,6 @@ public class Data_management {
             System.out.println("Error deleting soap: " + e.getMessage());
         }
     }
-    
-    
     
     public ArrayList<Soap> fetchProductsByOrderId(int orderId) {
         ArrayList<Soap> soaps = new ArrayList<>();
