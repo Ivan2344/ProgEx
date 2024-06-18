@@ -37,7 +37,7 @@ public class GUI extends Mainframe implements OrderFrame1 {
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
     JPanel rightPanel ,secondLeftPanel;
     private DefaultTableModel employerTableModel;
-    public Data_management dataManagement = new Data_management("root","Mercury123");
+    public Data_management dataManagement = new Data_management("", "");
     
     GUI() {
         super();

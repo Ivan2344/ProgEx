@@ -180,7 +180,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public interface OrderFrame1 {
-	 Data_management dataManagement = new Data_management("root", "Mercury123");
+	 Data_management dataManagement = new Data_management("", "");
     static final Color BLUE = new Color(230, 230, 255);
     static final Color BORDER = Color.LIGHT_GRAY;
 
