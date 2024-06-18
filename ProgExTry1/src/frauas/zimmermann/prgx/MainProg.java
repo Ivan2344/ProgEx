@@ -5,8 +5,8 @@ import java.sql.*;
 public class MainProg {
 
 	public static void main(String[] args) {
-		String username = "root";
-		String pwd = "Mercury123";
+		String username = "";
+		String pwd = "";
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
 		System.out.print("Lolz3");
