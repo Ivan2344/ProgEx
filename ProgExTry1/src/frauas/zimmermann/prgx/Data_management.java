@@ -450,13 +450,19 @@ public class Data_management {
     }
 
     // Fetch soaps by category
+
+    
     public ArrayList<Soap> fetchSoapsByCategory(String category) {
         ArrayList<Soap> soaps = new ArrayList<>();
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM soap WHERE category = ?");
-            preparedStatement.setString(1, category);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            Statement statement = connection.createStatement();
+            
+            // Escape single quotes in the category to prevent SQL injection
+            String escapedCategory = category.replace("'", "''");
+            
+            String query = "SELECT * FROM soap WHERE category = '" + escapedCategory + "'";
+            ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
                 Soap soap = new Soap();
@@ -476,25 +482,8 @@ public class Data_management {
         }
         return soaps;
     }
+
     
-//    public int getSoapIdByTitle(String title) {
-//        int soapId = -1;
-//        try {
-//            Connection connection = DriverManager.getConnection(url, username, password);
-//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM soap WHERE titel = ?");
-//            preparedStatement.setString(1, title);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                soapId = resultSet.getInt("id");
-//            }
-//
-//            connection.close();
-//        } catch (Exception e) {
-//            System.out.println("Error fetching soap ID by titel: " + e.getMessage());
-//        }
-//        return soapId;
-//    }
     public int getSoapIdByTitle(String title) {
         int soapId = -1;
         try {

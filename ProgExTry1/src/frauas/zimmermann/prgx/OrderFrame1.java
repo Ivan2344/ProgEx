@@ -26,7 +26,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public interface OrderFrame1 {
-	 Data_management dataManagement = new Data_management("","");
+	 Data_management dataManagement = new Data_management("root","Mercury123");
     static final Color BLUE = new Color(230, 230, 255);
     static final Color BORDER = Color.LIGHT_GRAY;
 
@@ -106,7 +106,6 @@ public interface OrderFrame1 {
         public boolean canImport(TransferSupport support) {
             return support.isDataFlavorSupported(DataFlavor.stringFlavor);
         }
-
         @Override
         public boolean importData(TransferSupport support) {
             if (!canImport(support)) {

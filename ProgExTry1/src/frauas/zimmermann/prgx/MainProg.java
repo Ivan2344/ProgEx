@@ -10,7 +10,7 @@ public class MainProg {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
 		System.out.print("Lolz3");
-		Create_Shema c1 = new Create_Shema("","");
+		Create_Shema c1 = new Create_Shema("root","Mercury123");
 		c1.CreateDB();
 		c1.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
 		c1.InsertDemoValues();
