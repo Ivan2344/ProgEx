@@ -2,177 +2,23 @@ package frauas.zimmermann.prgx;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
-//public interface OrderFrame1 {
-//	static final Color BLUE = new Color (230,230,255);
-//		public default JPanel setOrderMask() {
-//	    	JPanel tempPanel = new JPanel(new BorderLayout()); // Set BorderLayout to tempPanel
-//	        JPanel leftTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for left panel
-//	        JPanel rightTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for right panel
-////	        
-////	    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
-//	    	leftTempPanel.add(createCustomLabel("ID"));
-//	    	leftTempPanel.add(createCustomLabel("User ID"));
-//	    	leftTempPanel.add(createCustomLabel("Order Date"));
-//	    	leftTempPanel.add(createCustomLabel("Status"));
-//	    	leftTempPanel.add(createCustomLabel("Total"));
-//	    	leftTempPanel.add(createCustomLabel("Subtotal"));
-//	    	leftTempPanel.add(createCustomLabel("Tax"));
-//	    	leftTempPanel.add(createCustomLabel("Discount"));
-//	    
-////	    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-////	    	for (int i = 0; i < 8; i++) {
-////	            rightTempPanel.add(new JTextField());
-////	        }
-//	        
-//	    
-//	        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
-//	        splitPane.setDividerLocation(1.0 / 3.0); 
-//	        splitPane.setResizeWeight(0.33);
-//	        tempPanel.add(splitPane, BorderLayout.CENTER);
-//	    	return tempPanel;
-//	    }
-//
-//		public default JPanel setEmployeeMask() {
-//			JPanel tempPanel = new JPanel(new BorderLayout()); // Set BorderLayout to tempPanel
-//	        JPanel leftTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for left panel
-//	        JPanel rightTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for right panel
-//	        
-////	    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
-//	    	leftTempPanel.add(createCustomLabel("ID"));
-//	    	leftTempPanel.add(createCustomLabel("Name"));
-//	    	leftTempPanel.add(createCustomLabel("Address"));
-//	    	leftTempPanel.add(createCustomLabel("Email"));
-//	    	leftTempPanel.add(createCustomLabel("Phone Number"));
-//	    	leftTempPanel.add(createCustomLabel("Industry"));
-//	    	leftTempPanel.add(createCustomLabel("Established Date"));
-//	        
-////	    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-////	    	for (int i = 0; i < 8; i++) {
-////	            rightTempPanel.add(new JTextField());
-////	        }
-//	        
-//	    
-//	        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
-//	        splitPane.setDividerLocation(1.0 / 3.0); 
-//	        splitPane.setResizeWeight(0.33);
-//	        tempPanel.add(splitPane, BorderLayout.CENTER);
-//	    	return tempPanel;
-//			
-//		}
-//		public default JPanel setSoapMask() {
-//	    	JPanel tempPanel = new JPanel(new BorderLayout()); // Set BorderLayout to tempPanel
-//	        JPanel leftTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for left panel
-//	        JPanel rightTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for right panel
-//	        
-////	    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
-//	    	leftTempPanel.add(createCustomLabel("ID"));
-//	    	leftTempPanel.add(createCustomLabel("EAN"));
-//	    	leftTempPanel.add(createCustomLabel("Title"));
-//	    	leftTempPanel.add(createCustomLabel("Category"));
-//	    	leftTempPanel.add(createCustomLabel("Price"));
-//	    	leftTempPanel.add(createCustomLabel("Created At"));
-//	        
-////	    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-////	    	for (int i = 0; i < 8; i++) {
-////	            rightTempPanel.add(new JTextField());
-////	        }
-//	        
-//	    
-//	        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
-//	        splitPane.setDividerLocation(1.0 / 3.0); 
-//	        splitPane.setResizeWeight(0.33);
-//	        tempPanel.add(splitPane, BorderLayout.CENTER);
-//	    	return tempPanel;
-//	    }
-//		public default JPanel setCustomerMask() {
-//	    	JPanel tempPanel = new JPanel(new BorderLayout()); // Set BorderLayout to tempPanel
-//	        JPanel leftTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for left panel
-//	        JPanel rightTempPanel = new JPanel(new GridLayout(8, 1)); // GridLayout for right panel
-//	        
-////	    	leftTempPanel.setLayout(new BoxLayout(leftTempPanel, BoxLayout.Y_AXIS));
-//	    	leftTempPanel.add(createCustomLabel("ID"));
-//	    	leftTempPanel.add(createCustomLabel("Name"));
-//	    	leftTempPanel.add(createCustomLabel("Address"));
-//	    	leftTempPanel.add(createCustomLabel("Email"));
-//	    	leftTempPanel.add(createCustomLabel("Password"));
-//	    	leftTempPanel.add(createCustomLabel("City"));
-//	    	leftTempPanel.add(createCustomLabel("Birth Date"));
-//	    	leftTempPanel.add(createCustomLabel("Created At"));
-//	        
-////	    	rightTempPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-//	    	rightTempPanel.add(new JTextField());
-////	    	for (int i = 0; i < 8; i++) {
-////	            rightTempPanel.add(new JTextField());
-////	        }
-//	        
-//	    
-//	        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
-//	        splitPane.setDividerLocation(1.0 / 3.0); 
-//	        splitPane.setResizeWeight(0.33);
-//	        tempPanel.add(splitPane, BorderLayout.CENTER);
-//	    	return tempPanel;
-//	    }
-//		private static JLabel createCustomLabel(String text) {
-//	        JLabel label =new JLabel(text);
-//	        label.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-//	        label.setBackground(BLUE);
-//	        label.setForeground(Color.DARK_GRAY);
-//	        label.setOpaque(true); // Needed for background color to be visible
-//	        return label;
-//	    }
-//
-//	}
-//
-//
-//
-//
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -180,7 +26,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public interface OrderFrame1 {
-	 Data_management dataManagement = new Data_management("", "");
+	 Data_management dataManagement = new Data_management("root","Mercury123");
     static final Color BLUE = new Color(230, 230, 255);
     static final Color BORDER = Color.LIGHT_GRAY;
 
@@ -244,84 +90,6 @@ public interface OrderFrame1 {
         return label;
     }
 
-    private static void createAndShowDragDropFrame(Data_management dataManagement) {
-        JFrame productFrame = new JFrame("My Products");
-        productFrame.setSize(600, 600);
-        productFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        productFrame.setLayout(new BorderLayout());
-
-        DefaultListModel<String> productListModel = new DefaultListModel<>();
-        DefaultListModel<String> cartListModel = new DefaultListModel<>();
-
-        productListModel.addElement("Product 1");
-        productListModel.addElement("Product 2");
-        productListModel.addElement("Product 3");
-
-        JList<String> productList = new JList<>(productListModel);
-        JList<String> cartList = new JList<>(cartListModel);
-
-        productList.setDragEnabled(true);
-        productList.setTransferHandler(new ProductTransferHandler());
-
-        cartList.setDropMode(DropMode.INSERT);
-        cartList.setTransferHandler(new ProductTransferHandler());
-        
-//      Adding ListSelectionListener to the productList to add selected product to the cart
-//		Add on click
-        productList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                String selectedProduct = productList.getSelectedValue();
-                if (selectedProduct != null && !cartListModel.contains(selectedProduct)) {
-                    cartListModel.addElement(selectedProduct);
-                }
-            }
-        });
-
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(productList), new JScrollPane(cartList));
-        splitPane.setDividerLocation(3.0 / 3.0);
-        
-        // Add component listener to adjust the split pane divider location on frame resize always in the middle
-        productFrame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                splitPane.setDividerLocation(0.5);
-            }
-        });
-
-        productFrame.add(splitPane, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton deleteButton = new JButton("Delete");
-        JButton saveButton = new JButton("Save");
-
-        deleteButton.addActionListener(e -> {
-            int selectedIndex = cartList.getSelectedIndex();
-            if (selectedIndex != -1) {
-                cartListModel.remove(selectedIndex);
-            }
-        });
-
-        saveButton.addActionListener(e -> {
-            System.out.println("Products saved: " + Collections.list(cartListModel.elements()));
-        });
-
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(saveButton);
-
-        productFrame.add(buttonPanel, BorderLayout.SOUTH);
-        
-        populateProductList(dataManagement, productListModel);
-
-        productFrame.setVisible(true);
-    }
-    
-    private static void populateProductList(Data_management dataManagement, DefaultListModel<String> productListModel) {
-        ArrayList<Soap> soaps = dataManagement.fetchSoapsFromDatabase();
-        for (Soap soap : soaps) {
-            productListModel.addElement(soap.getTitle());
-        }
-    }
 
     static class ProductTransferHandler extends TransferHandler {
         @Override
@@ -365,4 +133,101 @@ public interface OrderFrame1 {
         }
     }
     
+    
+    private static void createAndShowDragDropFrame(Data_management dataManagement) {
+    	 dataManagement.findMaxId();
+         int orderId = dataManagement.orderId; // Get the dynamically fetched orderId
+    	
+        JFrame newFrame = new JFrame("Product Drag and Drop");
+        newFrame.setSize(600, 400);
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newFrame.setLayout(new BorderLayout());
+
+        DefaultListModel<String> cartListModel = new DefaultListModel<>();
+
+        JTree productTree = new JTree(createTreeModel(dataManagement));
+        JList<String> cartList = new JList<>(cartListModel);
+
+        productTree.setDragEnabled(true);
+        productTree.setTransferHandler(new TreeTransferHandler());
+
+        cartList.setDropMode(DropMode.INSERT);
+        cartList.setTransferHandler(new ProductTransferHandler());
+
+        // Add tree selection listener to add selected product to the cart
+        productTree.addTreeSelectionListener(e -> {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) productTree.getLastSelectedPathComponent();
+            if (selectedNode != null && selectedNode.isLeaf()) {
+                String selectedProduct = selectedNode.toString();
+                if (selectedProduct != null && !cartListModel.contains(selectedProduct)) {
+                    cartListModel.addElement(selectedProduct);
+                }
+            }
+        });
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(productTree), new JScrollPane(cartList));
+        splitPane.setResizeWeight(0.5); // Initial divider location
+
+        // Add component listener to adjust the split pane divider location on frame resize
+        newFrame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                splitPane.setDividerLocation(0.5);
+            }
+        });
+
+        newFrame.add(splitPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton deleteButton = new JButton("Delete");
+        JButton saveButton = new JButton("Save");
+
+        deleteButton.addActionListener(e -> {
+            int selectedIndex = cartList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                cartListModel.remove(selectedIndex);
+            }
+        });
+
+        saveButton.addActionListener(e -> {
+        	// saveCartContentsToDatabase(cartListModel, dataManagement, 1); // Assuming order ID is 1
+        	 saveCartContentsToDatabase(cartListModel, dataManagement, orderId);
+        });
+
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(saveButton);
+
+        newFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+        newFrame.setVisible(true);
+    }
+
+    private static TreeModel createTreeModel(Data_management dataManagement) {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Products");
+        ArrayList<String> categories = dataManagement.fetchCategoriesFromDatabase();
+        for (String category : categories) {
+            DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(category);
+            ArrayList<Soap> soaps = dataManagement.fetchSoapsByCategory(category);
+            for (Soap soap : soaps) {
+                categoryNode.add(new DefaultMutableTreeNode(soap.getTitle()));
+            }
+            root.add(categoryNode);
+        }
+        return new DefaultTreeModel(root);
+    }
+    
+    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId) {
+        for (int i = 0; i < cartListModel.getSize(); i++) {
+            String productTitle = cartListModel.getElementAt(i);
+            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+            if (soapId != -1) {
+                dataManagement.addOrderProductReference(1, soapId);
+            } else {
+                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+            }
+        }
+        System.out.println("Cart contents saved to database.");
+    }
 }
+
+

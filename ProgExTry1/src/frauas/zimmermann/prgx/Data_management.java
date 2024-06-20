@@ -11,7 +11,7 @@ public class Data_management {
 	
 	private static int employerId = 0;
     private static int customerId = 0;
-    private static int orderId = 0;
+     int orderId = 0;
     private static int soapId = 0;
 	
     public Data_management(String usr, String pwd) { 
@@ -23,7 +23,7 @@ public class Data_management {
     
     
  // Initialize the IDs by fetching the maximum values from the database
-    private void findMaxId() {
+    public void findMaxId() {
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
@@ -429,5 +429,93 @@ public class Data_management {
         }
     }
     
+    
+    
+    public ArrayList<String> fetchCategoriesFromDatabase() {
+        ArrayList<String> categories = new ArrayList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT DISTINCT category FROM soap");
+
+            while (resultSet.next()) {
+                categories.add(resultSet.getString("category"));
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error fetching categories from the database: " + e.getMessage());
+        }
+        return categories;
+    }
+
+    // Fetch soaps by category
+    public ArrayList<Soap> fetchSoapsByCategory(String category) {
+        ArrayList<Soap> soaps = new ArrayList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM soap WHERE category = ?");
+            preparedStatement.setString(1, category);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Soap soap = new Soap();
+                soap.setId(resultSet.getInt("id"));
+                soap.setEAN(resultSet.getInt("EAN"));
+                soap.setTitle(resultSet.getString("titel"));
+                soap.setCategory(resultSet.getString("category"));
+                soap.setPrice(resultSet.getDouble("price"));
+                soap.setCreatedAt(resultSet.getTimestamp("created_at"));
+
+                soaps.add(soap);
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error fetching soaps by category: " + e.getMessage());
+        }
+        return soaps;
+    }
+    
+//    public int getSoapIdByTitle(String title) {
+//        int soapId = -1;
+//        try {
+//            Connection connection = DriverManager.getConnection(url, username, password);
+//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM soap WHERE titel = ?");
+//            preparedStatement.setString(1, title);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                soapId = resultSet.getInt("id");
+//            }
+//
+//            connection.close();
+//        } catch (Exception e) {
+//            System.out.println("Error fetching soap ID by titel: " + e.getMessage());
+//        }
+//        return soapId;
+//    }
+    public int getSoapIdByTitle(String title) {
+        int soapId = -1;
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+            
+            String sql = "SELECT id FROM soap WHERE titel = '" + title + "'";
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                soapId = resultSet.getInt("id");
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error fetching soap ID by title: " + e.getMessage());
+        }
+        return soapId;
+    }
+
 }
+    
+
     
