@@ -378,7 +378,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "SELECT s.id, s.EAN, s.title, s.category, s.price, s.created_at " +
+            String sql = "SELECT s.id, s.EAN, s.titel, s.category, s.price, s.created_at " +
                          "FROM soap AS s " +
                          "INNER JOIN RefOrderProd AS ref ON s.id = ref.Sid " +
                          "INNER JOIN orders AS o ON o.id = ref.Oid " +
@@ -390,7 +390,7 @@ public class Data_management {
                 Soap soap = new Soap();
                 soap.setId(resultSet.getInt("id"));
                 soap.setEAN(resultSet.getInt("EAN"));
-                soap.setTitle(resultSet.getString("title"));
+                soap.setTitle(resultSet.getString("titel"));
                 soap.setCategory(resultSet.getString("category"));
                 soap.setPrice(resultSet.getDouble("price"));
                 soap.setCreatedAt(resultSet.getTimestamp("created_at"));
@@ -503,6 +503,8 @@ public class Data_management {
         }
         return soapId;
     }
+    
+
 
 }
     

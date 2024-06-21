@@ -32,12 +32,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-public class GUI extends Mainframe implements OrderFrame1 {
+public class GUI extends Mainframe implements MiddlePanel{
     JPanel[] panelList;
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
     JPanel rightPanel ,secondLeftPanel;
     private DefaultTableModel employerTableModel;
-    public Data_management dataManagement = new Data_management("","");
+    public Data_management dataManagement = new Data_management("root","Mercury123");
     
     GUI() {
         super();

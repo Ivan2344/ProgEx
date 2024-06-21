@@ -10,7 +10,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -25,8 +26,8 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.*;
 
-public interface OrderFrame1 {
-	 Data_management dataManagement = new Data_management("","");
+public interface MiddlePanel {
+	 Data_management dataManagement = new Data_management("root","Mercury123");
     static final Color BLUE = new Color(230, 230, 255);
     static final Color BORDER = Color.LIGHT_GRAY;
 
@@ -65,13 +66,13 @@ public interface OrderFrame1 {
         splitPane.setResizeWeight(0.33);
         tempPanel.add(splitPane, BorderLayout.CENTER);
         
-        JButton openFrameButton = new JButton("Add Products");
-        openFrameButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-        openFrameButton.addActionListener(e ->createAndShowDragDropFrame(dataManagement));
+        JButton openProductsButton = new JButton("Add Products");
+        openProductsButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+        openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(BLUE);
-        buttonPanel.add(openFrameButton);
+        buttonPanel.add(openProductsButton);
         tempPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         return tempPanel;
@@ -92,7 +93,11 @@ public interface OrderFrame1 {
 
 
     static class ProductTransferHandler extends TransferHandler {
-        @Override
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		@Override
         public int getSourceActions(JComponent c) {
             return COPY_OR_MOVE;
         }
@@ -133,19 +138,27 @@ public interface OrderFrame1 {
     }
     
     
-    private static void createAndShowDragDropFrame(Data_management dataManagement) {
-    	 dataManagement.findMaxId();
-         int orderId = dataManagement.orderId; // Get the dynamically fetched orderId
-    	
+    private static void addProductsToOrderFrame(Data_management dataManagement) {
+    	dataManagement.findMaxId();
+    	int orderId = dataManagement.orderId; // Get the dynamically fetched orderId
+    	//int orderId = 1;
+    	 
         JFrame newFrame = new JFrame("Product Drag and Drop");
         newFrame.setSize(600, 400);
         newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newFrame.setLayout(new BorderLayout());
 
         DefaultListModel<String> cartListModel = new DefaultListModel<>();
-
-        JTree productTree = new JTree(createTreeModel(dataManagement));
+        
+       
+        JTree productTree = new JTree(productTreeModel(dataManagement));
         JList<String> cartList = new JList<>(cartListModel);
+        
+        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
+        for (Soap soap : existingSoaps) {
+            cartListModel.addElement(soap.getTitle());
+        }
+        
 
         productTree.setDragEnabled(true);
         productTree.setTransferHandler(new TreeTransferHandler());
@@ -190,7 +203,7 @@ public interface OrderFrame1 {
 
         saveButton.addActionListener(e -> {
         	// saveCartContentsToDatabase(cartListModel, dataManagement, 1); // Assuming order ID is 1
-        	 saveCartContentsToDatabase(cartListModel, dataManagement, orderId);
+        	 saveCartContentsToDatabase(cartListModel, dataManagement, orderId, existingSoaps);
         });
 
         buttonPanel.add(deleteButton);
@@ -201,7 +214,7 @@ public interface OrderFrame1 {
         newFrame.setVisible(true);
     }
 
-    private static TreeModel createTreeModel(Data_management dataManagement) {
+    private static TreeModel productTreeModel(Data_management dataManagement) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Products");
         ArrayList<String> categories = dataManagement.fetchCategoriesFromDatabase();
         for (String category : categories) {
@@ -215,14 +228,21 @@ public interface OrderFrame1 {
         return new DefaultTreeModel(root);
     }
     
-    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId) {
-        for (int i = 0; i < cartListModel.getSize(); i++) {
+    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId, ArrayList<Soap> existingSoaps) {
+    	Set<String> existingProductTitles = new HashSet<>();
+        for (Soap soap : existingSoaps) {
+            existingProductTitles.add(soap.getTitle());
+        }
+        
+    	for (int i = 0; i < cartListModel.getSize(); i++) {
             String productTitle = cartListModel.getElementAt(i);
-            int soapId = dataManagement.getSoapIdByTitle(productTitle);
-            if (soapId != -1) {
-                dataManagement.addOrderProductReference(1, soapId);
-            } else {
-                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+            if (!existingProductTitles.contains(productTitle)) {
+	            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+	            if (soapId != -1) {
+	                dataManagement.addOrderProductReference(orderId, soapId);
+	            } else {
+	                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+	            }
             }
         }
         System.out.println("Cart contents saved to database.");
