@@ -41,7 +41,8 @@ public class GUI extends Mainframe implements MiddlePanel{
     JPanel rightPanel ,secondLeftPanel;
     private DefaultTableModel employerTableModel;
     public Data_management dataManagement = new Data_management("","");
-    
+    private int selectedIndex = -1;
+
     GUI() {
         super();
         createMainPanel();
@@ -72,7 +73,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         menuList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedIndex = menuList.getSelectedIndex();
+                    selectedIndex = menuList.getSelectedIndex();
                     for (int i = 0; i < panelList.length; i++) {
                         if (i == selectedIndex) {
                             panelList[i].setVisible(true);
@@ -169,6 +170,7 @@ public class GUI extends Mainframe implements MiddlePanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = e.getActionCommand();
+
                 switch (command) {
                     case "Add":
                         JOptionPane.showMessageDialog(null, "Button geklickt: "+ command);
@@ -576,7 +578,13 @@ public class GUI extends Mainframe implements MiddlePanel{
     public void addRowInDatabase(){
     	
     }
-    public void editRowInDatabase() {}
-    public void deleteRowInDatabase() {}
-    public void refreshDatabase() {}
+    public void editRowInDatabase() {
+    	
+    }
+    public void deleteRowInDatabase() {
+    	
+    }
+    public void refreshDatabase() {
+    	
+    }
 }
