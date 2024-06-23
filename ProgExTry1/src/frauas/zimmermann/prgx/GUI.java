@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class GUI extends Mainframe implements MiddlePanel{
@@ -73,15 +76,15 @@ public class GUI extends Mainframe implements MiddlePanel{
                     for (int i = 0; i < panelList.length; i++) {
                         if (i == selectedIndex) {
                             panelList[i].setVisible(true);
-                            System.out.print("item click is recognized\n");
-                            System.out.print(i);
-                            System.out.print("\n");
+//                            System.out.print("item click is recognized\n");
+//                            System.out.print(i);
+//                            System.out.print("\n");
 //                            String selectedItem = menuItems[selectedIndex];
 //                            setViewPanel(selectedItem);
       
                         } else {
                             panelList[i].setVisible(false);
-                            System.out.print("item click is recognized empty\n");
+//                            System.out.print("item click is recognized empty\n");
                         }
                         
                     }
@@ -159,6 +162,37 @@ public class GUI extends Mainframe implements MiddlePanel{
 		addButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
 		addButton.setBackground(LIGHT_BLUE);
 		addButton.setForeground(Color.DARK_GRAY);
+		addButton.setActionCommand(buttonName);
+//        addButton.addActionListener(new ButtonActionListener());
+		
+		addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = e.getActionCommand();
+                switch (command) {
+                    case "Add":
+                        JOptionPane.showMessageDialog(null, "Button geklickt: "+ command);
+                        addRowInDatabase();
+                        break;
+                    case "Edit":
+                        JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
+                        editRowInDatabase();
+                        break;
+                    case "Refresh":
+                        JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
+                        refreshDatabase();
+                        break;
+                    case "Delete":
+                        JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
+                        deleteRowInDatabase();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+		
+		
 		tempPanel.add(addButton);
     	} else {
     		tempPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -168,6 +202,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     		addText.setForeground(Color.DARK_GRAY);
     		tempPanel.add(addText);
     	}
+    	
     	return tempPanel;
     }
 
@@ -454,6 +489,8 @@ public class GUI extends Mainframe implements MiddlePanel{
             public void mouseClicked(MouseEvent e) {
                 int row = customerDatabase.getSelectedRow();
                 if (row != -1) {
+                	System.out.printf("KLICK!");
+                	System.out.print(row);
                     handleSelectedRow(row, customerDatabase, "Customer");
                 }
             }
@@ -536,4 +573,10 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
         JOptionPane.showMessageDialog(null, selectedData);*/
     }
+    public void addRowInDatabase(){
+    	
+    }
+    public void editRowInDatabase() {}
+    public void deleteRowInDatabase() {}
+    public void refreshDatabase() {}
 }
