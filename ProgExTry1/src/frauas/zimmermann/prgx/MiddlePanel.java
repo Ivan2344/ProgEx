@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -32,21 +34,25 @@ public interface MiddlePanel {
     static final Color BORDER = Color.LIGHT_GRAY;
 
     public default JPanel setOrderMask() {
+    	String className = "Order";
         String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
         return createMaskPanel(labels);
     }
 
     public default JPanel setEmployeeMask() {
+    	String className = "Employee";
         String[] labels = {"ID", "Name", "Address", "Email", "Phone Number", "Industry", "Established Date"};
         return createMaskPanel(labels);
     }
 
     public default JPanel setSoapMask() {
+    	String className = "Product";
         String[] labels = {"ID", "EAN", "Title", "Category", "Price", "Created At"};
         return createMaskPanel(labels);
     }
 
     public default JPanel setCustomerMask() {
+    	String className = "Customer";
     	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date", "Created At"};
         return createMaskPanel(labels);
     }
@@ -56,10 +62,43 @@ public interface MiddlePanel {
         JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
         JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
 
-        for (String label : labels) {
-            leftTempPanel.add(createCustomLabel(label));
-            rightTempPanel.add(new JTextField());
+        JLabel[] customLabels = new JLabel[labels.length];
+        JTextField[] textFields = new JTextField[labels.length];
+        
+        for (int i = 0; i < labels.length; i++) {
+            customLabels[i] = createCustomLabel(labels[i]);
+            leftTempPanel.add(customLabels[i]);
+
+            JTextField textField = new JTextField();
+            textFields[i] = textField;
+            rightTempPanel.add(textField);
+
+            final JTextField textFieldRef = textField; // Final machen, um Zugriff im ActionListener zu ermöglichen
+            final String label = labels[i]; // Final machen, um im ActionListener darauf zuzugreifen
+
+            textField.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String text = textFieldRef.getText();
+                    System.out.println("Eingabe in " + label + ": " + text);
+                    // Weitere Logik hier...
+                }
+            });
         }
+        	
+        	
+//        for (String label : labels) {
+//        	int counter = 0;
+//        	counter = counter + 1;
+//        	
+//                JLabel customLabel = createCustomLabel(label);
+//                leftTempPanel.add(customLabel);
+//
+//                JTextField textField = new JTextField();
+//                rightTempPanel.add(textField);
+//
+//                
+//        }
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
         splitPane.setDividerLocation(3.0 / 3.0);
