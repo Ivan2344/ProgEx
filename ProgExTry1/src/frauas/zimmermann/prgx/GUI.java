@@ -45,6 +45,12 @@ public class GUI extends Mainframe implements MiddlePanel{
     public Data_management dataManagement = new Data_management("","");
     static public int selectedIndex = -1;
 
+    private JTextField soapIdTfd , soapEANTfd ,soapTitleTfd ,soapCategoryTfd , soapPriceTfd , soapCreatedTfd ;
+    private JTextField employerIdTfd ,employerNameTfd , employerAddressTfd ,employerEmailTfd ,phoneNumberTfd ,industryTfd , establishedTfd;
+    private JTextField customerIdTfd, customerNameTfd , customerAddressTfd, customerEmailTfd , customerPasswordTfd ,customerCityTfd , customerBirthdayTfd , customerCreatedAtTfd;
+    private JTextField ordersIdTfd ,ordersUserTfd , ordersDateTfd, ordersStatusTfd , ordersTotalTfd , ordersSubtotalTfd , ordersTaxTfd ,ordersDiscountTfd ;
+
+
     GUI() {
         super();
         createMainPanel();
@@ -177,7 +183,8 @@ public class GUI extends Mainframe implements MiddlePanel{
                 switch (command) {
                     case "Add":
                         JOptionPane.showMessageDialog(null, "Button geklickt: "+ command);
-                        addRowInDatabase();
+//                        addRowInDatabase();
+                        readTextfield(menuItem);
                         break;
                     case "Edit":
                         JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
@@ -211,80 +218,8 @@ public class GUI extends Mainframe implements MiddlePanel{
     	return tempPanel;
     }
     
-    
-//    public  JPanel setOrderMask1() {
-//    	String className = "Orders";
-//        String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
-//        return setTextfieldPanel(labels, className);
-//    }
-//
-//    public  JPanel setEmployeeMask1() {
-//    	String className = "Employees";
-//        String[] labels = {"ID", "Name", "Address", "Email", "Phone Number", "Industry", "Established Date"};
-//        return setTextfieldPanel(labels, className);
-//    }
-//
-//    public  JPanel setSoapMask1() {
-//    	String className = "Products";
-//        String[] labels = {"ID", "EAN", "Title", "Category", "Price", "Created At"};
-//        return setTextfieldPanel(labels, className);
-//    }
-//
-//    public  JPanel setCustomerMask1() {
-//    	String className = "Customers";
-//    	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date", "Created At"};
-//        return setTextfieldPanel(labels, className);
-//    }
-//    
-//    public JPanel setTextfieldPanel(String[] labels, String panelName) {
-//    	JPanel tempPanel = new JPanel(new BorderLayout(0,0));
-//        JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
-//        JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
-//        JLabel[] customLabels = new JLabel[labels.length];
-//        JTextField[] textFields = new JTextField[labels.length];
-//        
-//        for (int i = 0; i < labels.length; i++) {
-//            customLabels[i] = createCustomLabel1(labels[i]);
-//            leftTempPanel.add(customLabels[i]);
-//
-//            JTextField textField = new JTextField();
-//            textFields[i] = textField;
-//            rightTempPanel.add(textField);
-//
-//            final JTextField textFieldRef = textField; // Final machen, um Zugriff im ActionListener zu ermöglichen
-//            final String label = labels[i]; // Final machen, um im ActionListener darauf zuzugreifen
-//
-//            
-//            
-//            textField.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    String text = textFieldRef.getText();
-//                    System.out.println("Eingabe in " + label + ": " + text);
-//                    // bring das object 
-//                    
-//                }
-//            });
-//        }
-//        	
-//       return tempPanel;
-//    }
-//    
-//    private static JLabel createCustomLabel1(String text) {
-//        JLabel label = new JLabel(text);
-//        label.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-//        label.setBackground(BLUE);
-//        label.setForeground(Color.DARK_GRAY);
-//        label.setOpaque(true); // Needed for background color to be visible
-//        Border margin = new EmptyBorder(0, 10, 0, 0);
-//        
-//        Border border = BorderFactory.createLineBorder(Color.gray);
-//        label.setBorder(BorderFactory.createCompoundBorder(border, margin));
-//        return label;
-//    }
-    
-    
-    
+   
+     
     public void setViewPanel(String viewName) {
         switch (viewName) {
             case "Employees":
@@ -427,23 +362,23 @@ public class GUI extends Mainframe implements MiddlePanel{
     	JLabel tempPanel7 = new JLabel("EstablishedDate");
     	
     	tempPanel.setLayout(new GridLayout(7,2));
-    	JTextField idTfd = new JTextField();
-    	JTextField nameTfd = new JTextField();
-    	JTextField addressTfd = new JTextField();
-    	JTextField emailTfd = new JTextField();
-    	JTextField phoneNumberTfd = new JTextField();
-    	JTextField industryTfd = new JTextField();
-    	JTextField establishedTfd = new JTextField();
+    	 employerIdTfd = new JTextField();
+    	 employerNameTfd = new JTextField();
+    	 employerAddressTfd = new JTextField();
+    	 employerEmailTfd = new JTextField();
+    	 phoneNumberTfd = new JTextField();
+    	 industryTfd = new JTextField();
+    	 establishedTfd = new JTextField();
 
     	
     	tempPanel.add(tempPanel1);
-    	tempPanel.add(idTfd);
+    	tempPanel.add(employerIdTfd);
     	tempPanel.add(tempPanel2);
-    	tempPanel.add(nameTfd);
+    	tempPanel.add(employerNameTfd);
     	tempPanel.add(tempPanel3);
-    	tempPanel.add(addressTfd);
+    	tempPanel.add(employerAddressTfd);
     	tempPanel.add(tempPanel4);
-    	tempPanel.add(emailTfd);
+    	tempPanel.add(employerEmailTfd);
     	tempPanel.add(tempPanel5);
     	tempPanel.add(phoneNumberTfd);
     	tempPanel.add(tempPanel6);
@@ -527,26 +462,26 @@ public class GUI extends Mainframe implements MiddlePanel{
     	JLabel tempPanel6 = new JLabel("CreatedAt");
     	
     	tempPanel.setLayout(new GridLayout(6,2));
-    	JTextField idTfd = new JTextField();
-    	JTextField nameTfd = new JTextField();
-    	JTextField addressTfd = new JTextField();
-    	JTextField emailTfd = new JTextField();
-    	JTextField passwordTfd = new JTextField();
-    	JTextField cityTfd = new JTextField();
+    	 soapIdTfd = new JTextField();
+    	 soapEANTfd = new JTextField();
+    	 soapTitleTfd = new JTextField();
+    	 soapCategoryTfd = new JTextField();
+    	 soapPriceTfd = new JTextField();
+    	 soapCreatedTfd = new JTextField();
 
     	
     	tempPanel.add(tempPanel1);
-    	tempPanel.add(idTfd);
+    	tempPanel.add(soapIdTfd);
     	tempPanel.add(tempPanel2);
-    	tempPanel.add(nameTfd);
+    	tempPanel.add(soapEANTfd);
     	tempPanel.add(tempPanel3);
-    	tempPanel.add(addressTfd);
+    	tempPanel.add(soapTitleTfd);
     	tempPanel.add(tempPanel4);
-    	tempPanel.add(emailTfd);
+    	tempPanel.add(soapCategoryTfd);
     	tempPanel.add(tempPanel5);
-    	tempPanel.add(passwordTfd);
+    	tempPanel.add(soapPriceTfd);
     	tempPanel.add(tempPanel6);
-    	tempPanel.add(cityTfd);
+    	tempPanel.add(soapCreatedTfd);
 
     	
     	secondLeftPanel.add(tempPanel);
@@ -635,31 +570,31 @@ public class GUI extends Mainframe implements MiddlePanel{
     	JLabel tempPanel8 = new JLabel("Discount");
     	
     	tempPanel.setLayout(new GridLayout(8,2));
-    	JTextField idTfd = new JTextField();
-    	JTextField nameTfd = new JTextField();
-    	JTextField addressTfd = new JTextField();
-    	JTextField emailTfd = new JTextField();
-    	JTextField passwordTfd = new JTextField();
-    	JTextField cityTfd = new JTextField();
-    	JTextField birthdayTfd = new JTextField();
-    	JTextField createdAtTfd = new JTextField();
+    	 ordersIdTfd = new JTextField();
+    	 ordersUserTfd = new JTextField();
+    	 ordersDateTfd = new JTextField();
+    	 ordersStatusTfd = new JTextField();
+    	 ordersTotalTfd = new JTextField();
+    	 ordersSubtotalTfd = new JTextField();
+    	 ordersTaxTfd = new JTextField();
+    	 ordersDiscountTfd = new JTextField();
     	
     	tempPanel.add(tempPanel1);
-    	tempPanel.add(idTfd);
+    	tempPanel.add(ordersIdTfd);
     	tempPanel.add(tempPanel2);
-    	tempPanel.add(nameTfd);
+    	tempPanel.add(ordersUserTfd);
     	tempPanel.add(tempPanel3);
-    	tempPanel.add(addressTfd);
+    	tempPanel.add(ordersDateTfd);
     	tempPanel.add(tempPanel4);
-    	tempPanel.add(emailTfd);
+    	tempPanel.add(ordersStatusTfd);
     	tempPanel.add(tempPanel5);
-    	tempPanel.add(passwordTfd);
+    	tempPanel.add(ordersTotalTfd);
     	tempPanel.add(tempPanel6);
-    	tempPanel.add(cityTfd);
+    	tempPanel.add(ordersSubtotalTfd);
     	tempPanel.add(tempPanel7);
-    	tempPanel.add(birthdayTfd);
+    	tempPanel.add(ordersTaxTfd);
     	tempPanel.add(tempPanel8);
-    	tempPanel.add(createdAtTfd);
+    	tempPanel.add(ordersDiscountTfd);
     	
     	secondLeftPanel.add(tempPanel);
     	
@@ -743,31 +678,31 @@ public class GUI extends Mainframe implements MiddlePanel{
     	JLabel tempPanel8 = new JLabel("CreatedAt");
     	
     	tempPanel.setLayout(new GridLayout(8,2));
-    	JTextField idTfd = new JTextField();
-    	JTextField nameTfd = new JTextField();
-    	JTextField addressTfd = new JTextField();
-    	JTextField emailTfd = new JTextField();
-    	JTextField passwordTfd = new JTextField();
-    	JTextField cityTfd = new JTextField();
-    	JTextField birthdayTfd = new JTextField();
-    	JTextField createdAtTfd = new JTextField();
+    	 customerIdTfd = new JTextField();
+    	 customerNameTfd = new JTextField();
+    	 customerAddressTfd = new JTextField();
+    	 customerEmailTfd = new JTextField();
+    	 customerPasswordTfd = new JTextField();
+    	 customerCityTfd = new JTextField();
+    	 customerBirthdayTfd = new JTextField();
+    	 customerCreatedAtTfd = new JTextField();
     	
     	tempPanel.add(tempPanel1);
-    	tempPanel.add(idTfd);
+    	tempPanel.add(customerIdTfd);
     	tempPanel.add(tempPanel2);
-    	tempPanel.add(nameTfd);
+    	tempPanel.add(customerNameTfd);
     	tempPanel.add(tempPanel3);
-    	tempPanel.add(addressTfd);
+    	tempPanel.add(customerAddressTfd);
     	tempPanel.add(tempPanel4);
-    	tempPanel.add(emailTfd);
+    	tempPanel.add(customerEmailTfd);
     	tempPanel.add(tempPanel5);
-    	tempPanel.add(passwordTfd);
+    	tempPanel.add(customerPasswordTfd);
     	tempPanel.add(tempPanel6);
-    	tempPanel.add(cityTfd);
+    	tempPanel.add(customerCityTfd);
     	tempPanel.add(tempPanel7);
-    	tempPanel.add(birthdayTfd);
+    	tempPanel.add(customerBirthdayTfd);
     	tempPanel.add(tempPanel8);
-    	tempPanel.add(createdAtTfd);
+    	tempPanel.add(customerCreatedAtTfd);
     	
     	secondLeftPanel.add(tempPanel);
     	
@@ -822,6 +757,56 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
         JOptionPane.showMessageDialog(null, selectedData);*/
     }
+    public void readTextfield(int menuItem) {
+        switch (menuItem) {
+            case 0:
+                String ordersIdText = ordersIdTfd.getText();
+                String ordersUserText = ordersUserTfd.getText();
+                String ordersDateText = ordersDateTfd.getText();
+                String ordersStatusText = ordersStatusTfd.getText();
+                String ordersTotalText = ordersTotalTfd.getText();
+                String ordersSubtotalText = ordersSubtotalTfd.getText();
+                String ordersTaxText = ordersTaxTfd.getText();
+                String ordersDiscountText = ordersDiscountTfd.getText();
+                System.out.println("Orders: " + ordersIdText + ", " + ordersUserText + ", " + ordersDateText + ", " + ordersStatusText + ", " + ordersTotalText + ", " + ordersSubtotalText + ", " + ordersTaxText + ", " + ordersDiscountText);
+                break;
+            case 1:
+                String soapIdText = soapIdTfd.getText();
+                String soapEANText = soapEANTfd.getText();
+                String soapTitleText = soapTitleTfd.getText();
+                String soapCategoryText = soapCategoryTfd.getText();
+                String soapPriceText = soapPriceTfd.getText();
+                String soapCreatedText = soapCreatedTfd.getText();
+                System.out.println("Soap: " + soapIdText + ", " + soapEANText + ", " + soapTitleText + ", " + soapCategoryText + ", " + soapPriceText + ", " + soapCreatedText);
+                break;
+            case 2:
+                String employerIdText = employerIdTfd.getText();
+                String employerNameText = employerNameTfd.getText();
+                String employerAddressText = employerAddressTfd.getText();
+                String employerEmailText = employerEmailTfd.getText();
+                String phoneNumberText = phoneNumberTfd.getText();
+                String industryText = industryTfd.getText();
+                String establishedText = establishedTfd.getText();
+                System.out.println("Employer: " + employerIdText + ", " + employerNameText + ", " + employerAddressText + ", " + employerEmailText + ", " + phoneNumberText + ", " + industryText + ", " + establishedText);
+                break;
+            case 3:
+            	String customerIdText = customerIdTfd.getText();
+            	String customerNameText = customerNameTfd.getText();
+            	String customerAddressText = customerAddressTfd.getText();
+            	String customerEmailText = customerEmailTfd.getText();
+            	String customerPasswordText = customerPasswordTfd.getText();
+            	String customerCityText = customerCityTfd.getText();
+            	String customerBirthdayText = customerBirthdayTfd.getText();
+            	String customerCreatedAtText = customerCreatedAtTfd.getText();
+                System.out.println("Customer: " + customerIdText + ", " + customerNameText + ", " + customerAddressText + ", " + customerEmailText + ", " + customerPasswordText + ", " + customerCityText + ", " + customerBirthdayText + ", " + customerCreatedAtText);
+                break;
+            default:
+                break;
+        }
+    }
+    	
+    	
+    
     public void addRowInDatabase(){
     	
     }
