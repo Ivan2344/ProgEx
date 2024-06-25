@@ -289,23 +289,23 @@ public class GUI extends Mainframe implements MiddlePanel{
         switch (viewName) {
             case "Employees":
                 setEmployerPanel();
-//                firstLeftPanel.add(setEditButtons(viewName));
-                secondLeftPanel.add(setEmployeeMask());
+                setEmployerTextPanel();
+//                secondLeftPanel.add(setEmployeeMask());
                 break;
             case "Customers":
                 setCustomerPanel();
-//                firstLeftPanel.add(setEditButtons(viewName));
-               secondLeftPanel.add(setCustomerMask());
+                setCustomerTextPanel();
+//               secondLeftPanel.add(setCustomerMask());
                 break;
             case "Orders":
                 setOrderPanel();
-//                firstLeftPanel.add(setEditButtons(viewName));
-                secondLeftPanel.add(setOrderMask());
+                setOrderTextPanel();
+//                secondLeftPanel.add(setOrderMask());
                 break;
             case "Products":
                 setSoapPanel();
-//                firstLeftPanel.add(setEditButtons(viewName));
-                secondLeftPanel.add(setSoapMask());
+                setSoapTextPanel();
+//                secondLeftPanel.add(setSoapMask());
                 break;
             default:
                 // Handle unknown view
@@ -416,6 +416,46 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
     }
     
+    public void setEmployerTextPanel(){
+    	JPanel tempPanel = new JPanel();
+    	JLabel tempPanel1 = new JLabel("ID");
+    	JLabel tempPanel2 = new JLabel("Name");
+    	JLabel tempPanel3 = new JLabel("Adresse");
+    	JLabel tempPanel4 = new JLabel("Email");
+    	JLabel tempPanel5 = new JLabel("PhoneNumber");
+    	JLabel tempPanel6 = new JLabel("Industry");
+    	JLabel tempPanel7 = new JLabel("EstablishedDate");
+    	
+    	tempPanel.setLayout(new GridLayout(7,2));
+    	JTextField idTfd = new JTextField();
+    	JTextField nameTfd = new JTextField();
+    	JTextField addressTfd = new JTextField();
+    	JTextField emailTfd = new JTextField();
+    	JTextField phoneNumberTfd = new JTextField();
+    	JTextField industryTfd = new JTextField();
+    	JTextField establishedTfd = new JTextField();
+
+    	
+    	tempPanel.add(tempPanel1);
+    	tempPanel.add(idTfd);
+    	tempPanel.add(tempPanel2);
+    	tempPanel.add(nameTfd);
+    	tempPanel.add(tempPanel3);
+    	tempPanel.add(addressTfd);
+    	tempPanel.add(tempPanel4);
+    	tempPanel.add(emailTfd);
+    	tempPanel.add(tempPanel5);
+    	tempPanel.add(phoneNumberTfd);
+    	tempPanel.add(tempPanel6);
+    	tempPanel.add(industryTfd);
+    	tempPanel.add(tempPanel7);
+    	tempPanel.add(establishedTfd);
+    	
+    	secondLeftPanel.add(tempPanel);
+    	
+    	
+    }
+    
     private void setSoapPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -474,6 +514,46 @@ public class GUI extends Mainframe implements MiddlePanel{
             };
             soapTableModel.addRow(rowData);
         }
+    }
+    
+    public void setSoapTextPanel(){
+    	
+    	JPanel tempPanel = new JPanel();
+    	JLabel tempPanel1 = new JLabel("ID");
+    	JLabel tempPanel2 = new JLabel("EAN");
+    	JLabel tempPanel3 = new JLabel("Title");
+    	JLabel tempPanel4 = new JLabel("Category");
+    	JLabel tempPanel5 = new JLabel("Price");
+    	JLabel tempPanel6 = new JLabel("CreatedAt");
+    	
+    	tempPanel.setLayout(new GridLayout(6,2));
+    	JTextField idTfd = new JTextField();
+    	JTextField nameTfd = new JTextField();
+    	JTextField addressTfd = new JTextField();
+    	JTextField emailTfd = new JTextField();
+    	JTextField passwordTfd = new JTextField();
+    	JTextField cityTfd = new JTextField();
+
+    	
+    	tempPanel.add(tempPanel1);
+    	tempPanel.add(idTfd);
+    	tempPanel.add(tempPanel2);
+    	tempPanel.add(nameTfd);
+    	tempPanel.add(tempPanel3);
+    	tempPanel.add(addressTfd);
+    	tempPanel.add(tempPanel4);
+    	tempPanel.add(emailTfd);
+    	tempPanel.add(tempPanel5);
+    	tempPanel.add(passwordTfd);
+    	tempPanel.add(tempPanel6);
+    	tempPanel.add(cityTfd);
+
+    	
+    	secondLeftPanel.add(tempPanel);
+    	
+    	
+    	
+    	
     }
     
     
@@ -542,6 +622,50 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
     }
     
+    public void setOrderTextPanel(){
+    	
+    	JPanel tempPanel = new JPanel();
+    	JLabel tempPanel1 = new JLabel("ID");
+    	JLabel tempPanel2 = new JLabel("User");
+    	JLabel tempPanel3 = new JLabel("Order date");
+    	JLabel tempPanel4 = new JLabel("Status");
+    	JLabel tempPanel5 = new JLabel("Total");
+    	JLabel tempPanel6 = new JLabel("Subtotal");
+    	JLabel tempPanel7 = new JLabel("Tax");
+    	JLabel tempPanel8 = new JLabel("Discount");
+    	
+    	tempPanel.setLayout(new GridLayout(8,2));
+    	JTextField idTfd = new JTextField();
+    	JTextField nameTfd = new JTextField();
+    	JTextField addressTfd = new JTextField();
+    	JTextField emailTfd = new JTextField();
+    	JTextField passwordTfd = new JTextField();
+    	JTextField cityTfd = new JTextField();
+    	JTextField birthdayTfd = new JTextField();
+    	JTextField createdAtTfd = new JTextField();
+    	
+    	tempPanel.add(tempPanel1);
+    	tempPanel.add(idTfd);
+    	tempPanel.add(tempPanel2);
+    	tempPanel.add(nameTfd);
+    	tempPanel.add(tempPanel3);
+    	tempPanel.add(addressTfd);
+    	tempPanel.add(tempPanel4);
+    	tempPanel.add(emailTfd);
+    	tempPanel.add(tempPanel5);
+    	tempPanel.add(passwordTfd);
+    	tempPanel.add(tempPanel6);
+    	tempPanel.add(cityTfd);
+    	tempPanel.add(tempPanel7);
+    	tempPanel.add(birthdayTfd);
+    	tempPanel.add(tempPanel8);
+    	tempPanel.add(createdAtTfd);
+    	
+    	secondLeftPanel.add(tempPanel);
+    	
+    	
+    }
+    
     private void setCustomerPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -607,7 +731,48 @@ public class GUI extends Mainframe implements MiddlePanel{
             customerTableModel.addRow(rowData);
         }
     }
-    
+    public void setCustomerTextPanel(){
+    	JPanel tempPanel = new JPanel();
+    	JLabel tempPanel1 = new JLabel("ID");
+    	JLabel tempPanel2 = new JLabel("Name");
+    	JLabel tempPanel3 = new JLabel("Adresse");
+    	JLabel tempPanel4 = new JLabel("Email");
+    	JLabel tempPanel5 = new JLabel("Passwort");
+    	JLabel tempPanel6 = new JLabel("City");
+    	JLabel tempPanel7 = new JLabel("Birthday");
+    	JLabel tempPanel8 = new JLabel("CreatedAt");
+    	
+    	tempPanel.setLayout(new GridLayout(8,2));
+    	JTextField idTfd = new JTextField();
+    	JTextField nameTfd = new JTextField();
+    	JTextField addressTfd = new JTextField();
+    	JTextField emailTfd = new JTextField();
+    	JTextField passwordTfd = new JTextField();
+    	JTextField cityTfd = new JTextField();
+    	JTextField birthdayTfd = new JTextField();
+    	JTextField createdAtTfd = new JTextField();
+    	
+    	tempPanel.add(tempPanel1);
+    	tempPanel.add(idTfd);
+    	tempPanel.add(tempPanel2);
+    	tempPanel.add(nameTfd);
+    	tempPanel.add(tempPanel3);
+    	tempPanel.add(addressTfd);
+    	tempPanel.add(tempPanel4);
+    	tempPanel.add(emailTfd);
+    	tempPanel.add(tempPanel5);
+    	tempPanel.add(passwordTfd);
+    	tempPanel.add(tempPanel6);
+    	tempPanel.add(cityTfd);
+    	tempPanel.add(tempPanel7);
+    	tempPanel.add(birthdayTfd);
+    	tempPanel.add(tempPanel8);
+    	tempPanel.add(createdAtTfd);
+    	
+    	secondLeftPanel.add(tempPanel);
+    	
+    	
+    }
 
     private JPanel setUpper(String header) {
         JPanel upper = new JPanel();
