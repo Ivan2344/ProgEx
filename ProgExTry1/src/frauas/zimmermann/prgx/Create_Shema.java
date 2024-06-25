@@ -54,7 +54,7 @@ public class Create_Shema {
 	}
 
 	void InsertDemoValues() {
-		
+
 		try (Connection conn = DriverManager.getConnection(url, user, password)) {
 			String sql = "INSERT INTO Orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -214,8 +214,28 @@ public class Create_Shema {
 					+ e.getMessage());
 		}
 	}
-	void setSch(String sh) 
-	{
+
+	void setSch(String sh) {
 		this.url = sh;
+	}
+
+	void createForeignKeys() {
+		try (Connection connection = DriverManager.getConnection(url, user, password);
+				Statement statement = connection.createStatement()) {
+
+			String sql1 = "ALTER TABLE RefOrderProd " + "ADD CONSTRAINT fk_Sid_soap " + "FOREIGN KEY (Sid) "
+					+ "REFERENCES soap(id)";
+
+			String sql2 = "ALTER TABLE RefOrderProd " + "ADD CONSTRAINT fk_Oid_Orders " + "FOREIGN KEY (Oid) "
+					+ "REFERENCES Orders(id)";
+
+			statement.executeUpdate(sql1);
+			statement.executeUpdate(sql2);
+
+			System.out.println("Fremdschlüssel erfolgreich erstellt.");
+
+		} catch (SQLException e) {
+			System.err.println("Fehler beim Erstellen der Fremdschlüssel: " + e.getMessage());
+		}
 	}
 }
