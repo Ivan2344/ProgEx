@@ -12,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -571,7 +575,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     	
     	tempPanel.setLayout(new GridLayout(8,2));
     	 ordersIdTfd = new JTextField();
-    	 ordersUserTfd = new JTextField();
+    	 ordersUserTfd = new JTextField(12); //ÄNDERn!!!!!!!!!!!!
     	 ordersDateTfd = new JTextField();
     	 ordersStatusTfd = new JTextField();
     	 ordersTotalTfd = new JTextField();
@@ -758,47 +762,70 @@ public class GUI extends Mainframe implements MiddlePanel{
         JOptionPane.showMessageDialog(null, selectedData);*/
     }
     public void readTextfield(int menuItem) {
+
+    	
         switch (menuItem) {
             case 0:
-                String ordersIdText = ordersIdTfd.getText();
-                String ordersUserText = ordersUserTfd.getText();
-                String ordersDateText = ordersDateTfd.getText();
-                String ordersStatusText = ordersStatusTfd.getText();
-                String ordersTotalText = ordersTotalTfd.getText();
-                String ordersSubtotalText = ordersSubtotalTfd.getText();
-                String ordersTaxText = ordersTaxTfd.getText();
-                String ordersDiscountText = ordersDiscountTfd.getText();
-                System.out.println("Orders: " + ordersIdText + ", " + ordersUserText + ", " + ordersDateText + ", " + ordersStatusText + ", " + ordersTotalText + ", " + ordersSubtotalText + ", " + ordersTaxText + ", " + ordersDiscountText);
+            	Orders order = new Orders();
+            	order.setId(Integer.parseInt(ordersIdTfd.getText()));
+//            	String ordersIdText = ordersIdTfd.getText();            	
+            	order.setUser_id(Integer.parseInt(ordersUserTfd.getText()));            	
+            	order.setOrder_date(convertToDate(ordersDateTfd.getText()));           	            
+                order.setStatus(ordersStatusTfd.getText());                
+                order.setTotal(Integer.parseInt(ordersTotalTfd.getText()));               
+                order.setSubtotal(Integer.parseInt(ordersSubtotalTfd.getText()));                
+                order.setTax(Integer.parseInt(ordersTaxTfd.getText()));               
+                order.setDiscount(Integer.parseInt(ordersDiscountTfd.getText()));
+                
+                System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", " + order.getSubtotal() + ", " + order.getTax() + ", " + order.getDiscount());
+                
+                dataManagement.addOrder(order);
                 break;
+                
             case 1:
-                String soapIdText = soapIdTfd.getText();
-                String soapEANText = soapEANTfd.getText();
-                String soapTitleText = soapTitleTfd.getText();
-                String soapCategoryText = soapCategoryTfd.getText();
-                String soapPriceText = soapPriceTfd.getText();
-                String soapCreatedText = soapCreatedTfd.getText();
-                System.out.println("Soap: " + soapIdText + ", " + soapEANText + ", " + soapTitleText + ", " + soapCategoryText + ", " + soapPriceText + ", " + soapCreatedText);
+            	Soap soap = new Soap();
+            	soap.setId(Integer.parseInt(soapIdTfd.getText()));
+            	soap.setEAN(Integer.parseInt(soapEANTfd.getText()));           
+            	soap.setTitle(soapTitleTfd.getText());        	
+            	soap.setCategory(soapCategoryTfd.getText());
+            	soap.setPrice(Integer.parseInt(soapPriceTfd.getText()));
+            	soap.setCreatedAt(convertToTimestamp(soapCreatedTfd.getText()));            	                            
+
+                
+                System.out.println("Soap: " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice() + ", " + soap.getCreatedAt());
+                dataManagement.addSoap(soap);
                 break;
             case 2:
-                String employerIdText = employerIdTfd.getText();
-                String employerNameText = employerNameTfd.getText();
-                String employerAddressText = employerAddressTfd.getText();
-                String employerEmailText = employerEmailTfd.getText();
-                String phoneNumberText = phoneNumberTfd.getText();
-                String industryText = industryTfd.getText();
-                String establishedText = establishedTfd.getText();
-                System.out.println("Employer: " + employerIdText + ", " + employerNameText + ", " + employerAddressText + ", " + employerEmailText + ", " + phoneNumberText + ", " + industryText + ", " + establishedText);
+            	Employer employer = new Employer();
+            	
+            	employer.setEmployerId(Integer.parseInt(employerIdTfd.getText()));
+            	employer.setEmployerName(employerNameTfd.getText());
+            	employer.setAddress(employerAddressTfd.getText());
+            	employer.setEmail(employerEmailTfd.getText());
+            	employer.setPhoneNumber(phoneNumberTfd.getText());
+            	employer.setIndustry(industryTfd.getText());       	
+            	employer.setEstablishedDate(convertToDate(establishedTfd.getText()));
+
+            
+                System.out.println("Employer: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber() + ", " + employer.getIndustry() + ", " + employer.getEstablishedDate());
+                
+                dataManagement.addEmployer(employer);
                 break;
             case 3:
-            	String customerIdText = customerIdTfd.getText();
-            	String customerNameText = customerNameTfd.getText();
-            	String customerAddressText = customerAddressTfd.getText();
-            	String customerEmailText = customerEmailTfd.getText();
-            	String customerPasswordText = customerPasswordTfd.getText();
-            	String customerCityText = customerCityTfd.getText();
-            	String customerBirthdayText = customerBirthdayTfd.getText();
-            	String customerCreatedAtText = customerCreatedAtTfd.getText();
-                System.out.println("Customer: " + customerIdText + ", " + customerNameText + ", " + customerAddressText + ", " + customerEmailText + ", " + customerPasswordText + ", " + customerCityText + ", " + customerBirthdayText + ", " + customerCreatedAtText);
+            	Customers customer = new Customers();
+            	
+            	customer.setId(Integer.parseInt(customerIdTfd.getText()));
+            	customer.setName(customerNameTfd.getText());     	
+            	customer.setAddress(customerAddressTfd.getText());
+            	customer.setEmail(customerEmailTfd.getText());
+            	customer.setPassword(customerPasswordTfd.getText());
+            	customer.setCity(customerCityTfd.getText()); 
+            	customer.setBirthDate(convertToDate(customerBirthdayTfd.getText()));
+            	customer.setCreatedAt(convertToTimestamp(customerCreatedAtTfd.getText())); 
+            	
+            	
+                System.out.println("Customer: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", " + customer.getBirthDate() + ", " + customer.getCreatedAt());
+                dataManagement.addCustomer(customer);
                 break;
             default:
                 break;
@@ -807,9 +834,9 @@ public class GUI extends Mainframe implements MiddlePanel{
     	
     	
     
-    public void addRowInDatabase(){
-    	
-    }
+    
+
+
     public void editRowInDatabase() {
     	
     }
@@ -818,5 +845,26 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     public void refreshDatabase() {
     	
+    }
+    public static Timestamp convertToTimestamp(String dateString) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date parsedDate = (Date) dateFormat.parse(dateString);
+            return new Timestamp(parsedDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle parsing exception properly in your application
+            return null; // Return null or handle error case as appropriate
+        }
+    }
+
+    public static Date convertToDate(String dateString) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsedDate = dateFormat.parse(dateString);
+            return new Date(parsedDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle parsing exception properly in your application
+            return null; // Return null or handle error case as appropriate
+        }
     }
 }
