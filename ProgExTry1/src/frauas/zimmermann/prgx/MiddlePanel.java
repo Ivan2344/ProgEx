@@ -34,33 +34,63 @@ public interface MiddlePanel {
     static final Color BORDER = Color.LIGHT_GRAY;
 
     public default JPanel setOrderMask() {
-    	String className = "Order";
+    	String className = "Orders";
         String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
-        return createMaskPanel(labels);
+        return createMaskPanel(labels, className);
     }
 
     public default JPanel setEmployeeMask() {
-    	String className = "Employee";
+    	String className = "Employees";
         String[] labels = {"ID", "Name", "Address", "Email", "Phone Number", "Industry", "Established Date"};
-        return createMaskPanel(labels);
+        return createMaskPanel(labels, className);
     }
 
     public default JPanel setSoapMask() {
-    	String className = "Product";
+    	String className = "Products";
         String[] labels = {"ID", "EAN", "Title", "Category", "Price", "Created At"};
-        return createMaskPanel(labels);
+        return createMaskPanel(labels, className);
     }
 
     public default JPanel setCustomerMask() {
-    	String className = "Customer";
+    	String className = "Customers";
     	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date", "Created At"};
-        return createMaskPanel(labels);
+        return createMaskPanel(labels, className);
     }
 
-    private static JPanel createMaskPanel(String[] labels) {
+    private static JPanel createMaskPanel(String[] labels, String panelName) {
         JPanel tempPanel = new JPanel(new BorderLayout());
         JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
         JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
+        
+       
+//      addButton.addActionListener(e -> {
+//      JOptionPane.showMessageDialog(null, "Button geklickt: Add");
+////      switch (viewName) {
+////      case "Employees": 
+//          
+//          break;
+//      case "Customers":
+//          
+//          break;
+//      case "Orders": 
+//	           int userId = Integer.parseInt(userIdField.getText());
+//	           String orderDate = orderDateField.getText();
+//	           String status = statusField.getText();
+//	           double total = Double.parseDouble(totalField.getText());
+//	           double subtotal = Double.parseDouble(subtotalField.getText());
+//	           double tax = Double.parseDouble(taxField.getText());
+//	           double discount = Double.parseDouble(discountField.getText());		          
+//          break;
+//      case "Products":
+//          
+//          break;
+//      default:
+//          // Handle unknown view
+//          break;       
+//  }
+//  });
+
+
 
         JLabel[] customLabels = new JLabel[labels.length];
         JTextField[] textFields = new JTextField[labels.length];
@@ -76,29 +106,20 @@ public interface MiddlePanel {
             final JTextField textFieldRef = textField; // Final machen, um Zugriff im ActionListener zu ermöglichen
             final String label = labels[i]; // Final machen, um im ActionListener darauf zuzugreifen
 
+            
+            
             textField.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String text = textFieldRef.getText();
                     System.out.println("Eingabe in " + label + ": " + text);
-                    // Weitere Logik hier...
+                    // bring das object 
+                    
                 }
             });
         }
         	
-        	
-//        for (String label : labels) {
-//        	int counter = 0;
-//        	counter = counter + 1;
-//        	
-//                JLabel customLabel = createCustomLabel(label);
-//                leftTempPanel.add(customLabel);
-//
-//                JTextField textField = new JTextField();
-//                rightTempPanel.add(textField);
-//
-//                
-//        }
+       
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
         splitPane.setDividerLocation(3.0 / 3.0);
@@ -114,8 +135,23 @@ public interface MiddlePanel {
         buttonPanel.add(openProductsButton);
         tempPanel.add(buttonPanel, BorderLayout.SOUTH);
 
+        
         return tempPanel;
     }
+    
+    
+    
+   
+//    
+//    static JButton createStyledButton(String text, Color bgColor) {
+//        JButton button = new JButton(text);
+//        button.setFont(new Font("Book Antiqua", Font.PLAIN, 14));
+//        button.setBackground(bgColor);
+//        button.setForeground(Color.DARK_GRAY); 
+//
+//        return button;
+//    }
+//    
 
     private static JLabel createCustomLabel(String text) {
         JLabel label = new JLabel(text);

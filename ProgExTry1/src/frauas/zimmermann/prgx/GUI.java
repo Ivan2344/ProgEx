@@ -30,6 +30,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
@@ -38,10 +40,10 @@ import javax.swing.table.DefaultTableModel;
 public class GUI extends Mainframe implements MiddlePanel{
     JPanel[] panelList;
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
-    JPanel rightPanel ,secondLeftPanel;
+    JPanel leftPanel, rightPanel ,secondLeftPanel, firstLeftPanel;
     private DefaultTableModel employerTableModel;
     public Data_management dataManagement = new Data_management("","");
-    private int selectedIndex = -1;
+    static public int selectedIndex = -1;
 
     GUI() {
         super();
@@ -105,6 +107,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         innerCenterPanel.setLayout(new CardLayout());
         
         for (int i = 0; i < menuItems.length; i++) {
+        	
             panelList[i] = setMainPanels(i);
 //            panelList[i] = setContents(i); 
             panelList[i].setVisible(true);
@@ -121,18 +124,18 @@ public class GUI extends Mainframe implements MiddlePanel{
         tempPanel.setLayout(new GridLayout(1, 2));
 
         
-        JPanel leftPanel = createPanelWithBorder(LEFT_PANEL);
+        leftPanel = createPanelWithBorder(LEFT_PANEL);
         rightPanel = createPanelWithBorder(RIGHT_PANEL);        
-        JPanel firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
+        firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		firstLeftPanel.setLayout(new GridLayout(5, 1));
 
 		
-		firstLeftPanel.add(setEditButtons("Commands", 0));
-		firstLeftPanel.add(setEditButtons("Add", BUTTON_PANEL));
-		firstLeftPanel.add(setEditButtons("Delete", BUTTON_PANEL));
-		firstLeftPanel.add(setEditButtons("Edit", BUTTON_PANEL));
-		firstLeftPanel.add(setEditButtons("Refresh", BUTTON_PANEL));
+		firstLeftPanel.add(setEditButtons("Commands", 0, menuItem));
+		firstLeftPanel.add(setEditButtons("Add", BUTTON_PANEL, menuItem));
+		firstLeftPanel.add(setEditButtons("Delete", BUTTON_PANEL, menuItem));
+		firstLeftPanel.add(setEditButtons("Edit", BUTTON_PANEL, menuItem));
+		firstLeftPanel.add(setEditButtons("Refresh", BUTTON_PANEL, menuItem));
 		
 		
        // JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
@@ -155,7 +158,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         return tempPanel;
     }
 
-    public JPanel setEditButtons(String buttonName, int i) {
+    public JPanel setEditButtons(String buttonName, int i, int menuItem) {
     	JPanel tempPanel = new JPanel();
     	tempPanel = createPanelWithBorder(BUTTON_PANEL);
     	if(i == BUTTON_PANEL) {
@@ -198,7 +201,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 		tempPanel.add(addButton);
     	} else {
     		tempPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-    		JTextArea addText = new JTextArea("Commands:");
+    		JTextArea addText = new JTextArea("Commands:" + menuItem);
     		addText.setFont(new java.awt.Font("Book Antiqua", 0, 18));
     		addText.setBackground(LIGHT_BLUE);
     		addText.setForeground(Color.DARK_GRAY);
@@ -207,29 +210,108 @@ public class GUI extends Mainframe implements MiddlePanel{
     	
     	return tempPanel;
     }
-
+    
+    
+//    public  JPanel setOrderMask1() {
+//    	String className = "Orders";
+//        String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
+//        return setTextfieldPanel(labels, className);
+//    }
+//
+//    public  JPanel setEmployeeMask1() {
+//    	String className = "Employees";
+//        String[] labels = {"ID", "Name", "Address", "Email", "Phone Number", "Industry", "Established Date"};
+//        return setTextfieldPanel(labels, className);
+//    }
+//
+//    public  JPanel setSoapMask1() {
+//    	String className = "Products";
+//        String[] labels = {"ID", "EAN", "Title", "Category", "Price", "Created At"};
+//        return setTextfieldPanel(labels, className);
+//    }
+//
+//    public  JPanel setCustomerMask1() {
+//    	String className = "Customers";
+//    	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date", "Created At"};
+//        return setTextfieldPanel(labels, className);
+//    }
+//    
+//    public JPanel setTextfieldPanel(String[] labels, String panelName) {
+//    	JPanel tempPanel = new JPanel(new BorderLayout(0,0));
+//        JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
+//        JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
+//        JLabel[] customLabels = new JLabel[labels.length];
+//        JTextField[] textFields = new JTextField[labels.length];
+//        
+//        for (int i = 0; i < labels.length; i++) {
+//            customLabels[i] = createCustomLabel1(labels[i]);
+//            leftTempPanel.add(customLabels[i]);
+//
+//            JTextField textField = new JTextField();
+//            textFields[i] = textField;
+//            rightTempPanel.add(textField);
+//
+//            final JTextField textFieldRef = textField; // Final machen, um Zugriff im ActionListener zu ermöglichen
+//            final String label = labels[i]; // Final machen, um im ActionListener darauf zuzugreifen
+//
+//            
+//            
+//            textField.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    String text = textFieldRef.getText();
+//                    System.out.println("Eingabe in " + label + ": " + text);
+//                    // bring das object 
+//                    
+//                }
+//            });
+//        }
+//        	
+//       return tempPanel;
+//    }
+//    
+//    private static JLabel createCustomLabel1(String text) {
+//        JLabel label = new JLabel(text);
+//        label.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+//        label.setBackground(BLUE);
+//        label.setForeground(Color.DARK_GRAY);
+//        label.setOpaque(true); // Needed for background color to be visible
+//        Border margin = new EmptyBorder(0, 10, 0, 0);
+//        
+//        Border border = BorderFactory.createLineBorder(Color.gray);
+//        label.setBorder(BorderFactory.createCompoundBorder(border, margin));
+//        return label;
+//    }
+    
+    
+    
     public void setViewPanel(String viewName) {
         switch (viewName) {
             case "Employees":
                 setEmployerPanel();
+//                firstLeftPanel.add(setEditButtons(viewName));
                 secondLeftPanel.add(setEmployeeMask());
                 break;
             case "Customers":
                 setCustomerPanel();
+//                firstLeftPanel.add(setEditButtons(viewName));
                secondLeftPanel.add(setCustomerMask());
                 break;
             case "Orders":
                 setOrderPanel();
+//                firstLeftPanel.add(setEditButtons(viewName));
                 secondLeftPanel.add(setOrderMask());
                 break;
             case "Products":
                 setSoapPanel();
+//                firstLeftPanel.add(setEditButtons(viewName));
                 secondLeftPanel.add(setSoapMask());
                 break;
             default:
                 // Handle unknown view
-                break;
+                break;       
         }
+        //firstLeftPanel.add(setEditButtons);
     }
     protected JPanel createPanelWithBorder(int panelType) {
         JPanel panel = new JPanel();
