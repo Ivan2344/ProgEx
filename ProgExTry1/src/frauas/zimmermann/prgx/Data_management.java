@@ -9,10 +9,11 @@ public class Data_management {
 	private String username;
 	private String password;
 	
-	private static int employerId = 0;
-    private static int customerId = 0;
-     int orderId = 0;
-    private static int soapId = 0;
+	public static int employerId = 0;
+    public static int customerId = 0;
+    public static int orderId = 0;
+    public static int soapId = 0;
+    public static int refOrderProdId = 0;
 	
     public Data_management(String usr, String pwd) { 
     	this.url = "jdbc:mysql://localhost:3306/SEIFENdemo2";
@@ -58,6 +59,14 @@ public class Data_management {
                 soapId = resultSet.getInt(1) + 1;
             } else {
                 soapId = 1;
+            }
+            
+         // Fetch the maximum id from RefOrderProd
+            resultSet = statement.executeQuery("SELECT MAX(id) FROM RefOrderProd");
+            if (resultSet.next()) {
+                refOrderProdId = resultSet.getInt(1) + 1;
+            } else {
+                refOrderProdId = 1;
             }
 
             connection.close();
@@ -411,9 +420,10 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO RefOrderProd (Oid, Sid) VALUES (" 
-                         + orderId + ", "
-                         + soapId + ")";
+            String sql = "INSERT INTO RefOrderProd (id, Oid, Sid) VALUES (" 
+                    + refOrderProdId + ", "
+                    + orderId + ", "
+                    + soapId + ")";
             
             int affectedRows = statement.executeUpdate(sql);
 

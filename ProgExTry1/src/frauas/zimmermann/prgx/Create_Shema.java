@@ -34,7 +34,7 @@ public class Create_Shema {
 			String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
 			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT PRIMARY KEY, user_id INT, order_date TIMESTAMP, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
 
-			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT)";
+			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT Primary KEY, Oid INT, Sid INT)";
 			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT Primary KEY, Oid INT, Eid INT)";
 
 			stmt.executeUpdate(createSeifenQuery);
