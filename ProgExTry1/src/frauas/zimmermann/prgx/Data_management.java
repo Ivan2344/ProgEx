@@ -32,7 +32,7 @@ public class Data_management {
 //            // Fetch the maximum employer_id
 //            ResultSet resultSet = statement.executeQuery("SELECT MAX(employer_id) FROM employer"); //resultSet.next(): Bewegt den Cursor auf den ersten Datensatz (die erste Zeile des ResultSet). Da die Abfrage SELECT MAX(employer_id) immer eine Zeile zurückgibt, wird diese Bedingung immer true sein, es sei denn, es gibt ein Problem bei der Ausführung der Abfrage.
 //            if (resultSet.next()) {
-//                employerId = resultSet.getInt(1);  //resultSet.getInt(1): Liest den Wert der ersten Spalte der aktuellen Zeile des ResultSet. Da wir die maximale employer_id abgefragt haben, wird dieser Wert die höchste employer_id in der Tabelle sein. Wenn die Tabelle leer ist, wird dieser Wert null sein.
+//                employerId = resultSet.getInt(1)+1;  //resultSet.getInt(1): Liest den Wert der ersten Spalte der aktuellen Zeile des ResultSet. Da wir die maximale employer_id abgefragt haben, wird dieser Wert die höchste employer_id in der Tabelle sein. Wenn die Tabelle leer ist, wird dieser Wert null sein.
 //            } else {
 //                employerId = 1;
 //            }
@@ -40,7 +40,7 @@ public class Data_management {
 //            // Fetch the maximum customer_id
 //            resultSet = statement.executeQuery("SELECT MAX(id) FROM customers");
 //            if (resultSet.next()) {
-//                customerId = resultSet.getInt(1);
+//                customerId = resultSet.getInt(1)+1;
 //            } else {
 //                customerId = 1;
 //            }
@@ -48,7 +48,7 @@ public class Data_management {
 //            // Fetch the maximum order_id
 //            resultSet = statement.executeQuery("SELECT MAX(id) FROM orders");
 //            if (resultSet.next()) {
-//                orderId = resultSet.getInt(1);
+//                orderId = resultSet.getInt(1)+1;
 //            } else {
 //                orderId = 1;
 //            }
@@ -56,7 +56,7 @@ public class Data_management {
 //            // Fetch the maximum soap_id
 //            resultSet = statement.executeQuery("SELECT MAX(id) FROM soap");
 //            if (resultSet.next()) {
-//                soapId = resultSet.getInt(1);
+//                soapId = resultSet.getInt(1)+1;
 //            } else {
 //                soapId = 1;
 //            }
@@ -64,7 +64,7 @@ public class Data_management {
 //         // Fetch the maximum id from RefOrderProd
 //            resultSet = statement.executeQuery("SELECT MAX(id) FROM RefOrderProd");
 //            if (resultSet.next()) {
-//                refOrderProdId = resultSet.getInt(1);
+//                refOrderProdId = resultSet.getInt(1)+1;
 //            } else {
 //                refOrderProdId = 1;
 //            }
