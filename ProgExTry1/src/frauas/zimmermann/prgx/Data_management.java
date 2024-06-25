@@ -9,72 +9,73 @@ public class Data_management {
 	private String username;
 	private String password;
 	
-	public static int employerId = 0;
-    public static int customerId = 0;
-    public static int orderId = 0;
-    public static int soapId = 0;
-    public static int refOrderProdId = 0;
+//	public static int employerId = 0;
+//    public static int customerId = 0;
+//    public static int orderId = 0;
+//    public static int soapId = 0;
+//    public static int refOrderProdId = 0;
 	
     public Data_management(String usr, String pwd) { 
     	this.url = "jdbc:mysql://localhost:3306/SEIFENdemo2";
         this.username = usr;
         this.password = pwd;
-        findMaxId();
+      //  findMaxId();
     }
     
     
  // Initialize the IDs by fetching the maximum values from the database
-    public void findMaxId() {
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement();
-            
-            // Fetch the maximum employer_id
-            ResultSet resultSet = statement.executeQuery("SELECT MAX(employer_id) FROM employer"); //resultSet.next(): Bewegt den Cursor auf den ersten Datensatz (die erste Zeile des ResultSet). Da die Abfrage SELECT MAX(employer_id) immer eine Zeile zurückgibt, wird diese Bedingung immer true sein, es sei denn, es gibt ein Problem bei der Ausführung der Abfrage.
-            if (resultSet.next()) {
-                employerId = resultSet.getInt(1);  //resultSet.getInt(1): Liest den Wert der ersten Spalte der aktuellen Zeile des ResultSet. Da wir die maximale employer_id abgefragt haben, wird dieser Wert die höchste employer_id in der Tabelle sein. Wenn die Tabelle leer ist, wird dieser Wert null sein.
-            } else {
-                employerId = 1;
-            }
-
-            // Fetch the maximum customer_id
-            resultSet = statement.executeQuery("SELECT MAX(id) FROM customers");
-            if (resultSet.next()) {
-                customerId = resultSet.getInt(1);
-            } else {
-                customerId = 1;
-            }
-
-            // Fetch the maximum order_id
-            resultSet = statement.executeQuery("SELECT MAX(id) FROM orders");
-            if (resultSet.next()) {
-                orderId = resultSet.getInt(1);
-            } else {
-                orderId = 1;
-            }
-
-            // Fetch the maximum soap_id
-            resultSet = statement.executeQuery("SELECT MAX(id) FROM soap");
-            if (resultSet.next()) {
-                soapId = resultSet.getInt(1);
-            } else {
-                soapId = 1;
-            }
-            
-         // Fetch the maximum id from RefOrderProd
-            resultSet = statement.executeQuery("SELECT MAX(id) FROM RefOrderProd");
-            if (resultSet.next()) {
-                refOrderProdId = resultSet.getInt(1);
-            } else {
-                refOrderProdId = 1;
-            }
-
-            connection.close();
-            
-        } catch (Exception e) {
-            System.out.println("Error finding maximal ID " + e.getMessage());
-        }
-    }
+//    public void findMaxId() {
+//        try {
+//            Connection connection = DriverManager.getConnection(url, username, password);
+//            Statement statement = connection.createStatement();
+//            
+//            // Fetch the maximum employer_id
+//            ResultSet resultSet = statement.executeQuery("SELECT MAX(employer_id) FROM employer"); //resultSet.next(): Bewegt den Cursor auf den ersten Datensatz (die erste Zeile des ResultSet). Da die Abfrage SELECT MAX(employer_id) immer eine Zeile zurückgibt, wird diese Bedingung immer true sein, es sei denn, es gibt ein Problem bei der Ausführung der Abfrage.
+//            if (resultSet.next()) {
+//                employerId = resultSet.getInt(1);  //resultSet.getInt(1): Liest den Wert der ersten Spalte der aktuellen Zeile des ResultSet. Da wir die maximale employer_id abgefragt haben, wird dieser Wert die höchste employer_id in der Tabelle sein. Wenn die Tabelle leer ist, wird dieser Wert null sein.
+//            } else {
+//                employerId = 1;
+//            }
+//
+//            // Fetch the maximum customer_id
+//            resultSet = statement.executeQuery("SELECT MAX(id) FROM customers");
+//            if (resultSet.next()) {
+//                customerId = resultSet.getInt(1);
+//            } else {
+//                customerId = 1;
+//            }
+//
+//            // Fetch the maximum order_id
+//            resultSet = statement.executeQuery("SELECT MAX(id) FROM orders");
+//            if (resultSet.next()) {
+//                orderId = resultSet.getInt(1);
+//            } else {
+//                orderId = 1;
+//            }
+//
+//            // Fetch the maximum soap_id
+//            resultSet = statement.executeQuery("SELECT MAX(id) FROM soap");
+//            if (resultSet.next()) {
+//                soapId = resultSet.getInt(1);
+//            } else {
+//                soapId = 1;
+//            }
+//            
+//         // Fetch the maximum id from RefOrderProd
+//            resultSet = statement.executeQuery("SELECT MAX(id) FROM RefOrderProd");
+//            if (resultSet.next()) {
+//                refOrderProdId = resultSet.getInt(1);
+//            } else {
+//                refOrderProdId = 1;
+//            }
+//            
+//            System.out.println("refOrderId"+ refOrderProdId);
+//            connection.close();
+//            
+//        } catch (Exception e) {
+//            System.out.println("Error finding maximal ID " + e.getMessage());
+//        }
+//    }
     
 
  // Fetch methods
@@ -200,8 +201,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO employer (employer_id, employer_name, address, email, phone_number, industry, established_date) VALUES (" 
-                         + (employerId++) + ", '" 
+            String sql = "INSERT INTO employer (employer_name, address, email, phone_number, industry, established_date) VALUES (" 
                          + employer.getEmployerName() + "', '" 
                          + employer.getAddress() + "', '" 
                          + employer.getEmail() + "', '" 
@@ -228,8 +228,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO customers (id, address, email, password, name, city, birth_date, created_at) VALUES (" 
-                         + (customerId++) + ", '" 
+            String sql = "INSERT INTO customers (address, email, password, name, city, birth_date, created_at) VALUES (" 
                          + customer.getAddress() + "', '" 
                          + customer.getEmail() + "', '" 
                          + customer.getPassword() + "', '" 
@@ -257,8 +256,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (" 
-                         + (orderId++) + ", " 
+            String sql = "INSERT INTO orders (user_id, order_date, status, total, subtotal, tax, discount) VALUES (" 
                          + order.getUser_id() + ", '" 
                          + order.getOrder_date() + "', '" 
                          + order.getStatus() + "', " 
@@ -286,8 +284,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO soap (id, EAN, titel, category, price, created_at) VALUES (" 
-                         + (soapId++) + ", " 
+            String sql = "INSERT INTO soap (EAN, titel, category, price, created_at) VALUES (" 
                          + soap.getEAN() + ", '" 
                          + soap.getTitle() + "', '" 
                          + soap.getCategory() + "', " 
@@ -319,7 +316,7 @@ public class Data_management {
 
             if (affectedRows > 0) {
                 System.out.println("Employer successfully deleted.");
-                findMaxId();
+            //    findMaxId();
             } else {
                 System.out.println("Error: No employer deleted.");
             }
@@ -338,7 +335,7 @@ public class Data_management {
 
             if (affectedRows > 0) {
                 System.out.println("Customer successfully deleted.");
-                findMaxId();
+               // findMaxId();
             } else {
                 System.out.println("Error: No customer deleted.");
             }
@@ -357,7 +354,7 @@ public class Data_management {
 
             if (affectedRows > 0) {
                 System.out.println("Order successfully deleted.");
-                findMaxId();
+              //  findMaxId();
             } else {
                 System.out.println("Error: No order deleted.");
             }
@@ -376,7 +373,7 @@ public class Data_management {
 
             if (affectedRows > 0) {
                 System.out.println("Soap successfully deleted.");
-                findMaxId();
+             //   findMaxId();
             } else {
                 System.out.println("Error: No soap deleted.");
             }
@@ -424,8 +421,9 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO RefOrderProd (id, Oid, Sid) VALUES (" 
-                    + (refOrderProdId++) + ", "
+            String sql = "INSERT INTO RefOrderProd ( Oid, Sid) VALUES (" 
+                  //  + (refOrderProdId+1) + ", "
+//            		+2+ ","
                     + orderId + ", "
                     + soapId + ")";
             
@@ -434,11 +432,15 @@ public class Data_management {
             if (affectedRows > 0) {
                 System.out.println("Order-Product reference successfully added.");
             } else { 
+
+                System.out.println("product "+ soapId + "order id "+orderId);
                 System.out.println("Error adding Order-Product reference."); 
             }
 
             connection.close();
         } catch (Exception e) {
+
+            System.out.println("product "+ soapId + "order id "+orderId);
             System.out.println("Error adding Order-Product reference: " + e.getMessage());
         }
     }
@@ -498,20 +500,38 @@ public class Data_management {
     }
 
     
+//    public int getSoapIdByTitle(String title) {
+//        int soapId = -1;
+//        try {
+//            Connection connection = DriverManager.getConnection(url, username, password);
+//            Statement statement = connection.createStatement();
+//            
+//            String sql = "SELECT id FROM soap WHERE titel = '" + title + "'";
+//            ResultSet resultSet = statement.executeQuery(sql);
+//
+//            if (resultSet.next()) {
+//                soapId = resultSet.getInt("id");
+//            }
+//
+//            connection.close();
+//        } catch (Exception e) {
+//            System.out.println("Error fetching soap ID by title: " + e.getMessage());
+//        }
+//        return soapId;
+//    }
+    
     public int getSoapIdByTitle(String title) {
         int soapId = -1;
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement();
-            
-            String sql = "SELECT id FROM soap WHERE titel = '" + title + "'";
-            ResultSet resultSet = statement.executeQuery(sql);
+        String sql = "SELECT id FROM soap WHERE titel = ?";
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, title);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 soapId = resultSet.getInt("id");
             }
-
-            connection.close();
         } catch (Exception e) {
             System.out.println("Error fetching soap ID by title: " + e.getMessage());
         }
@@ -521,6 +541,4 @@ public class Data_management {
 
 
 }
-    
-
-    
+  

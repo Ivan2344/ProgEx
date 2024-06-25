@@ -214,9 +214,9 @@ public interface MiddlePanel {
     
     
     private static void addProductsToOrderFrame(Data_management dataManagement) {
-    	dataManagement.findMaxId();
-    	int orderId = dataManagement.orderId; // Get the dynamically fetched orderId
-    	//int orderId = 1;
+    //	dataManagement.findMaxId();
+    //	int 1 = dataManagement.1; // Get the dynamically fetched 1
+    	//int 1 = 1;
     	 
         JFrame newFrame = new JFrame("Product Drag and Drop");
         newFrame.setSize(600, 400);
@@ -229,7 +229,7 @@ public interface MiddlePanel {
         JTree productTree = new JTree(productTreeModel(dataManagement));
         JList<String> cartList = new JList<>(cartListModel);
         
-        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
+        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(1);
         for (Soap soap : existingSoaps) {
             cartListModel.addElement(soap.getTitle());
         }
@@ -278,7 +278,7 @@ public interface MiddlePanel {
 
         saveButton.addActionListener(e -> {
         	// saveCartContentsToDatabase(cartListModel, dataManagement, 1); // Assuming order ID is 1
-        	 saveCartContentsToDatabase(cartListModel, dataManagement, orderId, existingSoaps);
+        	 saveCartContentsToDatabase(cartListModel, dataManagement, 1, existingSoaps);
         });
 
         buttonPanel.add(deleteButton);
@@ -302,26 +302,38 @@ public interface MiddlePanel {
         }
         return new DefaultTreeModel(root);
     }
+
     
-    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId, ArrayList<Soap> existingSoaps) {
+    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int a, ArrayList<Soap> existingSoaps) {
     	Set<String> existingProductTitles = new HashSet<>();
         for (Soap soap : existingSoaps) {
             existingProductTitles.add(soap.getTitle());
         }
         
+//    	for (int i = 0; i < cartListModel.getSize(); i++) {
+//            String productTitle = cartListModel.getElementAt(i);
+//            if (existingProductTitles.contains(productTitle)) {
+//	            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+//	            if (soapId != -1) {
+//	                dataManagement.addOrderProductReference(1, soapId);
+//	            } else {
+//	                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+//	            }
+//            }
+//        }
     	for (int i = 0; i < cartListModel.getSize(); i++) {
             String productTitle = cartListModel.getElementAt(i);
-            if (!existingProductTitles.contains(productTitle)) {
-	            int soapId = dataManagement.getSoapIdByTitle(productTitle);
-	            if (soapId != -1) {
-	                dataManagement.addOrderProductReference(orderId, soapId);
-	            } else {
-	                System.out.println("Error: Could not find soap ID for title: " + productTitle);
-	            }
+            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+            if (soapId != -1) {
+                dataManagement.addOrderProductReference(1, soapId);
+                System.out.println("title id "+ soapId+ "Product "+ productTitle);
+            } else {
+                System.out.println("Error: Could not find soap ID for title: " + productTitle);
             }
         }
         System.out.println("Cart contents saved to database.");
     }
-}
+    }
+
 
 
