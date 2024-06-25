@@ -48,12 +48,13 @@ public class GUI extends Mainframe implements MiddlePanel{
     private DefaultTableModel employerTableModel;
     public Data_management dataManagement = new Data_management("","");
     static public int selectedIndex = -1;
-
+    private int selectedRow = -1;
+    private JButton addButton , deleteButton , editButton,refreshButton ;
     private JTextField soapIdTfd , soapEANTfd ,soapTitleTfd ,soapCategoryTfd , soapPriceTfd , soapCreatedTfd ;
     private JTextField employerIdTfd ,employerNameTfd , employerAddressTfd ,employerEmailTfd ,phoneNumberTfd ,industryTfd , establishedTfd;
     private JTextField customerIdTfd, customerNameTfd , customerAddressTfd, customerEmailTfd , customerPasswordTfd ,customerCityTfd , customerBirthdayTfd , customerCreatedAtTfd;
     private JTextField ordersIdTfd ,ordersUserTfd , ordersDateTfd, ordersStatusTfd , ordersTotalTfd , ordersSubtotalTfd , ordersTaxTfd ,ordersDiscountTfd ;
-
+    private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
 
     GUI() {
         super();
@@ -127,26 +128,63 @@ public class GUI extends Mainframe implements MiddlePanel{
         frame.add(center, BorderLayout.CENTER);
     }
 
+    public JPanel createPanel() {
+    	JPanel tempPanel = new JPanel();
+    	tempPanel.setLayout(new BorderLayout());
+    	tempPanel = createPanelWithBorder(BUTTON_PANEL);
+    	return tempPanel;
+    }
     
     public JPanel setMainPanels(int menuItem) {
-        JPanel tempPanel = new JPanel();
+        JPanel tempPanel = new JPanel();             
+        JPanel addButtonPanel = new JPanel();
+        JPanel editButtonPanel = new JPanel();  
+        JPanel deleteButtonPanel = new JPanel();     
+        JPanel refreshButtonPanel = new JPanel();
+        
+                
         tempPanel.setBackground(Color.WHITE);
         tempPanel.setLayout(new GridLayout(1, 2));
-
+		
         
         leftPanel = createPanelWithBorder(LEFT_PANEL);
         rightPanel = createPanelWithBorder(RIGHT_PANEL);        
         firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
-		firstLeftPanel.setLayout(new GridLayout(5, 1));
-
+		firstLeftPanel.setLayout(new GridLayout(4, 1));		
 		
-		firstLeftPanel.add(setEditButtons("Commands", 0, menuItem));
-		firstLeftPanel.add(setEditButtons("Add", BUTTON_PANEL, menuItem));
-		firstLeftPanel.add(setEditButtons("Delete", BUTTON_PANEL, menuItem));
-		firstLeftPanel.add(setEditButtons("Edit", BUTTON_PANEL, menuItem));
-		firstLeftPanel.add(setEditButtons("Refresh", BUTTON_PANEL, menuItem));
 		
+		addButtonPanel= createPanel();
+		editButtonPanel= createPanel();
+		deleteButtonPanel= createPanel();
+		refreshButtonPanel= createPanel();
+		
+		
+		 addButton = new JButton("Add");
+		 addButton = setButtons(addButton);
+		 deleteButton = new JButton("Delete");
+		 deleteButton = setButtons(deleteButton);
+		 editButton = new JButton("Edit");
+		 editButton = setButtons(editButton);
+		 refreshButton = new JButton("Refresh");
+		 refreshButton = setButtons(refreshButton);
+		 
+		 setActionAddButton(menuItem);
+		 setActionDeleteButton(menuItem);
+		 setActionEditButton(menuItem);
+		 setActionRefreshButton(menuItem);
+		 
+		 
+		 addButtonPanel.add(addButton);
+		 deleteButtonPanel.add(deleteButton);
+		 editButtonPanel.add(editButton);
+		 refreshButtonPanel.add(refreshButton);
+    	
+		 
+		firstLeftPanel.add(addButtonPanel);
+		firstLeftPanel.add(deleteButtonPanel);
+		firstLeftPanel.add(editButtonPanel);
+		firstLeftPanel.add(refreshButtonPanel);
 		
        // JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
 		secondLeftPanel.setLayout(new BorderLayout());
@@ -167,63 +205,15 @@ public class GUI extends Mainframe implements MiddlePanel{
         
         return tempPanel;
     }
-
-    public JPanel setEditButtons(String buttonName, int i, int menuItem) {
-    	JPanel tempPanel = new JPanel();
-    	tempPanel = createPanelWithBorder(BUTTON_PANEL);
-    	if(i == BUTTON_PANEL) {
-    	JButton addButton = new JButton(buttonName);
-		addButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-		addButton.setBackground(LIGHT_BLUE);
-		addButton.setForeground(Color.DARK_GRAY);
-		addButton.setActionCommand(buttonName);
-//        addButton.addActionListener(new ButtonActionListener());
-		
-		addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String command = e.getActionCommand();
-
-                switch (command) {
-                    case "Add":
-                        JOptionPane.showMessageDialog(null, "Button geklickt: "+ command);
-//                        addRowInDatabase();
-                        readTextfield(menuItem);
-                        break;
-                    case "Edit":
-                        JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
-                        editRowInDatabase();
-                        break;
-                    case "Refresh":
-                        JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
-                        refreshDatabase();
-                        break;
-                    case "Delete":
-                        JOptionPane.showMessageDialog(null, "Button geklickt: " + command);
-                        deleteRowInDatabase();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-		
-		
-		tempPanel.add(addButton);
-    	} else {
-    		tempPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-    		JTextArea addText = new JTextArea("Commands:" + menuItem);
-    		addText.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-    		addText.setBackground(LIGHT_BLUE);
-    		addText.setForeground(Color.DARK_GRAY);
-    		tempPanel.add(addText);
-    	}
-    	
-    	return tempPanel;
+    
+    public JButton setButtons(JButton button) {
+    	button.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+		button.setBackground(LIGHT_BLUE);
+		button.setForeground(Color.DARK_GRAY);
+		return button;   	
     }
     
    
-     
     public void setViewPanel(String viewName) {
         switch (viewName) {
             case "Employees":
@@ -317,13 +307,13 @@ public class GUI extends Mainframe implements MiddlePanel{
         employerTableModel.addColumn("Industry");
         employerTableModel.addColumn("Established Date");
 
-        JTable employerDatabase = new JTable(employerTableModel);
+        employerDatabase = new JTable(employerTableModel);
         employerDatabase.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = employerDatabase.getSelectedRow();
-                if (row != -1) {
-                    handleSelectedRow(row, employerDatabase, "Employer");
+            	selectedRow = employerDatabase.getSelectedRow();
+                if (selectedRow != -1) {
+                    handleSelectedRow(selectedRow, employerDatabase, "Employer");
                 }
             }
         });
@@ -418,13 +408,13 @@ public class GUI extends Mainframe implements MiddlePanel{
         soapTableModel.addColumn("Price");
         soapTableModel.addColumn("Created At");
 
-        JTable soapDatabase = new JTable(soapTableModel);
+        soapDatabase = new JTable(soapTableModel);
         soapDatabase.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = soapDatabase.getSelectedRow();
-                if (row != -1) {
-                    handleSelectedRow(row, soapDatabase, "Soap");
+            	selectedRow = soapDatabase.getSelectedRow();
+                if (selectedRow != -1) {
+                    handleSelectedRow(selectedRow, soapDatabase, "Soap");
                 }
             }
         });
@@ -463,15 +453,15 @@ public class GUI extends Mainframe implements MiddlePanel{
     	JLabel tempPanel3 = new JLabel("Title");
     	JLabel tempPanel4 = new JLabel("Category");
     	JLabel tempPanel5 = new JLabel("Price");
-    	JLabel tempPanel6 = new JLabel("CreatedAt");
+//    	JLabel tempPanel6 = new JLabel("CreatedAt");
     	
-    	tempPanel.setLayout(new GridLayout(6,2));
+    	tempPanel.setLayout(new GridLayout(5,2));
     	 soapIdTfd = new JTextField();
     	 soapEANTfd = new JTextField();
     	 soapTitleTfd = new JTextField();
     	 soapCategoryTfd = new JTextField();
     	 soapPriceTfd = new JTextField();
-    	 soapCreatedTfd = new JTextField();
+//    	 soapCreatedTfd = new JTextField();
 
     	
     	tempPanel.add(tempPanel1);
@@ -484,8 +474,8 @@ public class GUI extends Mainframe implements MiddlePanel{
     	tempPanel.add(soapCategoryTfd);
     	tempPanel.add(tempPanel5);
     	tempPanel.add(soapPriceTfd);
-    	tempPanel.add(tempPanel6);
-    	tempPanel.add(soapCreatedTfd);
+//    	tempPanel.add(tempPanel6);
+//    	tempPanel.add(soapCreatedTfd);
 
     	
     	secondLeftPanel.add(tempPanel);
@@ -521,13 +511,14 @@ public class GUI extends Mainframe implements MiddlePanel{
         orderTableModel.addColumn("Tax");
         orderTableModel.addColumn("Discount");
 
-        JTable orderDatabase = new JTable(orderTableModel);
+        orderDatabase = new JTable(orderTableModel);
         orderDatabase.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = orderDatabase.getSelectedRow();
-                if (row != -1) {
-                    handleSelectedRow(row, orderDatabase, "Order");
+            	selectedRow = orderDatabase.getSelectedRow();
+                if (selectedRow != -1) {
+                    handleSelectedRow(selectedRow, orderDatabase, "Order");
+                    System.out.print("selectedrow: " + selectedRow);
                 }
             }
         });
@@ -630,15 +621,15 @@ public class GUI extends Mainframe implements MiddlePanel{
         customerTableModel.addColumn("Birth Date");
         customerTableModel.addColumn("Created At");
 
-        JTable customerDatabase = new JTable(customerTableModel);
+        customerDatabase = new JTable(customerTableModel);
         customerDatabase.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = customerDatabase.getSelectedRow();
-                if (row != -1) {
+            	selectedRow = customerDatabase.getSelectedRow();
+                if (selectedRow != -1) {
                 	System.out.printf("KLICK!");
-                	System.out.print(row);
-                    handleSelectedRow(row, customerDatabase, "Customer");
+                	System.out.print(selectedRow);
+                    handleSelectedRow(selectedRow, customerDatabase, "Customer");
                 }
             }
         });
@@ -673,15 +664,15 @@ public class GUI extends Mainframe implements MiddlePanel{
     public void setCustomerTextPanel(){
     	JPanel tempPanel = new JPanel();
     	JLabel tempPanel1 = new JLabel("ID");
+    	tempPanel1.setHorizontalAlignment(SwingConstants.CENTER);
     	JLabel tempPanel2 = new JLabel("Name");
     	JLabel tempPanel3 = new JLabel("Adresse");
     	JLabel tempPanel4 = new JLabel("Email");
     	JLabel tempPanel5 = new JLabel("Passwort");
     	JLabel tempPanel6 = new JLabel("City");
     	JLabel tempPanel7 = new JLabel("Birthday");
-    	JLabel tempPanel8 = new JLabel("CreatedAt");
     	
-    	tempPanel.setLayout(new GridLayout(8,2));
+    	tempPanel.setLayout(new GridLayout(7,2));
     	 customerIdTfd = new JTextField();
     	 customerNameTfd = new JTextField();
     	 customerAddressTfd = new JTextField();
@@ -689,7 +680,6 @@ public class GUI extends Mainframe implements MiddlePanel{
     	 customerPasswordTfd = new JTextField();
     	 customerCityTfd = new JTextField();
     	 customerBirthdayTfd = new JTextField();
-    	 customerCreatedAtTfd = new JTextField();
     	
     	tempPanel.add(tempPanel1);
     	tempPanel.add(customerIdTfd);
@@ -705,8 +695,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     	tempPanel.add(customerCityTfd);
     	tempPanel.add(tempPanel7);
     	tempPanel.add(customerBirthdayTfd);
-    	tempPanel.add(tempPanel8);
-    	tempPanel.add(customerCreatedAtTfd);
+
     	
     	secondLeftPanel.add(tempPanel);
     	
@@ -743,7 +732,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 
     private void handleSelectedRow(int row, JTable table, String tableName) {
         String selectedData = "";
-        /*switch (tableName) {
+        switch (tableName) {
             case "Employer":
                 selectedData = "Selected " + tableName + ": " + table.getValueAt(row, 1);
                 break;
@@ -759,10 +748,10 @@ public class GUI extends Mainframe implements MiddlePanel{
             default:
                 break;
         }
-        JOptionPane.showMessageDialog(null, selectedData);*/
+        JOptionPane.showMessageDialog(null, selectedData);
     }
     public void readTextfield(int menuItem) {
-
+    	
     	
         switch (menuItem) {
             case 0:
@@ -845,6 +834,43 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     public void refreshDatabase() {
     	
+    }
+    public void setActionAddButton(int menuItem) {
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
+                readTextfield(menuItem); // Ruft die Methode zum Lesen und Verarbeiten der Textfelder auf
+            }
+        });
+    }
+    
+    public void setActionDeleteButton(int menuItem) {
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
+                // soll die ausgewählte reihe scannen und dan die daten löschen
+            }
+        });
+    }
+    public void setActionEditButton(int menuItem) {
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
+                // soll die ausgewählte reihe scannen und dann die Möglichkeit bieten zu bearbeiten
+            }
+        });
+    }
+    public void setActionRefreshButton(int menuItem) {
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
+                // soll die datenbank refreshen
+            }
+        });
     }
     public static Timestamp convertToTimestamp(String dateString) {
         try {
