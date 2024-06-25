@@ -48,6 +48,6 @@ public class Soap {
 	}
 
 	public void setCreatedAt(Timestamp created_at) {
-	    this.created_at = created_at;
+		this.created_at = new Timestamp(System.currentTimeMillis());
 	}
 }
