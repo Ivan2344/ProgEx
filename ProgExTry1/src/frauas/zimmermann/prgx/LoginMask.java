@@ -83,6 +83,7 @@ public class LoginMask extends Mainframe {
                 boolean success = schema.CreateDB();
                 schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
         		schema.InsertDemoValues();
+        		schema.createForeignKeys();
                 if (success) {
                 	GUI new2 = new GUI(username, password);
                     JOptionPane.showMessageDialog(frame, "Login successful!");
