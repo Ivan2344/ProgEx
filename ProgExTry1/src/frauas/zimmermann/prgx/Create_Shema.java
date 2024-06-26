@@ -29,13 +29,13 @@ public class Create_Shema {
 
 			// Erstelle die Tabellen
 
-			String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Soap (id INT AUTO_INCREMENT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
-			String createKundeQuery = "CREATE TABLE IF NOT EXISTS customers (id INT AUTO_INCREMENT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
-			String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT AUTO_INCREMENT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
-			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, order_date TIMESTAMP, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
+			String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Soap (id INT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
+			String createKundeQuery = "CREATE TABLE IF NOT EXISTS customers (id INT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
+			String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
+			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT PRIMARY KEY, user_id INT, order_date TIMESTAMP, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
 
 			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT)";
-			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT AUTO_INCREMENT Primary KEY, Oid INT, Eid INT)";
+			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT Primary KEY, Oid INT, Eid INT)";
 
 			stmt.executeUpdate(createSeifenQuery);
 			stmt.executeUpdate(createKundeQuery);
@@ -223,15 +223,27 @@ public class Create_Shema {
 		try (Connection connection = DriverManager.getConnection(url, user, password);
 				Statement statement = connection.createStatement()) {
 
+			// Referenz für die Order zu produkt
 			String sql1 = "ALTER TABLE RefOrderProd " + "ADD CONSTRAINT fk_Sid_soap " + "FOREIGN KEY (Sid) "
 					+ "REFERENCES soap(id)";
 
 			String sql2 = "ALTER TABLE RefOrderProd " + "ADD CONSTRAINT fk_Oid_Orders " + "FOREIGN KEY (Oid) "
 					+ "REFERENCES Orders(id)";
+			// Referenz user id zu customers
+			String sql3 = "ALTER TABLE Orders" + "ADD CONSTRAINT fk_user_id" + "FOREIGN KEY (user_id)"
+					+ "REFERENCES customers(id)";
+			// Referenz für Order Mitarbeiter
+			String sql4 = "ALTER TABLE RefOrdEmp" + "ADD CONSTRAINT fk_Oid" + "FOREIGN KEY (Oid)"
+					+ "REFERENCES Orders(id)";
+
+			String sql5 = "ALTER TABLE Orders" + "ADD CONSTRAINT fk_Eid" + "FOREIGN KEY (Eid)"
+					+ "REFERENCES employer(employer_id)";
 
 			statement.executeUpdate(sql1);
 			statement.executeUpdate(sql2);
-
+			statement.executeUpdate(sql3);
+			statement.executeUpdate(sql4);
+			statement.executeUpdate(sql5);
 			System.out.println("Fremdschlüssel erfolgreich erstellt.");
 
 		} catch (SQLException e) {
