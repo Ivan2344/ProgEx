@@ -44,7 +44,7 @@ public class Soap {
 		this.price = price;
 	}
 	public Timestamp getCreatedAt() {
-        return created_at;
+        return created_at = new Timestamp(System.currentTimeMillis());
 	}
 
 	public void setCreatedAt(Timestamp created_at) {
