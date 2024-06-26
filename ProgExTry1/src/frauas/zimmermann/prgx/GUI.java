@@ -308,12 +308,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         employerTableModel.addColumn("Industry");
         employerTableModel.addColumn("Established Date");
 
-        employerDatabase = new JTable(employerTableModel) {
+        employerDatabase = new JTable(employerTableModel); /*{
         	 @Override
              public boolean isCellEditable(int row, int column) {
                  return false; // Disable cell editing
              }
-         };
+         };*/
         
         employerDatabase.addMouseListener(new MouseAdapter() {
             @Override
@@ -415,12 +415,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         soapTableModel.addColumn("Price");
         soapTableModel.addColumn("Created At");
 
-        soapDatabase = new JTable(soapTableModel) {
+        soapDatabase = new JTable(soapTableModel); /*{
         	 @Override
              public boolean isCellEditable(int row, int column) {
                  return false; // Disable cell editing
              }
-         };
+         };*/
         
         soapDatabase.addMouseListener(new MouseAdapter() {
             @Override
@@ -644,13 +644,13 @@ public class GUI extends Mainframe implements MiddlePanel{
         customerTableModel.addColumn("Created At");
 
         //customerDatabase = new JTable(customerTableModel);
-        customerDatabase = new JTable(customerTableModel) {
+        customerDatabase = new JTable(customerTableModel); /*{
             // Override isCellEditable method to make all cells non-editable
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Disable cell editing
             }
-        };
+        };*/
         
         customerDatabase.addMouseListener(new MouseAdapter() {
             @Override
