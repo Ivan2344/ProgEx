@@ -58,20 +58,7 @@ public class LoginMask extends Mainframe {
         loginButton.setFont(new Font("Arial", Font.PLAIN, 30));  // Set font size for login button
 
         
-        // ActionListener to handle login button click
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = userNameField.getText();
-                String password = new String(passwordField.getPassword());
-
-                if ("username".equals(username) && "password".equals(password)) {
-                    JOptionPane.showMessageDialog(frame, "Login successful!");
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Invalid username or password. Please try again.");
-                }
-            }
-        });			
+       		
         
     /* // ActionListener für den Login-Button
         loginButton.addActionListener(new ActionListener() {
