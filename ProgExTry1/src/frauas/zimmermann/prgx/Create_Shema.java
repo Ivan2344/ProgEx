@@ -13,7 +13,8 @@ public class Create_Shema {
 		this.password = pwd;
 	}
 
-	void CreateDB() {
+	boolean CreateDB() {
+		boolean success = false;
 		try {
 			Connection conn = DriverManager.getConnection(url, user, password);
 			Statement stmt = conn.createStatement();
@@ -46,11 +47,15 @@ public class Create_Shema {
 			stmt.executeUpdate(createOrdEmp);
 
 			System.out.println("Schema und Tabellen erfolgreich erstellt.");
+			
+			success = true;
 
 			conn.close();
 		} catch (Exception e) {
 			System.err.println("Fehler beim Erstellen des Schemas und der Tabellen: " + e.getMessage());
 		}
+		
+		return success;
 	}
 
 	void InsertDemoValues() {
