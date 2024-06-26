@@ -201,7 +201,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO employer (employer_name, address, email, phone_number, industry, established_date) VALUES (" 
+            String sql = "INSERT INTO employer (employer_name, address, email, phone_number, industry, established_date) VALUES ('" 
                          + employer.getEmployerName() + "', '" 
                          + employer.getAddress() + "', '" 
                          + employer.getEmail() + "', '" 
@@ -228,7 +228,7 @@ public class Data_management {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             
-            String sql = "INSERT INTO customers (address, email, password, name, city, birth_date, created_at) VALUES (" 
+            String sql = "INSERT INTO customers (address, email, password, name, city, birth_date, created_at) VALUES ('" 
                          + customer.getAddress() + "', '" 
                          + customer.getEmail() + "', '" 
                          + customer.getPassword() + "', '" 
