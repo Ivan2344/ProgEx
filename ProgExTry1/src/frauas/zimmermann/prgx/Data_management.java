@@ -382,6 +382,127 @@ public class Data_management {
         }
     }
     
+    public void updateEmployer(Employer employer) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+
+            // Form the SQL query for update
+            String sql = "UPDATE employer SET " +
+                         "employer_name = '" + employer.getEmployerName() + "', " +
+                         "address = '" + employer.getAddress() + "', " +
+                         "email = '" + employer.getEmail() + "', " +
+                         "phone_number = '" + employer.getPhoneNumber() + "', " +
+                         "industry = '" + employer.getIndustry() + "', " +
+                         "established_date = '" + employer.getEstablishedDate() + "' " +
+                         "WHERE employer_id = " + employer.getEmployerId();
+            
+            // Execute the update
+            int affectedRows = statement.executeUpdate(sql);
+
+            if (affectedRows > 0) {
+                System.out.println("Employer successfully updated.");
+            } else {
+                System.out.println("Error updating Employer.");
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error updating employer: " + e.getMessage());
+        }
+    }
+    
+    public void updateOrder(Orders order) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+
+            // Form the SQL query for update
+            String sql = "UPDATE orders SET " +
+                         "user_id = " + order.getUser_id() + ", " +
+                         "order_date = '" + order.getOrder_date() + "', " +
+                         "status = '" + order.getStatus() + "', " +
+                         "total = " + order.getTotal() + ", " +
+                         "subtotal = " + order.getSubtotal() + ", " +
+                         "tax = " + order.getTax() + ", " +
+                         "discount = " + order.getDiscount() + " " +
+                         "WHERE id = " + order.getId();
+            
+            // Execute the update
+            int affectedRows = statement.executeUpdate(sql);
+
+            if (affectedRows > 0) {
+                System.out.println("Order successfully updated.");
+            } else {
+                System.out.println("Error updating Order.");
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error updating order: " + e.getMessage());
+        }
+    }
+    
+    public void updateSoap(Soap soap) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+
+            // Form the SQL query for update
+            String sql = "UPDATE soap SET " +
+                         "EAN = " + soap.getEAN() + ", " +
+                         "titel = '" + soap.getTitle() + "', " +
+                         "category = '" + soap.getCategory() + "', " +
+                         "price = " + soap.getPrice() + ", " +
+                         "created_at = '" + soap.getCreatedAt() + "' " +
+                         "WHERE id = " + soap.getId();
+            
+            // Execute the update
+            int affectedRows = statement.executeUpdate(sql);
+
+            if (affectedRows > 0) {
+                System.out.println("Soap successfully updated.");
+            } else {
+                System.out.println("Error updating Soap.");
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error updating soap: " + e.getMessage());
+        }
+    }
+    
+    public void updateCustomer(Customers customer) {
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+
+            // Form the SQL query for update
+            String sql = "UPDATE customers SET " +
+                         "address = '" + customer.getAddress() + "', " +
+                         "email = '" + customer.getEmail() + "', " +
+                         "password = '" + customer.getPassword() + "', " +
+                         "name = '" + customer.getName() + "', " +
+                         "city = '" + customer.getCity() + "', " +
+                         "birth_date = '" + customer.getBirthDate() + "', " +
+                         "created_at = '" + customer.getCreatedAt() + "' " +
+                         "WHERE id = " + customer.getId();
+            
+            // Execute the update
+            int affectedRows = statement.executeUpdate(sql);
+
+            if (affectedRows > 0) {
+                System.out.println("Customer successfully updated.");
+            } else {
+                System.out.println("Error updating Customer.");
+            }
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Error updating customer: " + e.getMessage());
+        }
+    }
+    
     public ArrayList<Soap> fetchProductsByOrderId(int orderId) {
         ArrayList<Soap> soaps = new ArrayList<>();
         try {
