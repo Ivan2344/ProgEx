@@ -525,12 +525,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         orderTableModel.addColumn("Tax");
         orderTableModel.addColumn("Discount");
 
-        orderDatabase = new JTable(orderTableModel) {
+        orderDatabase = new JTable(orderTableModel); /*{
         	 @Override
              public boolean isCellEditable(int row, int column) {
                  return false; // Disable cell editing
              }
-         };
+         };*/
         
         orderDatabase.addMouseListener(new MouseAdapter() {
             @Override
