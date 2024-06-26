@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -54,7 +56,7 @@ public class LoginMask extends Mainframe {
 
         JButton loginButton = new JButton("Login");
         loginButton.setFont(new Font("Arial", Font.PLAIN, 30));  // Set font size for login button
-/*
+
         
         // ActionListener to handle login button click
         loginButton.addActionListener(new ActionListener() {
@@ -69,7 +71,46 @@ public class LoginMask extends Mainframe {
                     JOptionPane.showMessageDialog(frame, "Invalid username or password. Please try again.");
                 }
             }
-        });			*/
+        });			
+        
+    /* // ActionListener für den Login-Button
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                login();
+            }
+        });
+
+        // KeyListener für das Passwortfeld
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    login();
+                }
+            }
+        });
+
+        // Methode, um den eigentlichen Login-Prozess durchzuführen
+        public void login() {
+            String username = userNameField.getText();
+            String password = new String(passwordField.getPassword());
+
+            // Prüfe, ob die Verbindung zur Datenbank hergestellt werden kann
+            Create_Shema schema = new Create_Shema(username, password);
+            boolean success = schema.CreateDB();
+            schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
+            schema.InsertDemoValues();
+
+            if (success) {
+                GUI new2 = new GUI(username, password);
+                JOptionPane.showMessageDialog(frame, "Login successful!");
+                // Hier könnten Sie zur Hauptanwendung wechseln oder weitere Aktionen ausführen
+                frame.setVisible(false); // Login-Fenster ausblenden
+            } else {
+                JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
+            }
+        } */
         
      // ActionListener to handle login button click
         loginButton.addActionListener(new ActionListener() {
