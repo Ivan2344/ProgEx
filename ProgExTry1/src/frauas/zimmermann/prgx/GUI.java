@@ -46,7 +46,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
     JPanel leftPanel, rightPanel ,secondLeftPanel, firstLeftPanel;
     private DefaultTableModel employerTableModel;
-    public Data_management dataManagement = new Data_management("","");
+    public Data_management dataManagement;
     static public int selectedIndex = -1;
     private int selectedRow = -1;
     private JButton addButton , deleteButton , editButton,refreshButton ;
@@ -56,8 +56,9 @@ public class GUI extends Mainframe implements MiddlePanel{
     private JTextField ordersIdTfd ,ordersUserTfd , ordersDateTfd, ordersStatusTfd , ordersTotalTfd , ordersSubtotalTfd , ordersTaxTfd ,ordersDiscountTfd ;
     private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
 
-    GUI() {
+    public GUI(String usr, String psw) {
         super();
+        dataManagement = new Data_management(usr, psw);
         createMainPanel();
         createMenuList(menuItems);
         northCenterPanel.revalidate();

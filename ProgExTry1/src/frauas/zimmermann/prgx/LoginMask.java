@@ -84,9 +84,10 @@ public class LoginMask extends Mainframe {
                 schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
         		schema.InsertDemoValues();
                 if (success) {
-                	//GUI new2 = new GUI(username, password);
+                	GUI new2 = new GUI(username, password);
                     JOptionPane.showMessageDialog(frame, "Login successful!");
                     // Hier könnten Sie zur Hauptanwendung wechseln oder weitere Aktionen ausführen
+                    frame.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
                 }
