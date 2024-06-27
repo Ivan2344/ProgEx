@@ -178,16 +178,16 @@
                     Orders order = new Orders();
                     order.setId(resultSet.getInt("id"));
                     order.setUser_id(resultSet.getInt("user_id"));
+                    order.setEmployee_id(resultSet.getInt("employer_id"));
                     order.setOrder_date(resultSet.getDate("order_date"));
                     order.setStatus(resultSet.getString("status"));
                     order.setTotal(resultSet.getInt("total"));
-                    order.setSubtotal(resultSet.getInt("subtotal"));
                     order.setTax(resultSet.getFloat("tax"));
                     order.setDiscount(resultSet.getInt("discount"));
                     
                     orders.add(order);
                     
-                    System.out.println(order.getId() + " " + order.getUser_id() + " " + order.getOrder_date() + " " + order.getStatus() + " " + order.getTotal() + " " + order.getSubtotal() + " " + order.getTax() + " " + order.getDiscount());
+                    System.out.println(order.getId() + " " + order.getUser_id() + " " + order.getEmployee_id() + " "+ order.getOrder_date() + " " + order.getStatus() + " " + order.getTotal() + " "  + order.getTax() + " " + order.getDiscount());
                 }
                 
                 connection.close();  
@@ -286,14 +286,14 @@
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
                 
-                String sql = "INSERT INTO orders (user_id, order_date, status, total, subtotal, tax, discount) VALUES (" 
-                             + order.getUser_id() + ", '" 
-                             + order.getOrder_date() + "', '" 
-                             + order.getStatus() + "', " 
-                             + order.getTotal() + ", " 
-                             + order.getSubtotal() + ", " 
-                             + order.getTax() + ", " 
-                             + order.getDiscount() + ")";
+                String sql = "INSERT INTO orders (user_id, employer_id, order_date, status, total, tax, discount) VALUES (" 
+                        + order.getUser_id() + ", " 
+                        + order.getEmployee_id() + ", '" 
+                        + order.getOrder_date() + "', '" 
+                        + order.getStatus() + "', " 
+                        + order.getTotal() + ", " 
+                        + order.getTax() + ", " 
+                        + order.getDiscount() + ")";
                 
                 int affectedRows = statement.executeUpdate(sql);
 
@@ -450,10 +450,10 @@
                 // Form the SQL query for update
                 String sql = "UPDATE orders SET " +
                              "user_id = " + order.getUser_id() + ", " +
+                             "employer_id = " + order.getEmployee_id() + ", " +
                              "order_date = '" + order.getOrder_date() + "', " +
                              "status = '" + order.getStatus() + "', " +
                              "total = " + order.getTotal() + ", " +
-                             "subtotal = " + order.getSubtotal() + ", " +
                              "tax = " + order.getTax() + ", " +
                              "discount = " + order.getDiscount() + " " +
                              "WHERE id = " + order.getId();
@@ -692,5 +692,7 @@
 
 
     }
+      
+  
       
   
