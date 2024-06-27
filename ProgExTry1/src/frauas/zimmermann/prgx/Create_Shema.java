@@ -29,15 +29,24 @@ public class Create_Shema {
 			stmt.executeUpdate(useSchemaQuery);
 
 			// Erstelle die Tabellen
-
 			String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Soap (id INT AUTO_INCREMENT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
 			String createKundeQuery = "CREATE TABLE IF NOT EXISTS customers (id INT AUTO_INCREMENT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
 			String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT AUTO_INCREMENT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
-			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, order_date DATE, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, discount INT)";
+			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, order_date DATE, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, "
+					+ "discount INT ,FOREIGN KEY (user_id) REFERENCES customers(id)ON DELETE CASCADE )";
 
-			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT)";
-			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT AUTO_INCREMENT Primary KEY, Oid INT, Eid INT)";
-
+			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT," +
+					"FOREIGN KEY (Oid) REFERENCES Orders(id) "
+					+ "ON DELETE CASCADE,"
+					+ "FOREIGN KEY (Sid) REFERENCES Soap(id)"
+					+ "ON DELETE CASCADE)";
+			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT AUTO_INCREMENT Primary KEY, Oid INT, Eid INT,"+
+					"FOREIGN KEY (Oid) REFERENCES Orders(id) "
+					+ "ON DELETE CASCADE,"
+					+ "FOREIGN KEY (Eid) REFERENCES employer(employer_id)"
+					+ "ON DELETE CASCADE)";;
+			
+			
 			stmt.executeUpdate(createSeifenQuery);
 			stmt.executeUpdate(createKundeQuery);
 			stmt.executeUpdate(createEmployer);
@@ -45,7 +54,6 @@ public class Create_Shema {
 			stmt.executeUpdate(createOrderQuery);
 			stmt.executeUpdate(createOrderProd);
 			stmt.executeUpdate(createOrdEmp);
-
 			System.out.println("Schema und Tabellen erfolgreich erstellt.");
 			
 			success = true;

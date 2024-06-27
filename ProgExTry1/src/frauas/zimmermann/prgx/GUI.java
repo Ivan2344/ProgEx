@@ -8,8 +8,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
@@ -17,11 +22,20 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.DropMode;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -32,14 +46,22 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.TransferHandler;
+import javax.swing.TransferHandler.TransferSupport;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+
+import frauas.zimmermann.prgx.MiddlePanel.ProductTransferHandler;
 
 public class GUI extends Mainframe implements MiddlePanel{
     JPanel[] panelList;
@@ -55,8 +77,12 @@ public class GUI extends Mainframe implements MiddlePanel{
     private JTextField customerIdTfd, customerNameTfd , customerAddressTfd, customerEmailTfd , customerPasswordTfd ,customerCityTfd , customerBirthdayTfd , customerCreatedAtTfd;
     private JTextField ordersIdTfd ,ordersUserTfd , ordersDateTfd, ordersStatusTfd , ordersTotalTfd , ordersSubtotalTfd , ordersTaxTfd ,ordersDiscountTfd ;
     private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
+    private JTextField[] orderTextFields;
+    private JTextField[] employerTextFields;
+    private JTextField[] soapTextFields;
+    private JTextField[] customerTextFields;
 
-    public GUI(String usr, String psw) {
+    public GUI(String usr, String psw) { 
         super();
         dataManagement = new Data_management(usr, psw);
         createMainPanel();
@@ -309,12 +335,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         employerTableModel.addColumn("Established Date");
 
         employerDatabase = new JTable(employerTableModel) {
-        	 @Override
-             public boolean isCellEditable(int row, int column) {
-                 return false; // Disable cell editing
-             }
-         };
-        
+       	 @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Disable cell editing
+            }
+        };
+       
         employerDatabase.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -351,47 +377,7 @@ public class GUI extends Mainframe implements MiddlePanel{
             employerTableModel.addRow(rowData);
         }
     }
-    
-    public void setEmployerTextPanel(){
-    	JPanel tempPanel = new JPanel();
-    	JLabel tempPanel1 = new JLabel("ID");
-    	JLabel tempPanel2 = new JLabel("Name");
-    	JLabel tempPanel3 = new JLabel("Adresse");
-    	JLabel tempPanel4 = new JLabel("Email");
-    	JLabel tempPanel5 = new JLabel("PhoneNumber");
-    	JLabel tempPanel6 = new JLabel("Industry");
-    	JLabel tempPanel7 = new JLabel("EstablishedDate");
-    	
-    	tempPanel.setLayout(new GridLayout(7,2));
-    	 employerIdTfd = new JTextField();
-    	 employerNameTfd = new JTextField();
-    	 employerAddressTfd = new JTextField();
-    	 employerEmailTfd = new JTextField();
-    	 phoneNumberTfd = new JTextField();
-    	 industryTfd = new JTextField();
-    	 establishedTfd = new JTextField();
 
-    	
-    	tempPanel.add(tempPanel1);
-    	tempPanel.add(employerIdTfd);
-    	tempPanel.add(tempPanel2);
-    	tempPanel.add(employerNameTfd);
-    	tempPanel.add(tempPanel3);
-    	tempPanel.add(employerAddressTfd);
-    	tempPanel.add(tempPanel4);
-    	tempPanel.add(employerEmailTfd);
-    	tempPanel.add(tempPanel5);
-    	tempPanel.add(phoneNumberTfd);
-    	tempPanel.add(tempPanel6);
-    	tempPanel.add(industryTfd);
-    	tempPanel.add(tempPanel7);
-    	tempPanel.add(establishedTfd);
-    	
-    	secondLeftPanel.add(tempPanel);
-    	
-    	
-    }
-    
     private void setSoapPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -415,7 +401,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         soapTableModel.addColumn("Price");
         soapTableModel.addColumn("Created At");
 
-        soapDatabase = new JTable(soapTableModel)   {
+        soapDatabase = new JTable(soapTableModel){
         	 @Override
              public boolean isCellEditable(int row, int column) {
                  return false; // Disable cell editing
@@ -458,48 +444,7 @@ public class GUI extends Mainframe implements MiddlePanel{
             soapTableModel.addRow(rowData);
         }
     }
-    
-    public void setSoapTextPanel(){
-    	
-    	JPanel tempPanel = new JPanel();
-    	JLabel tempPanel1 = new JLabel("ID");
-    	JLabel tempPanel2 = new JLabel("EAN");
-    	JLabel tempPanel3 = new JLabel("Title");
-    	JLabel tempPanel4 = new JLabel("Category");
-    	JLabel tempPanel5 = new JLabel("Price");
-//    	JLabel tempPanel6 = new JLabel("CreatedAt");
-    	
-    	tempPanel.setLayout(new GridLayout(5,2));
-    	 soapIdTfd = new JTextField();
-    	 soapEANTfd = new JTextField();
-    	 soapTitleTfd = new JTextField();
-    	 soapCategoryTfd = new JTextField();
-    	 soapPriceTfd = new JTextField();
-//    	 soapCreatedTfd = new JTextField();
 
-    	
-    	tempPanel.add(tempPanel1);
-    	tempPanel.add(soapIdTfd);
-    	tempPanel.add(tempPanel2);
-    	tempPanel.add(soapEANTfd);
-    	tempPanel.add(tempPanel3);
-    	tempPanel.add(soapTitleTfd);
-    	tempPanel.add(tempPanel4);
-    	tempPanel.add(soapCategoryTfd);
-    	tempPanel.add(tempPanel5);
-    	tempPanel.add(soapPriceTfd);
-//    	tempPanel.add(tempPanel6);
-//    	tempPanel.add(soapCreatedTfd);
-
-    	
-    	secondLeftPanel.add(tempPanel);
-    	
-    	
-    	
-    	
-    }
-    
-    
     private void setOrderPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -525,7 +470,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         orderTableModel.addColumn("Tax");
         orderTableModel.addColumn("Discount");
 
-        orderDatabase = new JTable(orderTableModel)   {
+        orderDatabase = new JTable(orderTableModel){
         	 @Override
              public boolean isCellEditable(int row, int column) {
                  return false; // Disable cell editing
@@ -573,51 +518,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
 
     }
-    
-    public void setOrderTextPanel(){
-    	
-    	JPanel tempPanel = new JPanel();
-    	JLabel tempPanel1 = new JLabel("ID");
-    	JLabel tempPanel2 = new JLabel("User ID");
-    	JLabel tempPanel3 = new JLabel("Order date");
-    	JLabel tempPanel4 = new JLabel("Status");
-    	JLabel tempPanel5 = new JLabel("Total");
-    	JLabel tempPanel6 = new JLabel("Subtotal");
-    	JLabel tempPanel7 = new JLabel("Tax");
-    	JLabel tempPanel8 = new JLabel("Discount");
-    	
-    	tempPanel.setLayout(new GridLayout(8,2));
-    	 ordersIdTfd = new JTextField();
-    	 ordersUserTfd = new JTextField(12); //ÄNDERn!!!!!!!!!!!!
-    	 ordersDateTfd = new JTextField();
-    	 ordersStatusTfd = new JTextField();
-    	 ordersTotalTfd = new JTextField();
-    	 ordersSubtotalTfd = new JTextField();
-    	 ordersTaxTfd = new JTextField();
-    	 ordersDiscountTfd = new JTextField();
-    	
-    	tempPanel.add(tempPanel1);
-    	tempPanel.add(ordersIdTfd);
-    	tempPanel.add(tempPanel2);
-    	tempPanel.add(ordersUserTfd);
-    	tempPanel.add(tempPanel3);
-    	tempPanel.add(ordersDateTfd);
-    	tempPanel.add(tempPanel4);
-    	tempPanel.add(ordersStatusTfd);
-    	tempPanel.add(tempPanel5);
-    	tempPanel.add(ordersTotalTfd);
-    	tempPanel.add(tempPanel6);
-    	tempPanel.add(ordersSubtotalTfd);
-    	tempPanel.add(tempPanel7);
-    	tempPanel.add(ordersTaxTfd);
-    	tempPanel.add(tempPanel8);
-    	tempPanel.add(ordersDiscountTfd);
-    	
-    	secondLeftPanel.add(tempPanel);
-    	
-    	
-    }
-    
+
     private void setCustomerPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -644,7 +545,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         customerTableModel.addColumn("Created At");
 
         //customerDatabase = new JTable(customerTableModel);
-        customerDatabase = new JTable(customerTableModel)   {
+        customerDatabase = new JTable(customerTableModel){
             // Override isCellEditable method to make all cells non-editable
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -691,46 +592,257 @@ public class GUI extends Mainframe implements MiddlePanel{
             customerTableModel.addRow(rowData);
         }
     }
-    public void setCustomerTextPanel(){
-    	JPanel tempPanel = new JPanel();
-    	JLabel tempPanel1 = new JLabel("ID");
-    	tempPanel1.setHorizontalAlignment(SwingConstants.CENTER);
-    	JLabel tempPanel2 = new JLabel("Name");
-    	JLabel tempPanel3 = new JLabel("Adresse");
-    	JLabel tempPanel4 = new JLabel("Email");
-    	JLabel tempPanel5 = new JLabel("Passwort");
-    	JLabel tempPanel6 = new JLabel("City");
-    	JLabel tempPanel7 = new JLabel("Birthday");
-    	
-    	tempPanel.setLayout(new GridLayout(7,2));
-    	 customerIdTfd = new JTextField();
-    	 customerNameTfd = new JTextField();
-    	 customerAddressTfd = new JTextField();
-    	 customerEmailTfd = new JTextField();
-    	 customerPasswordTfd = new JTextField();
-    	 customerCityTfd = new JTextField();
-    	 customerBirthdayTfd = new JTextField();
-    	
-    	tempPanel.add(tempPanel1);
-    	tempPanel.add(customerIdTfd);
-    	tempPanel.add(tempPanel2);
-    	tempPanel.add(customerNameTfd);
-    	tempPanel.add(tempPanel3);
-    	tempPanel.add(customerAddressTfd);
-    	tempPanel.add(tempPanel4);
-    	tempPanel.add(customerEmailTfd);
-    	tempPanel.add(tempPanel5);
-    	tempPanel.add(customerPasswordTfd);
-    	tempPanel.add(tempPanel6);
-    	tempPanel.add(customerCityTfd);
-    	tempPanel.add(tempPanel7);
-    	tempPanel.add(customerBirthdayTfd);
-    	
-    	
-    	secondLeftPanel.add(tempPanel);
-    	
-    	
+    public JPanel setOrderTextPanel() {
+    	String className = "Orders";
+        String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
+        return createMaskPanel(labels, className);
     }
+
+    public JPanel setEmployerTextPanel() {
+    	String className = "Employees";
+        String[] labels = {"ID", "Name", "Address", "Email", "Phone Number", "Industry", "Established Date"};
+        return createMaskPanel(labels, className);
+    }
+
+    public JPanel setSoapTextPanel() {
+    	String className = "Products";
+        String[] labels = {"ID", "EAN", "Title", "Category", "Price", "Created At"};
+        return createMaskPanel(labels, className);
+    }
+
+    public JPanel setCustomerTextPanel() {
+    	String className = "Customers";
+    	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date", "Created At"};
+        return createMaskPanel(labels, className);
+    }
+
+    private Map<String, JTextField[]> textFieldMap = new HashMap<>();				//mapping panel name to JTextFields
+
+    private JPanel createMaskPanel(String[] labels, String panelName) {
+        JPanel tempPanel = new JPanel(new BorderLayout());
+        JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
+        JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
+  
+        JLabel[] customLabels = new JLabel[labels.length];
+        JTextField[] textFields = new JTextField[labels.length];
+        int nextId = dataManagement.findMaxId(panelName);
+
+        for (int i = 0; i < labels.length; i++) {
+            customLabels[i] = createCustomLabel(labels[i]);
+            leftTempPanel.add(customLabels[i]);
+
+            JTextField textField = new JTextField();
+            if ("ID".equals(labels[i])) {
+                textField.setText(String.valueOf(nextId));
+                textField.setEditable(false);
+            }
+            textFields[i] = textField;
+            rightTempPanel.add(textField);
+        }
+//       
+
+        textFieldMap.put(panelName, textFields);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
+        splitPane.setDividerLocation(3.0 / 3.0);
+        splitPane.setResizeWeight(0.33);
+        tempPanel.add(splitPane, BorderLayout.CENTER);
+        
+        if(panelName == "Orders") {
+	        JButton openProductsButton = new JButton("Add Products");
+	        openProductsButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+	        openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
+	
+	        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	        buttonPanel.setBackground(BLUE);
+	        buttonPanel.add(openProductsButton);
+	        tempPanel.add(buttonPanel, BorderLayout.SOUTH);
+        }
+        secondLeftPanel.add(tempPanel);
+
+        
+        return tempPanel;
+    }
+    private JLabel createCustomLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+        label.setBackground(BLUE);
+        label.setForeground(Color.DARK_GRAY);
+        label.setOpaque(true); // Needed for background color to be visible
+        Border margin = new EmptyBorder(0, 10, 0, 0);
+        
+        Border border = BorderFactory.createLineBorder(Color.gray);
+        label.setBorder(BorderFactory.createCompoundBorder(border, margin));
+        return label;
+    }
+    //handles select and drop function in Product frame
+    static class ProductTransferHandler extends TransferHandler {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		@Override
+        public int getSourceActions(JComponent c) {
+            return COPY_OR_MOVE;
+        }
+
+        @Override
+        protected Transferable createTransferable(JComponent c) {
+            return new StringSelection(((JList<?>) c).getSelectedValue().toString());
+        }
+
+        @Override
+        public boolean canImport(TransferSupport support) {
+            return support.isDataFlavorSupported(DataFlavor.stringFlavor);
+        }
+        @Override
+        public boolean importData(TransferSupport support) {
+            if (!canImport(support)) {
+                return false;
+            }
+
+            try {
+                String data = (String) support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+                int index = dl.getIndex();
+                boolean insert = dl.isInsert();
+
+                DefaultListModel<String> listModel = (DefaultListModel<String>) ((JList<?>) support.getComponent()).getModel();
+                if (insert) {
+                    listModel.add(index, data);
+                } else {
+                    listModel.set(index, data);
+                }
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+    }
+    
+    
+    private static void addProductsToOrderFrame(Data_management dataManagement) {
+    //	dataManagement.findMaxId();
+    //	int 1 = dataManagement.1; // Get the dynamically fetched 1
+    	//int 1 = 1;
+    	 
+        JFrame newFrame = new JFrame("Product Drag and Drop");
+        newFrame.setSize(600, 400);
+        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newFrame.setLayout(new BorderLayout());
+
+        DefaultListModel<String> cartListModel = new DefaultListModel<>();
+        
+       
+        JTree productTree = new JTree(productTreeModel(dataManagement));
+        JList<String> cartList = new JList<>(cartListModel);
+        
+        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(1);
+        for (Soap soap : existingSoaps) {
+            cartListModel.addElement(soap.getTitle());
+        }
+        
+
+        productTree.setDragEnabled(true);
+        productTree.setTransferHandler(new TreeTransferHandler());
+
+        cartList.setDropMode(DropMode.INSERT);
+        cartList.setTransferHandler(new ProductTransferHandler());
+
+        // Add tree selection listener to add selected product to the cart
+        productTree.addTreeSelectionListener(e -> {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) productTree.getLastSelectedPathComponent();
+            if (selectedNode != null && selectedNode.isLeaf()) {
+                String selectedProduct = selectedNode.toString();
+                if (selectedProduct != null && !cartListModel.contains(selectedProduct)) {
+                    cartListModel.addElement(selectedProduct);
+                }
+            }
+        });
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(productTree), new JScrollPane(cartList));
+        splitPane.setResizeWeight(0.5); // Initial divider location
+
+        // Add component listener to adjust the split pane divider location on frame resize
+        newFrame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                splitPane.setDividerLocation(0.5);
+            }
+        });
+
+        newFrame.add(splitPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton deleteButton = new JButton("Delete");
+        JButton saveButton = new JButton("Save");
+
+        deleteButton.addActionListener(e -> {
+            int selectedIndex = cartList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                cartListModel.remove(selectedIndex);
+            }
+        });
+
+        saveButton.addActionListener(e -> {
+        	// saveCartContentsToDatabase(cartListModel, dataManagement, 1); // Assuming order ID is 1
+        	 saveCartContentsToDatabase(cartListModel, dataManagement, 1, existingSoaps);
+        });
+
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(saveButton);
+
+        newFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+        newFrame.setVisible(true);
+    }
+
+    private static TreeModel productTreeModel(Data_management dataManagement) {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Products");
+        ArrayList<String> categories = dataManagement.fetchCategoriesFromDatabase();
+        for (String category : categories) {
+            DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(category);
+            ArrayList<Soap> soaps = dataManagement.fetchSoapsByCategory(category);
+            for (Soap soap : soaps) {
+                categoryNode.add(new DefaultMutableTreeNode(soap.getTitle()));
+            }
+            root.add(categoryNode);
+        }
+        return new DefaultTreeModel(root);
+    }
+
+    
+    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int a, ArrayList<Soap> existingSoaps) {
+    	Set<String> existingProductTitles = new HashSet<>();
+        for (Soap soap : existingSoaps) {
+            existingProductTitles.add(soap.getTitle());
+        }
+        
+//    	for (int i = 0; i < cartListModel.getSize(); i++) {
+//            String productTitle = cartListModel.getElementAt(i);
+//            if (existingProductTitles.contains(productTitle)) {
+//	            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+//	            if (soapId != -1) {
+//	                dataManagement.addOrderProductReference(1, soapId);
+//	            } else {
+//	                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+//	            }
+//            }
+//        }
+    	for (int i = 0; i < cartListModel.getSize(); i++) {
+            String productTitle = cartListModel.getElementAt(i);
+            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+            if (soapId != -1) {
+                dataManagement.addOrderProductReference(1, soapId);
+                System.out.println("title id "+ soapId+ "Product "+ productTitle);
+            } else {
+                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+            }
+        }
+        System.out.println("Cart contents saved to database.");
+    }
+    
+
 
     private JPanel setUpper(String header) {
         JPanel upper = new JPanel();
@@ -781,72 +893,56 @@ public class GUI extends Mainframe implements MiddlePanel{
 //        JOptionPane.showMessageDialog(null, selectedData);
     }
     public void readTextfield(int menuItem) {
-    	
-    	
+        JTextField[] textFields;
         switch (menuItem) {
-            case 0:
-            	Orders order = new Orders();
-//            	order.setId(Integer.parseInt(ordersIdTfd.getText()));
-//            	String ordersIdText = ordersIdTfd.getText();            	
-            	order.setUser_id(Integer.parseInt(ordersUserTfd.getText()));            	
-            	order.setOrder_date(convertToDate(ordersDateTfd.getText()));           	            
-                order.setStatus(ordersStatusTfd.getText());                
-                order.setTotal(Integer.parseInt(ordersTotalTfd.getText()));               
-                order.setSubtotal(Integer.parseInt(ordersSubtotalTfd.getText()));                
-                order.setTax(Integer.parseInt(ordersTaxTfd.getText()));               
-                order.setDiscount(Integer.parseInt(ordersDiscountTfd.getText()));
-                
+            case 0:  // Orders
+                textFields = textFieldMap.get("Orders");
+                Orders order = new Orders();
+                order.setUser_id(Integer.parseInt(textFields[1].getText()));  // User ID
+                order.setOrder_date(convertToDate(textFields[2].getText()));  // Order Date
+                order.setStatus(textFields[3].getText());                     // Status
+                order.setTotal(Integer.parseInt(textFields[4].getText()));    // Total
+                order.setSubtotal(Integer.parseInt(textFields[5].getText())); // Subtotal
+                order.setTax(Integer.parseInt(textFields[6].getText()));      // Tax
+                order.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
+
                 System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", " + order.getSubtotal() + ", " + order.getTax() + ", " + order.getDiscount());
-                
                 dataManagement.addOrder(order);
-                
-                
-                
                 break;
-                
-            case 1:
-            	Soap soap = new Soap();
+            case 1:  // Soap
+                textFields = textFieldMap.get("Products");
+                Soap soap = new Soap();
+                soap.setEAN(Integer.parseInt(textFields[1].getText()));       // EAN
+                soap.setTitle(textFields[2].getText());                       // Title
+                soap.setCategory(textFields[3].getText());                    // Category
+                soap.setPrice(Integer.parseInt(textFields[4].getText()));     // Price
 
-            	soap.setEAN(Integer.parseInt(soapEANTfd.getText()));           
-            	soap.setTitle(soapTitleTfd.getText());        	
-            	soap.setCategory(soapCategoryTfd.getText());
-            	soap.setPrice(Integer.parseInt(soapPriceTfd.getText()));
-//            	soap.setCreatedAt(convertToTimestamp(soapCreatedTfd.getText()));            	                            
-
-                
                 System.out.println("Soap: " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice() + ", " + soap.getCreatedAt());
                 dataManagement.addSoap(soap);
-                
                 break;
-            case 2:
-            	Employer employer = new Employer();
-            	
+            case 2:  // Employer
+                textFields = textFieldMap.get("Employees");
+                Employer employer = new Employer();
+                employer.setEmployerName(textFields[1].getText());            // Name
+                employer.setAddress(textFields[2].getText());                 // Address
+                employer.setEmail(textFields[3].getText());                   // Email
+                employer.setPhoneNumber(textFields[4].getText());             // Phone Number
+                employer.setIndustry(textFields[5].getText());                // Industry
+                employer.setEstablishedDate(convertToDate(textFields[6].getText())); // Established Date
 
-            	employer.setEmployerName(employerNameTfd.getText());
-            	employer.setAddress(employerAddressTfd.getText());
-            	employer.setEmail(employerEmailTfd.getText());
-            	employer.setPhoneNumber(phoneNumberTfd.getText());
-            	employer.setIndustry(industryTfd.getText());       	
-            	employer.setEstablishedDate(convertToDate(establishedTfd.getText()));
-
-            
                 System.out.println("Employer: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber() + ", " + employer.getIndustry() + ", " + employer.getEstablishedDate());
-                
                 dataManagement.addEmployer(employer);
                 break;
-            case 3:
-            	Customers customer = new Customers();
-            	
+            case 3:  // Customers
+                textFields = textFieldMap.get("Customers");
+                Customers customer = new Customers();
+                customer.setName(textFields[1].getText());                    // Name
+                customer.setAddress(textFields[2].getText());                 // Address
+                customer.setEmail(textFields[3].getText());                   // Email
+                customer.setPassword(textFields[4].getText());                // Password
+                customer.setCity(textFields[5].getText());                    // City
+                customer.setBirthDate(convertToDate(textFields[6].getText())); // Birth Date
 
-            	customer.setName(customerNameTfd.getText());     	
-            	customer.setAddress(customerAddressTfd.getText());
-            	customer.setEmail(customerEmailTfd.getText());
-            	customer.setPassword(customerPasswordTfd.getText());
-            	customer.setCity(customerCityTfd.getText()); 
-            	customer.setBirthDate(convertToDate(customerBirthdayTfd.getText()));
-//            	customer.setCreatedAt(convertToTimestamp(customerCreatedAtTfd.getText())); 
-            	
-            	
                 System.out.println("Customer: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", " + customer.getBirthDate() + ", " + customer.getCreatedAt());
                 dataManagement.addCustomer(customer);
                 break;
@@ -854,6 +950,7 @@ public class GUI extends Mainframe implements MiddlePanel{
                 break;
         }
     }
+
     	
     	
     
