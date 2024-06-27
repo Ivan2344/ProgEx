@@ -154,12 +154,20 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     public JPanel setMainPanels(int menuItem) {
-        JPanel tempPanel = new JPanel();             
+    	JPanel titlePanel = new JPanel();
+        JPanel tempPanel = new JPanel(); 
+        JPanel fLTPanel = new JPanel();
+        fLTPanel.setLayout(new GridLayout(4,1));
         JPanel addButtonPanel = new JPanel();
         JPanel editButtonPanel = new JPanel();  
         JPanel deleteButtonPanel = new JPanel();     
         JPanel refreshButtonPanel = new JPanel();
-        
+        JLabel titleLabel = new JLabel();
+        titleLabel = createCustomLabel("Commands:");
+        titleLabel.setBackground(Color.LIGHT_GRAY);
+        titlePanel = createPanelWithBorder(BUTTON_PANEL);
+        titlePanel.setFont(new java.awt.Font("Book Antiqua", 0, 17));
+        titlePanel.add(titleLabel);
                 
         tempPanel.setBackground(Color.WHITE);
         tempPanel.setLayout(new GridLayout(1, 2));
@@ -169,7 +177,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         rightPanel = createPanelWithBorder(RIGHT_PANEL);        
         firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
-		firstLeftPanel.setLayout(new GridLayout(4, 1));		
+		firstLeftPanel.setLayout(new BorderLayout());		
 		
 		
 		addButtonPanel= createPanel();
@@ -199,10 +207,17 @@ public class GUI extends Mainframe implements MiddlePanel{
 		 refreshButtonPanel.add(refreshButton);
     	
 		 
-		firstLeftPanel.add(addButtonPanel);
-		firstLeftPanel.add(deleteButtonPanel);
-		firstLeftPanel.add(editButtonPanel);
-		firstLeftPanel.add(refreshButtonPanel);
+		 fLTPanel.add(addButtonPanel);
+		 fLTPanel.add(deleteButtonPanel);
+		 fLTPanel.add(editButtonPanel);
+		 fLTPanel.add(refreshButtonPanel);
+		 
+		 firstLeftPanel.add(titlePanel, BorderLayout.NORTH);
+		 firstLeftPanel.add(fLTPanel, BorderLayout.CENTER);
+//		 firstLeftPanel.add(addButtonPanel);
+//		 firstLeftPanel.add(deleteButtonPanel);
+//		 firstLeftPanel.add(editButtonPanel);
+//		 firstLeftPanel.add(refreshButtonPanel);
 		
        // JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
 		secondLeftPanel.setLayout(new BorderLayout());
@@ -262,8 +277,8 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     protected JPanel createPanelWithBorder(int panelType) {
         JPanel panel = new JPanel();
-        Color myColor = new Color(230, 230, 255);
-        panel.setBackground(myColor);
+//        Color myColor = new Color(230, 230, 255);
+        panel.setBackground(Color.LIGHT_GRAY);
 
         int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
 
@@ -597,19 +612,26 @@ public class GUI extends Mainframe implements MiddlePanel{
 
     public JPanel setSoapTextPanel() {
     	String className = "Products";
-        String[] labels = {"ID", "EAN", "Title", "Category", "Price", "Created At"};
+        String[] labels = {"ID", "EAN", "Title", "Category", "Price"};
         return createMaskPanel(labels, className);
     }
 
     public JPanel setCustomerTextPanel() {
     	String className = "Customers";
-    	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date", "Created At"};
+    	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date"};
         return createMaskPanel(labels, className);
     }
 
     private Map<String, JTextField[]> textFieldMap = new HashMap<>();				//mapping panel name to JTextFields
 
     private JPanel createMaskPanel(String[] labels, String panelName) {
+    	JPanel titlePanel = new JPanel(new BorderLayout());
+//    	titlePanel = createPanelWithBorder(RIGHT_PANEL);
+    	JLabel titleLabel = new JLabel();
+    	titleLabel = createCustomLabel("Insert: ");
+    	titleLabel.setBackground(Color.LIGHT_GRAY);
+    	titleLabel.setFont(new java.awt.Font("Book Antiqua", 0, 20));
+    	titlePanel.add(titleLabel);
         JPanel tempPanel = new JPanel(new BorderLayout());
         JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
         JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
@@ -636,7 +658,8 @@ public class GUI extends Mainframe implements MiddlePanel{
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
         splitPane.setDividerLocation(3.0 / 3.0);
         splitPane.setResizeWeight(0.33);
-        tempPanel.add(splitPane, BorderLayout.CENTER);
+        tempPanel.add(splitPane, BorderLayout.CENTER);        
+        tempPanel.add(titlePanel, BorderLayout.NORTH);
         
         if(panelName == "Orders") {
 	        JButton openProductsButton = new JButton("Add Products");
@@ -646,7 +669,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 	        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	        buttonPanel.setBackground(BLUE);
 	        buttonPanel.add(openProductsButton);
-	        tempPanel.add(buttonPanel, BorderLayout.SOUTH);
+	        tempPanel.add(buttonPanel, BorderLayout.SOUTH);	       
         }
         secondLeftPanel.add(tempPanel);
 
@@ -894,7 +917,7 @@ public class GUI extends Mainframe implements MiddlePanel{
                 order.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
                 order.setStatus(textFields[4].getText());                     // Status
                 order.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
-                order.setTax(Integer.parseInt(textFields[6].getText()));      // Tax
+                order.setTax(Float.parseFloat(textFields[6].getText()));      // Tax
                 order.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
 
                 System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
@@ -906,7 +929,7 @@ public class GUI extends Mainframe implements MiddlePanel{
                 soap.setEAN(Integer.parseInt(textFields[1].getText()));       // EAN
                 soap.setTitle(textFields[2].getText());                       // Title
                 soap.setCategory(textFields[3].getText());                    // Category
-                soap.setPrice(Integer.parseInt(textFields[4].getText()));     // Price
+                soap.setPrice(Double.parseDouble(textFields[4].getText()));     // Price
 
                 System.out.println("Soap: " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice() + ", " + soap.getCreatedAt());
                 dataManagement.addSoap(soap);

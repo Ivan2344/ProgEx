@@ -96,7 +96,7 @@ public class Mainframe{
 	    
 	    innerCenterPanel = new JPanel();
 	    innerCenterPanel.setLayout(new BorderLayout(0,0));
-	    innerCenterPanel.setBackground(LIGHT_BLUE);
+	    innerCenterPanel.setBackground(Color.GRAY);
 	    //mainPanel.add(innerCenterPanel);
 	    JPanel leftSidePanel = new JPanel();
 	    JPanel rightSidePanel = new JPanel();
@@ -116,44 +116,44 @@ public class Mainframe{
 	}
 
 
-	private JPanel createPanelWithBorder(int panelType) {
-		JPanel panel = new JPanel();
-		Color myColor = new Color(230,230,255);
-	    panel.setBackground(myColor);
-	    
-	    int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
-	    
-	    
-	    switch(panelType){
-	    	case RIGHT_PANEL: 
-	    		topBorderWidth = 100;
-	    		leftBorderWidth = 20;
-	    		bottomBorderWidth = 100;
-	    		rightBorderWidth = 20;
-	    		break;
-	    	case INNER_LEFT_PANEL:
-				 topBorderWidth = 0; 
-				 leftBorderWidth = 10;
-			     bottomBorderWidth = 100;
-			     rightBorderWidth = 10;
-				 break;
-	    	case LEFT_PANEL:
-					topBorderWidth = 100; 
-				 leftBorderWidth = 10;
-			     bottomBorderWidth = 0;
-			     rightBorderWidth = 10;
-				 break;
-				default:
-				 topBorderWidth = 0; 
-	                leftBorderWidth = 0;
-	                bottomBorderWidth = 0;
-	                rightBorderWidth = 0;
-	                break;
-			}
-		
-		panel.setBorder(BorderFactory.createMatteBorder(
-		        topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth, BORDER_COLOR));
-		    panel.setLayout(new GridLayout(1, 2));
-	    return panel;
-	}
+//	private JPanel createPanelWithBorder(int panelType) {
+//		JPanel panel = new JPanel();
+//		Color myColor = new Color(230,230,255);
+//	    panel.setBackground(myColor);
+//	    
+//	    int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
+//	    
+//	    
+//	    switch(panelType){
+//	    	case RIGHT_PANEL: 
+//	    		topBorderWidth = 100;
+//	    		leftBorderWidth = 20;
+//	    		bottomBorderWidth = 100;
+//	    		rightBorderWidth = 20;
+//	    		break;
+//	    	case INNER_LEFT_PANEL:
+//				 topBorderWidth = 0; 
+//				 leftBorderWidth = 10;
+//			     bottomBorderWidth = 100;
+//			     rightBorderWidth = 10;
+//				 break;
+//	    	case LEFT_PANEL:
+//					topBorderWidth = 100; 
+//				 leftBorderWidth = 10;
+//			     bottomBorderWidth = 0;
+//			     rightBorderWidth = 10;
+//				 break;
+//				default:
+//				 topBorderWidth = 0; 
+//	                leftBorderWidth = 0;
+//	                bottomBorderWidth = 0;
+//	                rightBorderWidth = 0;
+//	                break;
+////			}
+//		
+//		panel.setBorder(BorderFactory.createMatteBorder(
+//		        topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth, BORDER_COLOR));
+//		    panel.setLayout(new GridLayout(1, 2));
+//	    return panel;
+//	}
 }
