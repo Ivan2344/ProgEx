@@ -33,7 +33,7 @@ public class Mainframe{
 	public void initializeFrame() {
 		frame = new JFrame("Your shop");
 		
-		frame.setSize(1500,1000);
+		frame.setSize(1500,900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
@@ -98,9 +98,19 @@ public class Mainframe{
 	    innerCenterPanel.setLayout(new BorderLayout(0,0));
 	    innerCenterPanel.setBackground(LIGHT_BLUE);
 	    //mainPanel.add(innerCenterPanel);
+	    JPanel leftSidePanel = new JPanel();
+	    JPanel rightSidePanel = new JPanel();
+	    leftSidePanel.setBackground(Color.DARK_GRAY);
+	    rightSidePanel.setBackground(Color.DARK_GRAY);
+//	    leftSidePanel.setPreferredSize(new Dimension(40, 500));
+//	    rightSidePanel.setPreferredSize(new Dimension(40, 500));
+	    
 	    
 	    center.add(northCenterPanel, BorderLayout.NORTH);
 	    center.add(innerCenterPanel, BorderLayout.CENTER);
+	    center.add(leftSidePanel, BorderLayout.EAST);
+	    
+	    center.add(rightSidePanel, BorderLayout.WEST);
 	   
 	    frame.add(center, BorderLayout.CENTER);
 	}
