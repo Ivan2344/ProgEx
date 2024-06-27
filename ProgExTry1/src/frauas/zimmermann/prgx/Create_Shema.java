@@ -41,11 +41,6 @@ public class Create_Shema {
 					+ "ON DELETE CASCADE,"
 					+ "FOREIGN KEY (Sid) REFERENCES Soap(id)"
 					+ "ON DELETE CASCADE)";
-			String createOrdEmp = "CREATE TABLE IF NOT EXISTS RefOrdEmp(id INT AUTO_INCREMENT Primary KEY, Oid INT, Eid INT,"+
-					"FOREIGN KEY (Oid) REFERENCES Orders(id) "
-					+ "ON DELETE CASCADE,"
-					+ "FOREIGN KEY (Eid) REFERENCES employer(employer_id)"
-					+ "ON DELETE CASCADE)";;
 			
 			
 			stmt.executeUpdate(createSeifenQuery);
@@ -54,7 +49,7 @@ public class Create_Shema {
 
 			stmt.executeUpdate(createOrderQuery);
 			stmt.executeUpdate(createOrderProd);
-			stmt.executeUpdate(createOrdEmp);
+//			stmt.executeUpdate(createOrdEmp);
 			System.out.println("Schema und Tabellen erfolgreich erstellt.");
 			
 			success = true;
