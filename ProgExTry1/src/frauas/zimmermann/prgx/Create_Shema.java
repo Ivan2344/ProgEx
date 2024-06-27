@@ -32,11 +32,12 @@ public class Create_Shema {
 			String createSeifenQuery = "CREATE TABLE IF NOT EXISTS Soap (id INT AUTO_INCREMENT PRIMARY KEY, EAN INT, titel VARCHAR(255), category VARCHAR(50), price DOUBLE, created_at TIMESTAMP)";
 			String createKundeQuery = "CREATE TABLE IF NOT EXISTS customers (id INT AUTO_INCREMENT PRIMARY KEY, address VARCHAR(255), email VARCHAR(100), password VARCHAR(50), name VARCHAR(50), city VARCHAR(50), birth_date DATE, created_at TIMESTAMP)";
 			String createEmployer = "CREATE TABLE IF NOT EXISTS employer (employer_id INT AUTO_INCREMENT PRIMARY KEY, employer_name VARCHAR(100), address VARCHAR(255), email VARCHAR(100), phone_number VARCHAR(20), industry VARCHAR(50), established_date DATE)";
-			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, order_date DATE, status VARCHAR(50), total FLOAT, subtotal INT, tax INT, "
-					+ "discount INT ,FOREIGN KEY (user_id) REFERENCES customers(id)ON DELETE CASCADE )";
+			String createOrderQuery = "CREATE TABLE IF NOT EXISTS Orders (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT,employer_id INT, order_date DATE, status VARCHAR(50), total FLOAT, tax INT, "
+					+ "discount INT ,FOREIGN KEY (user_id) REFERENCES customers(id) ON DELETE CASCADE,"
+					+ "FOREIGN KEY(employer_id) REFERENCES employer(employer_id) ON DELETE CASCADE)";
 
-			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT," +
-					"FOREIGN KEY (Oid) REFERENCES Orders(id) "
+			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT," 
+					+"FOREIGN KEY (Oid) REFERENCES Orders(id) "
 					+ "ON DELETE CASCADE,"
 					+ "FOREIGN KEY (Sid) REFERENCES Soap(id)"
 					+ "ON DELETE CASCADE)";
@@ -69,15 +70,15 @@ public class Create_Shema {
 	void InsertDemoValues() {
 
 		try (Connection conn = DriverManager.getConnection(url, user, password)) {
-			String sql = "INSERT INTO Orders (id, user_id, order_date, status, total, subtotal, tax, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO Orders (id, user_id, employer_id, order_date, status, total, tax, discount) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, 1);
 			statement.setInt(2, 1);
-			statement.setString(3, "2022-01-01");
-			statement.setString(4, "Deliverd");
-			statement.setDouble(5, 100.00);
-			statement.setDouble(6, 90.00);
-			statement.setDouble(7, 10.00);
+			statement.setInt(3, 1);
+			statement.setString(4, "2022-01-01");
+			statement.setString(5, "Deliverd");
+			statement.setDouble(6, 100.00);
+			statement.setDouble(7, 90.00);
 			statement.setDouble(8, 5.00);
 
 			int rowsInserted = statement.executeUpdate();

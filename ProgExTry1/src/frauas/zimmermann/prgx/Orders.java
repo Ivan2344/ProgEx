@@ -5,10 +5,11 @@ import java.sql.Date;
 public class Orders {
 	private int id;
     private int user_id;
+    private int employee_id;
     private Date order_date;
     private String status;
     private int total;
-    private int subtotal;
+ //   private int subtotal;
     private float tax;
     private int discount;
 
@@ -20,6 +21,12 @@ public class Orders {
 	}
 	public int getUser_id() {
 		return user_id;
+	}
+	public int getEmployee_id() {
+		return employee_id;
+	}
+	public int setEmployee_id(int employee_id) {
+		return employee_id;
 	}
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
@@ -42,12 +49,12 @@ public class Orders {
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	public int getSubtotal() {
-		return subtotal;
-	}
-	public void setSubtotal(int subtotal) {
-		this.subtotal = subtotal;
-	}
+//	public int getSubtotal() {
+//		return subtotal;
+//	}
+//	public void setSubtotal(int subtotal) {
+//		this.subtotal = subtotal;
+//	}
 	public float getTax() {
 		return tax;
 	}

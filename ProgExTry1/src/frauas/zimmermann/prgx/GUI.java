@@ -72,16 +72,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     static public int selectedIndex = -1;
     private int selectedRow = -1;
     private JButton addButton , deleteButton , editButton,refreshButton ;
-    private JTextField soapIdTfd , soapEANTfd ,soapTitleTfd ,soapCategoryTfd , soapPriceTfd , soapCreatedTfd ;
-    private JTextField employerIdTfd ,employerNameTfd , employerAddressTfd ,employerEmailTfd ,phoneNumberTfd ,industryTfd , establishedTfd;
-    private JTextField customerIdTfd, customerNameTfd , customerAddressTfd, customerEmailTfd , customerPasswordTfd ,customerCityTfd , customerBirthdayTfd , customerCreatedAtTfd;
-    private JTextField ordersIdTfd ,ordersUserTfd , ordersDateTfd, ordersStatusTfd , ordersTotalTfd , ordersSubtotalTfd , ordersTaxTfd ,ordersDiscountTfd ;
-    private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
-    private JTextField[] orderTextFields;
-    private JTextField[] employerTextFields;
-    private JTextField[] soapTextFields;
-    private JTextField[] customerTextFields;
-
+   private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
     public GUI(String usr, String psw) { 
         super();
         dataManagement = new Data_management(usr, psw);
@@ -463,10 +454,10 @@ public class GUI extends Mainframe implements MiddlePanel{
         DefaultTableModel orderTableModel = new DefaultTableModel();
         orderTableModel.addColumn("ID");;
         orderTableModel.addColumn("User ID");
+        orderTableModel.addColumn("Employee ID");
         orderTableModel.addColumn("Order Date");
         orderTableModel.addColumn("Status");
         orderTableModel.addColumn("Total");
-        orderTableModel.addColumn("Subtotal");
         orderTableModel.addColumn("Tax");
         orderTableModel.addColumn("Discount");
 
@@ -507,10 +498,10 @@ public class GUI extends Mainframe implements MiddlePanel{
             Object[] rowData = {
                 order.getId(),
                 order.getUser_id(),
+                order.getEmployee_id(),
                 order.getOrder_date(),
                 order.getStatus(),
                 order.getTotal(),
-                order.getSubtotal(),
                 order.getTax(),
                 order.getDiscount()
             };
@@ -594,7 +585,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     public JPanel setOrderTextPanel() {
     	String className = "Orders";
-        String[] labels = {"ID", "User ID", "Order Date", "Status", "Total", "Subtotal", "Tax", "Discount"};
+        String[] labels = {"ID", "User ID","Employee ID", "Order Date", "Status", "Total", "Tax", "Discount"};
         return createMaskPanel(labels, className);
     }
 
@@ -899,14 +890,14 @@ public class GUI extends Mainframe implements MiddlePanel{
                 textFields = textFieldMap.get("Orders");
                 Orders order = new Orders();
                 order.setUser_id(Integer.parseInt(textFields[1].getText()));  // User ID
-                order.setOrder_date(convertToDate(textFields[2].getText()));  // Order Date
-                order.setStatus(textFields[3].getText());                     // Status
-                order.setTotal(Integer.parseInt(textFields[4].getText()));    // Total
-                order.setSubtotal(Integer.parseInt(textFields[5].getText())); // Subtotal
+                order.setEmployee_id(Integer.parseInt(textFields[2].getText()));
+                order.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
+                order.setStatus(textFields[4].getText());                     // Status
+                order.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
                 order.setTax(Integer.parseInt(textFields[6].getText()));      // Tax
                 order.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
 
-                System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", " + order.getSubtotal() + ", " + order.getTax() + ", " + order.getDiscount());
+                System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
                 dataManagement.addOrder(order);
                 break;
             case 1:  // Soap
