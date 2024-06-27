@@ -39,7 +39,7 @@ public class Create_Shema {
 			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT," 
 					+"FOREIGN KEY (Oid) REFERENCES Orders(id) "
 					+ "ON DELETE CASCADE,"
-					+ "FOREIGN KEY (Sid) REFERENCES Soap(id)"
+					+ "FOREIGN KEY (Sid) REFERENCES Soap(id) "
 					+ "ON DELETE CASCADE)";
 			
 			
@@ -228,7 +228,7 @@ public class Create_Shema {
 		this.url = sh;
 	}
 
-	void createForeignKeys() {
+	/*void createForeignKeys() {
 		try (Connection connection = DriverManager.getConnection(url, user, password);
 				Statement statement = connection.createStatement()) {
 
@@ -258,5 +258,5 @@ public class Create_Shema {
 		} catch (SQLException e) {
 			System.err.println("Fehler beim Erstellen der Fremdschlüssel: " + e.getMessage());
 		}
-	}
+	}*/
 }

@@ -287,13 +287,13 @@
                 Statement statement = connection.createStatement();
                 
                 String sql = "INSERT INTO orders (user_id, employer_id, order_date, status, total, tax, discount) VALUES (" 
-                             + order.getUser_id() + ", '" 
-                             + order.getEmployee_id() + ", " 
-                             + order.getOrder_date() + "', '" 
-                             + order.getStatus() + "', " 
-                             + order.getTotal() + ", " 
-                             + order.getTax() + ", " 
-                             + order.getDiscount() + ")";
+                        + order.getUser_id() + ", " 
+                        + order.getEmployee_id() + ", '" 
+                        + order.getOrder_date() + "', '" 
+                        + order.getStatus() + "', " 
+                        + order.getTotal() + ", " 
+                        + order.getTax() + ", " 
+                        + order.getDiscount() + ")";
                 
                 int affectedRows = statement.executeUpdate(sql);
 
@@ -692,5 +692,7 @@
 
 
     }
+      
+  
       
   
