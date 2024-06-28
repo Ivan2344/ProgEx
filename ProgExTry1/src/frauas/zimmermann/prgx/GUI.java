@@ -71,6 +71,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     public Data_management dataManagement;
     static public int selectedIndex = -1;
     private int selectedRow = -1;
+    public static final String ONLY_ADD = "add",EDIT_AND_ADD = "edit";
     private JButton addButton , deleteButton , editButton,refreshButton ;
    private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
     public GUI(String usr, String psw) { 
@@ -353,6 +354,18 @@ public class GUI extends Mainframe implements MiddlePanel{
             	selectedRow = employerDatabase.getSelectedRow();
                 if (selectedRow != -1) {
                     handleSelectedRow(selectedRow, employerDatabase, "Employer");
+                    ArrayList<Employer> employer = dataManagement.fetchEmployersFromDatabase();
+                    Employer selectedOrder = employer.get(selectedRow);  
+	           	    JTextField[] textFields;
+	           	    textFields = textFieldMap.get("Employees"); //FEHLERMEDLUNG
+	
+	           	    textFields[0].setText(Integer.toString(selectedOrder.getEmployerId()));
+	           	    textFields[1].setText(selectedOrder.getEmployerName());
+	           	    textFields[2].setText(selectedOrder.getAddress());
+	           	    textFields[3].setText(selectedOrder.getEmail());
+	           	    textFields[4].setText(selectedOrder.getPhoneNumber());
+	           	    textFields[5].setText(selectedOrder.getIndustry());
+	           	    textFields[6].setText(convertDateToString(selectedOrder.getEstablishedDate()));
                 }
             }
         });
@@ -421,6 +434,17 @@ public class GUI extends Mainframe implements MiddlePanel{
             	System.out.print(selectedRow);
                 if (selectedRow != -1) {
                     handleSelectedRow(selectedRow, soapDatabase, "Soap");
+                    ArrayList<Soap> soaps = dataManagement.fetchSoapsFromDatabase();
+                    Soap selectedOrder = soaps.get(selectedRow);  
+	           	    JTextField[] textFields;
+	           	    textFields = textFieldMap.get("Products");
+	
+	           	    textFields[0].setText(Integer.toString(selectedOrder.getId()));
+	           	    textFields[1].setText(Integer.toString(selectedOrder.getEAN()));
+	           	    textFields[2].setText(selectedOrder.getTitle());
+	           	    textFields[3].setText(selectedOrder.getCategory());
+	           	    textFields[4].setText(Double.toString(selectedOrder.getPrice()));
+
                 }
             }
         });
@@ -490,6 +514,19 @@ public class GUI extends Mainframe implements MiddlePanel{
                 if (selectedRow != -1) {
                     handleSelectedRow(selectedRow, orderDatabase, "Order");
                     System.out.print("selectedrow: " + selectedRow);
+                    ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
+           	     	Orders selectedOrder = orders.get(selectedRow);  
+	           	    JTextField[] textFields;
+	           	    textFields = textFieldMap.get("Orders");
+	
+	           	    textFields[0].setText(Integer.toString(selectedOrder.getId()));
+	           	    textFields[1].setText(Integer.toString(selectedOrder.getUser_id()));
+	           	    textFields[2].setText(Integer.toString(selectedOrder.getEmployee_id()));
+	           	    textFields[3].setText(convertDateToString(selectedOrder.getOrder_date()));
+	           	    textFields[4].setText(selectedOrder.getStatus());
+	           	    textFields[5].setText(Integer.toString(selectedOrder.getTotal()));
+	           	    textFields[6].setText(Float.toString(selectedOrder.getTax()));
+	           	    textFields[7].setText(Integer.toString(selectedOrder.getDiscount())); 
                 }
             }
         });
@@ -567,6 +604,18 @@ public class GUI extends Mainframe implements MiddlePanel{
                 	System.out.printf("KLICK!");
                 	System.out.print(selectedRow);
                     handleSelectedRow(selectedRow, customerDatabase, "Customer");
+                    ArrayList<Customers> customers = dataManagement.fetchCustomersFromDatabase();
+                    Customers selectedOrder = customers.get(selectedRow);  
+	           	    JTextField[] textFields;
+	           	    textFields = textFieldMap.get("Customers");
+	
+	           	    textFields[0].setText(Integer.toString(selectedOrder.getId()));
+	           	    textFields[1].setText(selectedOrder.getName());
+	           	    textFields[2].setText(selectedOrder.getAddress());
+	           	    textFields[3].setText(selectedOrder.getEmail());
+	           	    textFields[4].setText(selectedOrder.getPassword());
+	           	    textFields[5].setText(selectedOrder.getCity());
+	           	    textFields[6].setText(convertDateToString(selectedOrder.getBirthDate()));
                 }
             }
         });
@@ -917,73 +966,222 @@ public class GUI extends Mainframe implements MiddlePanel{
 //        }
 //        JOptionPane.showMessageDialog(null, selectedData);
     }
-    public void readTextfield(int menuItem) {
-        JTextField[] textFields;
-        switch (menuItem) {
-            case 0:  // Orders
-                textFields = textFieldMap.get("Orders");
-                Orders order = new Orders();
-                order.setUser_id(Integer.parseInt(textFields[1].getText()));  // User ID
-                order.setEmployee_id(Integer.parseInt(textFields[2].getText()));
-                order.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
-                order.setStatus(textFields[4].getText());                     // Status
-                order.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
-                order.setTax(Float.parseFloat(textFields[6].getText()));      // Tax
-                order.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
+    
+    
+    
+    public void readTextfield(int menuItem, String operation, Object selectedObject) {
+    	 JTextField[] textFields;
+         System.out.println("Lesen der Textfelder für menuItem: " + menuItem + ", Modus: " + operation);
 
-                System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
-                dataManagement.addOrder(order);
-                break;
-            case 1:  // Soap
-                textFields = textFieldMap.get("Products");
-                Soap soap = new Soap();
-                soap.setEAN(Integer.parseInt(textFields[1].getText()));       // EAN
-                soap.setTitle(textFields[2].getText());                       // Title
-                soap.setCategory(textFields[3].getText());                    // Category
-                soap.setPrice(Double.parseDouble(textFields[4].getText()));     // Price
 
-                System.out.println("Soap: " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice() + ", " + soap.getCreatedAt());
-                dataManagement.addSoap(soap);
-                break;
-            case 2:  // Employer
-                textFields = textFieldMap.get("Employees");
-                Employer employer = new Employer();
-                employer.setEmployerName(textFields[1].getText());            // Name
-                employer.setAddress(textFields[2].getText());                 // Address
-                employer.setEmail(textFields[3].getText());                   // Email
-                employer.setPhoneNumber(textFields[4].getText());             // Phone Number
-                employer.setIndustry(textFields[5].getText());                // Industry
-                employer.setEstablishedDate(convertToDate(textFields[6].getText())); // Established Date
+        if (selectedObject instanceof Orders) {
+	        	textFields = textFieldMap.get("Orders");
+	            Orders order = (Orders) selectedObject;
+	            
+	            order.setUser_id(Integer.parseInt(textFields[1].getText()));  // User ID
+	            order.setEmployee_id(Integer.parseInt(textFields[2].getText()));
+	            order.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
+	            order.setStatus(textFields[4].getText());                     // Status
+	            order.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
+	            order.setTax(Float.parseFloat(textFields[6].getText()));      // Tax
+	            order.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
+	 
+	            System.out.println("Order verarbeitet: " + order);
+	            if ("edit".equals(operation)) {
+	            	dataManagement.updateOrder(order);
+	            } else if("add".equals(operation)) {
+	            	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
+	            	dataManagement.addOrder(order); }
+	            	
+	            	for (JTextField textField : textFields) {
+	                textField.setText("");
+	            }
+            
+        } else if (selectedObject instanceof Soap) {
+	            textFields = textFieldMap.get("Products");
+	            Soap soap = (Soap) selectedObject;
+	            
+	            soap.setEAN(Integer.parseInt(textFields[1].getText()));       // EAN
+	            soap.setTitle(textFields[2].getText());                       // Title
+	            soap.setCategory(textFields[3].getText());                    // Category
+	            soap.setPrice(Double.parseDouble(textFields[4].getText()));     // Price
+	
+	            if ("edit".equals(operation)) {
+	            	dataManagement.updateSoap(soap);
+	            } else if("add".equals(operation)) {
+	            	System.out.println("Orders: " + soap.getId() + ", " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice());
+	            	dataManagement.addSoap(soap);
+	            }
+	            
+	            System.out.println("Soap verarbeitet: " + soap);
+	            
+	            
+        } else if (selectedObject instanceof Employer) {
+        		System.out.println("Erkannt dass es sich um Employer handeln muss");
+        		textFields = textFieldMap.get("Employees");
+            	Employer employer = (Employer) selectedObject;
+            	
+	          
+            	employer.setEmployerName(textFields[1].getText());            // Name
+            	employer.setAddress(textFields[2].getText());                 // Address
+            	employer.setEmail(textFields[3].getText());                   // Email
+	          	employer.setPhoneNumber(textFields[4].getText());             // Phone Number
+	          	employer.setIndustry(textFields[5].getText());                // Industry
+	          	employer.setEstablishedDate(convertToDate(textFields[6].getText())); // Established Date
+	
+		          if ("edit".equals(operation)) {
+		          	dataManagement.updateEmployer(employer);
+		          } else if("add".equals(operation)) {
+		          	System.out.println("Orders: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber()  + ", "+ employer.getIndustry() + ", " + employer.getEstablishedDate());
+		          	dataManagement.addEmployer(employer);
+		          }
+		          
+		            System.out.println("Employer verarbeitet: " + employer);
+        } else if (selectedObject instanceof Customers) {
+            
+            	textFields = textFieldMap.get("Customers");
+            	Customers customer = (Customers) selectedObject;
+		         
+		          customer.setName(textFields[1].getText());                    // Name
+		          customer.setAddress(textFields[2].getText());                 // Address
+		          customer.setEmail(textFields[3].getText());                   // Email
+		          customer.setPassword(textFields[4].getText());                // Password
+		          customer.setCity(textFields[5].getText());                    // City
+		          customer.setBirthDate(convertToDate(textFields[6].getText())); // Birth Date
+		
+		          if ("edit".equals(operation)) {
+		          	dataManagement.updateCustomer(customer);
+		          } else if("add".equals(operation)) {
+		          	System.out.println("Orders: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", "+ customer.getBirthDate() );
+		          	dataManagement.addCustomer(customer);
+		          }
+          
+		          	System.out.println("Customer verarbeitet: " + customer);
+        
+    }}
+    
+//    public void readTextfield(int menuItem, String operation, Object object) {
+//        JTextField[] textFields;
+//        
+//        switch (menuItem) {
+//            case 0:  // Orders
+//                textFields = textFieldMap.get("Orders");
+////                object = new Orders();
+//                object.setUser_id(Integer.parseInt(textFields[1].getText()));  // User ID
+//                object.setEmployee_id(Integer.parseInt(textFields[2].getText()));
+//                object.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
+//                object.setStatus(textFields[4].getText());                     // Status
+//                object.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
+//                object.setTax(Float.parseFloat(textFields[6].getText()));      // Tax
+//                object.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
+//
+//                if (operation == "edit") {
+//                	dataManagement.updateOrder(order);
+//                } else if(operation == "add") {
+//                	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
+//                	dataManagement.addOrder(order); 
+//                	
+//                	for (JTextField textField : textFields) {
+//                    textField.setText("");
+//                }              	
+//                }
+//                
+//                
+//                
+//                break;
+//            case 1:  // Soap
+//                textFields = textFieldMap.get("Products");
+//                Soap soap = new Soap();
+//                soap.setEAN(Integer.parseInt(textFields[1].getText()));       // EAN
+//                soap.setTitle(textFields[2].getText());                       // Title
+//                soap.setCategory(textFields[3].getText());                    // Category
+//                soap.setPrice(Double.parseDouble(textFields[4].getText()));     // Price
+//
+//                if (operation == "edit") {
+//                	dataManagement.updateSoap(soap);
+//                } else if(operation == "add") {
+//                	System.out.println("Orders: " + soap.getId() + ", " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice());
+//                	dataManagement.addSoap(soap);
+//                }
+//                break;
+//            case 2:  // Employer
+//                textFields = textFieldMap.get("Employees");
+//                Employer employer = new Employer();
+//                employer.setEmployerName(textFields[1].getText());            // Name
+//                employer.setAddress(textFields[2].getText());                 // Address
+//                employer.setEmail(textFields[3].getText());                   // Email
+//                employer.setPhoneNumber(textFields[4].getText());             // Phone Number
+//                employer.setIndustry(textFields[5].getText());                // Industry
+//                employer.setEstablishedDate(convertToDate(textFields[6].getText())); // Established Date
+//
+//                if (operation == "edit") {
+//                	dataManagement.updateEmployer(employer);
+//                } else if(operation == "add") {
+//                	System.out.println("Orders: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber()  + ", "+ employer.getIndustry() + ", " + employer.getEstablishedDate());
+//                	dataManagement.addEmployer(employer);
+//                }
+//                break;
+//            case 3:  // Customers
+//                textFields = textFieldMap.get("Customers");
+//                Customers customer = new Customers();
+//                customer.setName(textFields[1].getText());                    // Name
+//                customer.setAddress(textFields[2].getText());                 // Address
+//                customer.setEmail(textFields[3].getText());                   // Email
+//                customer.setPassword(textFields[4].getText());                // Password
+//                customer.setCity(textFields[5].getText());                    // City
+//                customer.setBirthDate(convertToDate(textFields[6].getText())); // Birth Date
+//
+//                if (operation == "edit") {
+//                	dataManagement.updateCustomer(customer);
+//                } else if(operation == "add") {
+//                	System.out.println("Orders: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", "+ customer.getBirthDate() );
+//                	dataManagement.addCustomer(customer);
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
-                System.out.println("Employer: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber() + ", " + employer.getIndustry() + ", " + employer.getEstablishedDate());
-                dataManagement.addEmployer(employer);
-                break;
-            case 3:  // Customers
-                textFields = textFieldMap.get("Customers");
-                Customers customer = new Customers();
-                customer.setName(textFields[1].getText());                    // Name
-                customer.setAddress(textFields[2].getText());                 // Address
-                customer.setEmail(textFields[3].getText());                   // Email
-                customer.setPassword(textFields[4].getText());                // Password
-                customer.setCity(textFields[5].getText());                    // City
-                customer.setBirthDate(convertToDate(textFields[6].getText())); // Birth Date
+    	
+    	
+    
+    
 
-                System.out.println("Customer: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", " + customer.getBirthDate() + ", " + customer.getCreatedAt());
-                dataManagement.addCustomer(customer);
-                break;
-            default:
-                break;
-        }
+
+    public void editRowInDatabase(int menuItem) {
+
+    	switch (menuItem) {
+        case 0:
+        	     ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
+        	     Orders selectedOrder = orders.get(selectedRow);      
+        	     readTextfield(menuItem, EDIT_AND_ADD, selectedOrder);
+        	     System.out.println("Selected Order ID: " + selectedOrder.getId());
+//                 System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
+//                 dataManagement.addOrder(order);       	     
+        	break;
+            
+        case 1:
+        		ArrayList<Soap> soap = dataManagement.fetchSoapsFromDatabase();
+        		Soap selectedSoap = soap.get(selectedRow);  
+        		readTextfield(menuItem, EDIT_AND_ADD, selectedSoap);
+        		System.out.println("Selected Order ID: " + selectedSoap.getId());
+            break;
+        case 2:
+        		ArrayList<Employer> employer = dataManagement.fetchEmployersFromDatabase();
+        		Employer selectedEmployer = employer.get(selectedRow);  
+        		readTextfield(menuItem, EDIT_AND_ADD, selectedEmployer);
+        		System.out.println("Selected Order ID: " + selectedEmployer.getEmployerId());
+            break;
+        case 3:
+        		ArrayList<Customers> customer = dataManagement.fetchCustomersFromDatabase();
+        		Customers selectedCustomers = customer.get(selectedRow);  
+        		readTextfield(menuItem, EDIT_AND_ADD, selectedCustomers);
+   	     		System.out.println("Selected Order ID: " + selectedCustomers.getId());
+            break;
+        default:
+            break;
     }
-
-    	
-    	
-    
-    
-
-
-    public void editRowInDatabase() {
-    	
     }
     
     public void refreshDatabase() {
@@ -993,8 +1191,27 @@ public class GUI extends Mainframe implements MiddlePanel{
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
-                readTextfield(menuItem); // Ruft die Methode zum Lesen und Verarbeiten der Textfelder auf
+                Object selectedObject = null;
+
+                switch (menuItem) {
+                    case 0:
+                        selectedObject = new Orders();
+                        break;
+                    case 1:
+                        selectedObject = new Soap();
+                        break;
+                    case 2:
+                        selectedObject = new Employer();
+                        break;
+                    case 3:
+                        selectedObject = new Customers();
+                        break;
+                    default:
+                        System.out.println("Ungültige Auswahl");
+                        return;
+                }
+
+                readTextfield(menuItem, ONLY_ADD, selectedObject);
             }
         });
     }
@@ -1039,7 +1256,6 @@ public class GUI extends Mainframe implements MiddlePanel{
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
                deleteRowInDatabase(menuItem);
 
             }
@@ -1049,8 +1265,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
-                // soll die ausgewählte reihe scannen und dann die Möglichkeit bieten zu bearbeiten
+            	editRowInDatabase(menuItem);
             }
         });
     }
@@ -1058,7 +1273,6 @@ public class GUI extends Mainframe implements MiddlePanel{
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Button geklickt: " + e.getActionCommand());
                 // soll die datenbank refreshen
             }
         });
@@ -1074,9 +1288,16 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
     }
 
+    
+    public static String convertDateToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(date);
+    }
+    
+    
     public static Date convertToDate(String dateString) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             java.util.Date parsedDate = dateFormat.parse(dateString);
             return new Date(parsedDate.getTime());
         } catch (ParseException e) {
