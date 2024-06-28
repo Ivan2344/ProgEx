@@ -60,11 +60,13 @@ public class LoginMask extends Mainframe {
         
        		
         
-    /* // ActionListener für den Login-Button
+    //ActionListener für den Login-Button
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login();
+            	String username = userNameField.getText();
+                String password = new String(passwordField.getPassword());
+                login(username, password);
             }
         });
 
@@ -73,33 +75,15 @@ public class LoginMask extends Mainframe {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    login();
+                	String username = userNameField.getText();
+                    String password = new String(passwordField.getPassword());
+                    login(username, password);
                 }
             }
         });
 
-        // Methode, um den eigentlichen Login-Prozess durchzuführen
-        public void login() {
-            String username = userNameField.getText();
-            String password = new String(passwordField.getPassword());
-
-            // Prüfe, ob die Verbindung zur Datenbank hergestellt werden kann
-            Create_Shema schema = new Create_Shema(username, password);
-            boolean success = schema.CreateDB();
-            schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
-            schema.InsertDemoValues();
-
-            if (success) {
-                GUI new2 = new GUI(username, password);
-                JOptionPane.showMessageDialog(frame, "Login successful!");
-                // Hier könnten Sie zur Hauptanwendung wechseln oder weitere Aktionen ausführen
-                frame.setVisible(false); // Login-Fenster ausblenden
-            } else {
-                JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
-            }
-        } */
-        
-     // ActionListener to handle login button click
+       
+  /*   // ActionListener to handle login button click
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,7 +105,7 @@ public class LoginMask extends Mainframe {
                     JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
                 }
             }
-        });
+        });*/
 
         // Add components to the login panel
         loginPanel.add(userNameLabel);
@@ -164,5 +148,23 @@ public class LoginMask extends Mainframe {
         rightPanel.setBackground(Color.LIGHT_GRAY);
         rightPanel.setPreferredSize(new Dimension(300, 0)); // Breite einstellen
         Panel.add(rightPanel, BorderLayout.EAST);
+    }
+    
+    public void login(String username, String password) {
+
+        // Prüfe, ob die Verbindung zur Datenbank hergestellt werden kann
+        Create_Shema schema = new Create_Shema(username, password);
+        boolean success = schema.CreateDB();
+        schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
+        schema.InsertDemoValues();
+
+        if (success) {
+            GUI new2 = new GUI(username, password);
+            //JOptionPane.showMessageDialog(frame, "Login successful!");
+            // Hier könnten Sie zur Hauptanwendung wechseln oder weitere Aktionen ausführen
+            frame.setVisible(false); // Login-Fenster ausblenden
+        } else {
+            JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
+        }
     }
 }
