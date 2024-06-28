@@ -1,5 +1,7 @@
 
 
+   
+
     package frauas.zimmermann.prgx;
 
     import java.sql.*;
@@ -414,7 +416,7 @@ import javax.swing.DefaultListModel;
             }
         }
         
-    /*   public void updateEmployer(Employer employer) {
+        public void updateEmployer(Employer employer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
@@ -442,46 +444,9 @@ import javax.swing.DefaultListModel;
             } catch (Exception e) {
                 System.out.println("Error updating employer: " + e.getMessage());
             }
-      } */
-        
-        public void updateEmployer(Employer employer) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                // Create a list of SQL update statements for each column
-                ArrayList<String> updates = new ArrayList<>();
-                updates.add("employer_name = '" + employer.getEmployerName() + "'");
-                updates.add("address = '" + employer.getAddress() + "'");
-                updates.add("email = '" + employer.getEmail() + "'");
-                updates.add("phone_number = '" + employer.getPhoneNumber() + "'");
-                updates.add("industry = '" + employer.getIndustry() + "'");
-                updates.add("established_date = '" + employer.getEstablishedDate() + "'");
-
-                // Execute each update statement individually
-                for (String update : updates) {
-                    String sql = "UPDATE employer SET " + update + " WHERE employer_id = " + employer.getEmployerId();
-                    try {
-                        int affectedRows = statement.executeUpdate(sql);
-                        if (affectedRows > 0) {
-                            System.out.println("Column successfully updated: " + update);
-                        } else {
-                            System.out.println("Error updating column: " + update);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
-                    }
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating employer: " + e.getMessage());
-            }
         }
-            
-         
         
-   /*     public void updateOrder(Orders order) {
+        public void updateOrder(Orders order) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
@@ -564,106 +529,6 @@ import javax.swing.DefaultListModel;
                     System.out.println("Customer successfully updated.");
                 } else {
                     System.out.println("Error updating Customer.");
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating customer: " + e.getMessage());
-            }
-        }*/
-        
-        public void updateOrder(Orders order) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                ArrayList<String> updates = new ArrayList<>();
-                updates.add("user_id = " + order.getUser_id());
-                updates.add("employer_id = " + order.getEmployee_id());
-                updates.add("order_date = '" + order.getOrder_date() + "'");
-                updates.add("status = '" + order.getStatus() + "'");
-                updates.add("total = " + order.getTotal());
-                updates.add("tax = " + order.getTax());
-                updates.add("discount = " + order.getDiscount());
-
-                for (String update : updates) {
-                    String sql = "UPDATE orders SET " + update + " WHERE id = " + order.getId();
-                    try {
-                        int affectedRows = statement.executeUpdate(sql);
-                        if (affectedRows > 0) {
-                            System.out.println("Column successfully updated: " + update);
-                        } else {
-                            System.out.println("Error updating column: " + update);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
-                    }
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating order: " + e.getMessage());
-            }
-        }
-
-        public void updateSoap(Soap soap) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                ArrayList<String> updates = new ArrayList<>();
-                updates.add("EAN = " + soap.getEAN());
-                updates.add("titel = '" + soap.getTitle() + "'");
-                updates.add("category = '" + soap.getCategory() + "'");
-                updates.add("price = " + soap.getPrice());
-                updates.add("created_at = '" + soap.getCreatedAt() + "'");
-
-                for (String update : updates) {
-                    String sql = "UPDATE soap SET " + update + " WHERE id = " + soap.getId();
-                    try {
-                        int affectedRows = statement.executeUpdate(sql);
-                        if (affectedRows > 0) {
-                            System.out.println("Column successfully updated: " + update);
-                        } else {
-                            System.out.println("Error updating column: " + update);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
-                    }
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating soap: " + e.getMessage());
-            }
-        }
-
-        public void updateCustomer(Customers customer) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                ArrayList<String> updates = new ArrayList<>();
-                updates.add("address = '" + customer.getAddress() + "'");
-                updates.add("email = '" + customer.getEmail() + "'");
-                updates.add("password = '" + customer.getPassword() + "'");
-                updates.add("name = '" + customer.getName() + "'");
-                updates.add("city = '" + customer.getCity() + "'");
-                updates.add("birth_date = '" + customer.getBirthDate() + "'");
-                updates.add("created_at = '" + customer.getCreatedAt() + "'");
-
-                for (String update : updates) {
-                    String sql = "UPDATE customers SET " + update + " WHERE id = " + customer.getId();
-                    try {
-                        int affectedRows = statement.executeUpdate(sql);
-                        if (affectedRows > 0) {
-                            System.out.println("Column successfully updated: " + update);
-                        } else {
-                            System.out.println("Error updating column: " + update);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
-                    }
                 }
 
                 connection.close();
@@ -882,6 +747,9 @@ import javax.swing.DefaultListModel;
 
     }
       
+  
+      
+
   
       
     
