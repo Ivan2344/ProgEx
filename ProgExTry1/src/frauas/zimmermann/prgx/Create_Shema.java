@@ -36,7 +36,7 @@ public class Create_Shema {
 					+ "discount INT ,FOREIGN KEY (user_id) REFERENCES customers(id) ON DELETE CASCADE,"
 					+ "FOREIGN KEY(employer_id) REFERENCES employer(employer_id) ON DELETE CASCADE)";
 
-			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT," 
+			String createOrderProd = "CREATE TABLE IF NOT EXISTS RefOrderProd(id INT AUTO_INCREMENT Primary KEY, Oid INT, Sid INT, quantity INT," 
 					+"FOREIGN KEY (Oid) REFERENCES Orders(id) "
 					+ "ON DELETE CASCADE,"
 					+ "FOREIGN KEY (Sid) REFERENCES Soap(id) "
@@ -179,11 +179,12 @@ public class Create_Shema {
 			Connection connection = DriverManager.getConnection(url, user, password);
 			System.out.println("Verbindung zur Datenbank hergestellt!");
 
-			String insertQuery = "INSERT INTO RefOrderProd (id, Oid, Sid) VALUES (?, ?, ?)";
+			String insertQuery = "INSERT INTO RefOrderProd (id, Oid, Sid,quantity) VALUES (?, ?, ?, ?)";
 			PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 			preparedStatement.setInt(1, 1); // id
 			preparedStatement.setInt(2, 1); // Wert für Oid
 			preparedStatement.setInt(3, 1); // Wert für Sid
+			preparedStatement.setInt(4, 1); // Wert für quantity
 
 			int rowsAffected = preparedStatement.executeUpdate();
 			if (rowsAffected > 0) {

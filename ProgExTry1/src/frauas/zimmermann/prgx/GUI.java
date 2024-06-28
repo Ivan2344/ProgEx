@@ -180,6 +180,12 @@ public class GUI extends Mainframe implements MiddlePanel{
 		secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
 		firstLeftPanel.setLayout(new BorderLayout());		
 		
+		if(menuItem==0) {
+			rightPanel.setBorder(BorderFactory.createMatteBorder(
+	                100, 20, 60, 40, BORDER_COLOR));
+	        rightPanel.setLayout(new GridLayout(1, 2));
+			
+		}
 		
 		addButtonPanel= createPanel();
 		editButtonPanel= createPanel();
@@ -530,7 +536,16 @@ public class GUI extends Mainframe implements MiddlePanel{
                 }
             }
         });
+        
+        JButton openProductsButton = new JButton("Add Products");
+        openProductsButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+        openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
 
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBackground(Color.lightGray);
+        buttonPanel.add(openProductsButton);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);	  
+        
         JScrollPane scrollPane = new JScrollPane(orderDatabase);
         orderPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -687,8 +702,10 @@ public class GUI extends Mainframe implements MiddlePanel{
   
         JLabel[] customLabels = new JLabel[labels.length];
         JTextField[] textFields = new JTextField[labels.length];
-        int nextId = dataManagement.findMaxId(panelName)+1;
-
+        
+        int nextId = dataManagement.findMaxId(panelName) + 1;
+    
+        
         for (int i = 0; i < labels.length; i++) {
             customLabels[i] = createCustomLabel(labels[i]);
             leftTempPanel.add(customLabels[i]);
@@ -709,17 +726,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         splitPane.setResizeWeight(0.33);
         tempPanel.add(splitPane, BorderLayout.CENTER);        
         tempPanel.add(titlePanel, BorderLayout.NORTH);
-        
-        if(panelName == "Orders") {
-	        JButton openProductsButton = new JButton("Add Products");
-	        openProductsButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-	        openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
-	
-	        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-	        buttonPanel.setBackground(BLUE);
-	        buttonPanel.add(openProductsButton);
-	        tempPanel.add(buttonPanel, BorderLayout.SOUTH);	       
-        }
+
         secondLeftPanel.add(tempPanel);
 
         
@@ -784,8 +791,15 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
-    private static void addProductsToOrderFrame(Data_management dataManagement) {
-    	 int orderId = dataManagement.findMaxId("Orders");
+    private void addProductsToOrderFrame(Data_management dataManagement) {
+        int orderId;
+    	if ("Orders".equals("Orders") && selectedRow != -1) {								//gives OrderId of selected row to add products
+            ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
+            Orders selectedOrder = orders.get(selectedRow);
+            orderId = selectedOrder.getId();
+        } else {
+        	orderId = dataManagement.findMaxId("Orders") + 1;
+        }
     	 
         JFrame newFrame = new JFrame("Product Drag and Drop");
         newFrame.setSize(600, 400);
@@ -797,10 +811,19 @@ public class GUI extends Mainframe implements MiddlePanel{
        
         JTree productTree = new JTree(productTreeModel(dataManagement));
         JList<String> cartList = new JList<>(cartListModel);
+//        
+//        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
+//        for (Soap soap : existingSoaps) {
+//            cartListModel.addElement(soap.getTitle());
+//        }
         
         ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
         for (Soap soap : existingSoaps) {
-            cartListModel.addElement(soap.getTitle());
+        	System.out.println("quantity:"+ soap.getQuantity());
+            for (int i = 0; i < soap.getQuantity(); i++) {
+                cartListModel.addElement(soap.getTitle());
+                
+            }
         }
         
 
@@ -886,36 +909,94 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
 
     
-    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int orderId, ArrayList<Soap> existingSoaps) {
-    	Set<String> existingProductTitles = new HashSet<>();
-        for (Soap soap : existingSoaps) {
-            existingProductTitles.add(soap.getTitle());
-        }
-        
-//    	for (int i = 0; i < cartListModel.getSize(); i++) {
+//    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int orderId, ArrayList<Soap> existingSoaps) {
+////    	Set<String> existingProductTitles = new HashSet<>();
+////        for (Soap soap : existingSoaps) {
+////            existingProductTitles.add(soap.getTitle());
+////        }
+//        Map<String, Integer> existingProductCounts = new HashMap<>();
+//        for (Soap soap : existingSoaps) {
+//            existingProductCounts.put(soap.getTitle(), soap.getQuantity());
+//        }
+//       
+////        for (int i = 0; i < cartListModel.getSize(); i++) {
+////            String productTitle = cartListModel.getElementAt(i);
+////            if (!existingProductTitles.contains(productTitle)) {
+////                int soapId = dataManagement.getSoapIdByTitle(productTitle);
+////                if (soapId != -1) {
+////                    dataManagement.addOrderProductReference(orderId, soapId);
+////                    System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
+////                } else {
+////                    System.out.println("Error: Could not find soap ID for title: " + productTitle);
+////                }
+////            }
+////        }
+//        for (int i = 0; i < cartListModel.getSize(); i++) {
 //            String productTitle = cartListModel.getElementAt(i);
-//            if (existingProductTitles.contains(productTitle)) {
-//	            int soapId = dataManagement.getSoapIdByTitle(productTitle);
-//	            if (soapId != -1) {
-//	                dataManagement.addOrderProductReference(1, soapId);
-//	            } else {
-//	                System.out.println("Error: Could not find soap ID for title: " + productTitle);
-//	            }
+//            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+//            if (soapId != -1) {
+//                if (existingProductCounts.containsKey(productTitle)) {
+//                    // Product already exists, so update the quantity if necessary
+//                    int newQuantity = existingProductCounts.get(productTitle) + 1;
+//                    dataManagement.updateOrderProductQuantity(orderId, soapId, newQuantity);
+//                    existingProductCounts.put(productTitle, newQuantity);
+//                } else {
+//                    // New product, so add it to the order
+//                    dataManagement.addOrderProductReference(orderId, soapId);
+//                    existingProductCounts.put(productTitle, 1);
+//                    System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
+//                }
+//            } else {
+//                System.out.println("Error: Could not find soap ID for title: " + productTitle);
 //            }
 //        }
-    	for (int i = 0; i < cartListModel.getSize(); i++) {
+//        System.out.println("Cart contents saved to database.");
+//     	
+//        
+//    }
+    
+    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId, ArrayList<Soap> existingSoaps) {
+
+
+    	// Track existing products and their quantities
+        Map<String, Integer> existingProductCounts = new HashMap<>();
+        for (Soap soap : existingSoaps) {
+            existingProductCounts.put(soap.getTitle(), soap.getQuantity());
+        }
+
+        // Track new products to be added
+        Map<String, Integer> newProductCounts = new HashMap<>();
+        for (int i = 0; i < cartListModel.getSize(); i++) {
             String productTitle = cartListModel.getElementAt(i);
+            newProductCounts.put(productTitle, newProductCounts.getOrDefault(productTitle, 0) + 1);
+        }
+
+        // Update quantities of existing products or add new products
+        for (Map.Entry<String, Integer> entry : newProductCounts.entrySet()) {
+            String productTitle = entry.getKey();
+            int newQuantity = entry.getValue();
             int soapId = dataManagement.getSoapIdByTitle(productTitle);
+
             if (soapId != -1) {
-                dataManagement.addOrderProductReference(orderId, soapId);
-                System.out.println("Product ID:"+ soapId+ ", Product Title: "+ productTitle);
+                if (existingProductCounts.containsKey(productTitle)) {
+                    // Product already exists, update the quantity if necessary
+                    int existingQuantity = existingProductCounts.get(productTitle);
+                    int totalQuantity = existingQuantity + newQuantity;
+                    dataManagement.updateOrderProductQuantity(orderId, soapId, totalQuantity);
+                    System.out.println("Updated quantity for Product ID: " + soapId + ", Product Title: " + productTitle + " to " + totalQuantity);
+                } else {
+                    // New product, add it to the order
+                    for (int i = 0; i < newQuantity; i++) {
+                        dataManagement.addOrderProductReference(orderId, soapId);
+                    }
+                    System.out.println("Added Product ID: " + soapId + ", Product Title: " + productTitle + " Quantity: " + newQuantity);
+                }
             } else {
                 System.out.println("Error: Could not find soap ID for title: " + productTitle);
             }
         }
         System.out.println("Cart contents saved to database.");
     }
-    
 
 
     private JPanel setUpper(String header) {
@@ -936,7 +1017,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     private void setRight(JPanel Panel) {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.LIGHT_GRAY);
-        rightPanel.setPreferredSize(new Dimension(40, 0)); // Breite einstellen
+        rightPanel.setPreferredSize(new Dimension(15, 0)); // Breite einstellen
         Panel.add(rightPanel, BorderLayout.EAST);
     }
 
