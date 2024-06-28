@@ -166,7 +166,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         titleLabel = createCustomLabel("Commands:");
         titleLabel.setBackground(Color.LIGHT_GRAY);
         titlePanel = createPanelWithBorder(BUTTON_PANEL);
-        titlePanel.setFont(new java.awt.Font("Book Antiqua", 0, 17));
+        titlePanel.setFont(new java.awt.Font("Book Antiqua", 0, 20));
         titlePanel.add(titleLabel);
                 
         tempPanel.setBackground(Color.WHITE);
@@ -632,7 +632,8 @@ public class GUI extends Mainframe implements MiddlePanel{
     	titleLabel.setBackground(Color.LIGHT_GRAY);
     	titleLabel.setFont(new java.awt.Font("Book Antiqua", 0, 20));
     	titlePanel.add(titleLabel);
-        JPanel tempPanel = new JPanel(new BorderLayout());
+        JPanel tempPanel = new JPanel(new BorderLayout());       
+        
         JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
         JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
   
@@ -667,7 +668,9 @@ public class GUI extends Mainframe implements MiddlePanel{
 	        openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
 	
 	        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+//	        buttonPanel = createPanelWithBorder(BUTTON_PANEL);
 	        buttonPanel.setBackground(BLUE);
+	        
 	        buttonPanel.add(openProductsButton);
 	        tempPanel.add(buttonPanel, BorderLayout.SOUTH);	       
         }
