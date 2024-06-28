@@ -1073,9 +1073,20 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            } else if("add".equals(operation)) {
 	            	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
 	            	dataManagement.addOrder(order); }
-	            for (JTextField textField : textFields) {
-	                textField.setText("");
+	            
+	            for (int i = 1; i < textFields.length; i++) {
+	                textFields[i].setText("");
+	                
+//	                int nextId = dataManagement.findMaxId(panelName)+1;
+//
+//
+//	                    JTextField textField = new JTextField();
+//	                    if ("ID".equals(labels[i])) {
+//	                        textField.setText(String.valueOf(nextId));
+//	                        textField.setEditable(false);
+//	                    }
 	            }
+	            
 	            
             
         } else if (selectedObject instanceof Soap) {
@@ -1093,8 +1104,9 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            	System.out.println("Orders: " + soap.getId() + ", " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice());
 	            	dataManagement.addSoap(soap);
 	            }
-	            for (JTextField textField : textFields) {
-	                textField.setText("");
+	            
+	            for (int i = 1; i < textFields.length; i++) {
+	                textFields[i].setText("");
 	            }
 	            System.out.println("Soap verarbeitet: " + soap);
 	            
@@ -1118,9 +1130,9 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          	System.out.println("Orders: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber()  + ", "+ employer.getIndustry() + ", " + employer.getEstablishedDate());
 		          	dataManagement.addEmployer(employer);
 		          }
-		          for (JTextField textField : textFields) {
-		                textField.setText("");
-		            }
+		          for (int i = 1; i < textFields.length; i++) {
+		        	    textFields[i].setText("");
+		        	}
 		            System.out.println("Employer verarbeitet: " + employer);
         } else if (selectedObject instanceof Customers) {
             
@@ -1140,9 +1152,9 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          	System.out.println("Orders: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", "+ customer.getBirthDate() );
 		          	dataManagement.addCustomer(customer);
 		          }
-		          for (JTextField textField : textFields) {
-		                textField.setText("");
-		            }
+		          for (int i = 1; i < textFields.length; i++) {
+		        	    textFields[i].setText("");
+		        	}
 		          	System.out.println("Customer verarbeitet: " + customer);
         
         	
