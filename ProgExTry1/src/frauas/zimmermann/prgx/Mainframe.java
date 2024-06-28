@@ -18,6 +18,7 @@ public class Mainframe{
 	innerCenterPanel, northCenterPanel, leftInnerCenterPanel, 
 	middleInnerCenterPanel, rightInnerCenterPanel, wedummy, nsdummy, cLeftInnerCenterPanel;
 	JLabel label;
+	
 	protected static final int LEFT_PANEL = 0, RIGHT_PANEL = 1,INNER_LEFT_PANEL = 2, BUTTON_PANEL = 3;
     protected static final Color BORDER_COLOR = Color.LIGHT_GRAY, LIGHT_BLUE = new Color (230,230,255), headerColor = new java.awt.Color(184, 235, 209);
     

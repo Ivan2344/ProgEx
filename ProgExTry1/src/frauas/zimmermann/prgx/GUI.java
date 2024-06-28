@@ -117,7 +117,6 @@ public class GUI extends Mainframe implements MiddlePanel{
       
                         } else {
                             panelList[i].setVisible(false);
-//                            System.out.print("item click is recognized empty\n");
                         }
                         
                     }
@@ -140,7 +139,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         	
             panelList[i] = setMainPanels(i);
 //            panelList[i] = setContents(i); 
-            panelList[i].setVisible(true);
+//            panelList[i].setVisible(true);
             innerCenterPanel.add(panelList[i]);
         }
         
@@ -825,6 +824,16 @@ public class GUI extends Mainframe implements MiddlePanel{
 //                
 //            }
 //        }
+
+        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
+        for (Soap soap : existingSoaps) {
+        	System.out.println("quantity:"+ soap.getQuantity());
+            for (int i = 0; i < soap.getQuantity(); i++) {
+                cartListModel.addElement(soap.getTitle());
+                
+            }
+        }
+
         
 
         productTree.setDragEnabled(true);
@@ -960,9 +969,11 @@ public class GUI extends Mainframe implements MiddlePanel{
 
     	// Track existing products and their quantities
         Map<String, Integer> existingProductCounts = new HashMap<>();
-//        for (Soap soap : existingSoaps) {
-//            existingProductCounts.put(soap.getTitle(), soap.getQuantity());
-//        }
+
+        for (Soap soap : existingSoaps) {
+            existingProductCounts.put(soap.getTitle(), soap.getQuantity());
+        }
+
 
         // Track new products to be added
         Map<String, Integer> newProductCounts = new HashMap<>();
@@ -982,7 +993,11 @@ public class GUI extends Mainframe implements MiddlePanel{
                     // Product already exists, update the quantity if necessary
                     int existingQuantity = existingProductCounts.get(productTitle);
                     int totalQuantity = existingQuantity + newQuantity;
+
 //                    dataManagement.updateOrderProductQuantity(orderId, soapId, totalQuantity);
+
+                    dataManagement.updateOrderProductQuantity(orderId, soapId, totalQuantity);
+
                     System.out.println("Updated quantity for Product ID: " + soapId + ", Product Title: " + productTitle + " to " + totalQuantity);
                 } else {
                     // New product, add it to the order
@@ -1274,9 +1289,29 @@ public class GUI extends Mainframe implements MiddlePanel{
     	
     }
     
-    public void refreshDatabase() {
+    public void refreshALL() {
+    		
+    	for (int i = 0; i < panelList.length; i++) {
+    		panelList[i].removeAll();
+        	innerCenterPanel.add(panelList[i]);}
     	
+        	createMainPanel(); 
+        	createMenuList(menuItems);
+        	
+        for (int i = 0; i <= selectedIndex; i++) {
+        	
+            if(i== selectedIndex ) {panelList[i].setVisible(true);}
+            else {panelList[i].setVisible(false);}
+                 
+
+         }
     }
+
+        	
+        	
+
+    
+    	
     public void setActionAddButton(int menuItem) {
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -1302,6 +1337,7 @@ public class GUI extends Mainframe implements MiddlePanel{
                 }
 
                 readTextfield(menuItem, ONLY_ADD, selectedObject);
+                refreshALL();
             }
         });
     }
@@ -1347,6 +1383,7 @@ public class GUI extends Mainframe implements MiddlePanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                deleteRowInDatabase(menuItem);
+               refreshALL();
 
             }
         });
@@ -1356,6 +1393,7 @@ public class GUI extends Mainframe implements MiddlePanel{
             @Override
             public void actionPerformed(ActionEvent e) {
             	editRowInDatabase(menuItem);
+            	refreshALL();
             }
         });
     }
@@ -1363,7 +1401,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // soll die datenbank refreshen
+            	refreshALL();
             }
         });
     }
