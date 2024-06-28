@@ -638,7 +638,7 @@ public class GUI extends Mainframe implements MiddlePanel{
   
         JLabel[] customLabels = new JLabel[labels.length];
         JTextField[] textFields = new JTextField[labels.length];
-        int nextId = dataManagement.findMaxId(panelName);
+        int nextId = dataManagement.findMaxId(panelName)+1;
 
         for (int i = 0; i < labels.length; i++) {
             customLabels[i] = createCustomLabel(labels[i]);
@@ -736,9 +736,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     
     
     private static void addProductsToOrderFrame(Data_management dataManagement) {
-    //	dataManagement.findMaxId();
-    //	int 1 = dataManagement.1; // Get the dynamically fetched 1
-    	//int 1 = 1;
+    	 int orderId = dataManagement.findMaxId("Orders");
     	 
         JFrame newFrame = new JFrame("Product Drag and Drop");
         newFrame.setSize(600, 400);
@@ -751,7 +749,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         JTree productTree = new JTree(productTreeModel(dataManagement));
         JList<String> cartList = new JList<>(cartListModel);
         
-        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(1);
+        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
         for (Soap soap : existingSoaps) {
             cartListModel.addElement(soap.getTitle());
         }
@@ -791,16 +789,29 @@ public class GUI extends Mainframe implements MiddlePanel{
         JButton deleteButton = new JButton("Delete");
         JButton saveButton = new JButton("Save");
 
+//        deleteButton.addActionListener(e -> {
+//            int selectedIndex = cartList.getSelectedIndex();
+//            if (selectedIndex != -1) {
+//                cartListModel.remove(selectedIndex);
+//            }
+//        });
         deleteButton.addActionListener(e -> {
             int selectedIndex = cartList.getSelectedIndex();
+            System.out.println("index:"+selectedIndex);
             if (selectedIndex != -1) {
-                cartListModel.remove(selectedIndex);
+                // Assuming cartListModel contains objects of type Orders, and you can get orderId from the selected item
+              String selectedProduct = cartListModel.getElementAt(selectedIndex);
+              int soapId = dataManagement.getSoapIdByTitle(selectedProduct);
+//           
+                // Delegate deletion to DataManagement instance
+                dataManagement.deleteOrderProductReference(orderId,soapId);
+                cartListModel.remove(selectedIndex);  //incase product is not saved-> no reference
             }
         });
 
         saveButton.addActionListener(e -> {
         	// saveCartContentsToDatabase(cartListModel, dataManagement, 1); // Assuming order ID is 1
-        	 saveCartContentsToDatabase(cartListModel, dataManagement, 1, existingSoaps);
+        	 saveCartContentsToDatabase(cartListModel, dataManagement, orderId, existingSoaps);
         });
 
         buttonPanel.add(deleteButton);
@@ -826,7 +837,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
 
     
-    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int a, ArrayList<Soap> existingSoaps) {
+    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int orderId, ArrayList<Soap> existingSoaps) {
     	Set<String> existingProductTitles = new HashSet<>();
         for (Soap soap : existingSoaps) {
             existingProductTitles.add(soap.getTitle());
@@ -847,8 +858,8 @@ public class GUI extends Mainframe implements MiddlePanel{
             String productTitle = cartListModel.getElementAt(i);
             int soapId = dataManagement.getSoapIdByTitle(productTitle);
             if (soapId != -1) {
-                dataManagement.addOrderProductReference(1, soapId);
-                System.out.println("title id "+ soapId+ "Product "+ productTitle);
+                dataManagement.addOrderProductReference(orderId, soapId);
+                System.out.println("Product ID:"+ soapId+ ", Product Title: "+ productTitle);
             } else {
                 System.out.println("Error: Could not find soap ID for title: " + productTitle);
             }

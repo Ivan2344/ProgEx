@@ -5,6 +5,8 @@
     import java.sql.*;
     import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+
     public class Data_management {
 
     	private String url;
@@ -87,13 +89,13 @@
         	        Statement statement = connection.createStatement();
         	        String sql = "";
         	        if ("Orders".equals(panelName)) {
-        	            sql = "SELECT MAX(ID) + 1 AS nextId FROM Orders";
+        	            sql = "SELECT MAX(ID)  AS nextId FROM Orders";
         	        } else if ("Employees".equals(panelName)) {
-        	            sql = "SELECT MAX(employer_id) + 1 AS nextId FROM employer";
+        	            sql = "SELECT MAX(employer_id)  AS nextId FROM employer";
         	        } else if ("Products".equals(panelName)) {
-        	            sql = "SELECT MAX(ID) + 1 AS nextId FROM Soap";
+        	            sql = "SELECT MAX(ID) AS nextId FROM Soap";
         	        } else if ("Customers".equals(panelName)) {
-        	            sql = "SELECT MAX(ID) + 1 AS nextId FROM customers";
+        	            sql = "SELECT MAX(ID)  AS nextId FROM customers";
         	        }
         	        
         	        ResultSet resultSet = statement.executeQuery(sql);
@@ -567,36 +569,101 @@
             return soaps;
         }
         
+//        public void addOrderProductReference(int orderId, int soapId) {
+//            try {
+//                Connection connection = DriverManager.getConnection(url, username, password);
+//                Statement statement = connection.createStatement();
+//                
+//                String sql = "INSERT INTO RefOrderProd ( Oid, Sid) VALUES (" 
+//                      //  + (refOrderProdId+1) + ", "
+////                		+2+ ","
+//                        + orderId + ", "
+//                        + soapId + ")";
+//                
+//                int affectedRows = statement.executeUpdate(sql);
+//
+//                if (affectedRows > 0) {
+//                    System.out.println("Order-Product reference successfully added.");
+//                } else { 
+//
+//                    System.out.println("Product ID:"+ soapId + " Order ID: "+orderId);
+//                    System.out.println("Error adding Order-Product reference."); 
+//                }
+//
+//                connection.close();
+//            } catch (Exception e) {
+//
+//                System.out.println("product "+ soapId + "order id "+orderId);
+//                System.out.println("Error adding Order-Product reference: " + e.getMessage());
+//            }
+//        }
         public void addOrderProductReference(int orderId, int soapId) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-                
-                String sql = "INSERT INTO RefOrderProd ( Oid, Sid) VALUES (" 
-                      //  + (refOrderProdId+1) + ", "
-//                		+2+ ","
-                        + orderId + ", "
-                        + soapId + ")";
-                
-                int affectedRows = statement.executeUpdate(sql);
+                connection.setAutoCommit(false); // Start transaction
+
+                // Check if orderId exists in orders table
+                Statement checkOrderStatement = connection.createStatement();
+                ResultSet orderResult = checkOrderStatement.executeQuery("SELECT id FROM orders WHERE id = " + orderId); //added checks to order and soap table
+                if (!orderResult.next()) {
+                    System.out.println("Order ID " + orderId + " does not exist in orders table.");
+                    return;
+                }
+
+                // Check if soapId exists in Soap table
+                Statement checkSoapStatement = connection.createStatement();
+                ResultSet soapResult = checkSoapStatement.executeQuery("SELECT id FROM Soap WHERE id = " + soapId);
+                if (!soapResult.next()) {
+                    System.out.println("Soap ID " + soapId + " does not exist in Soap table.");
+                    return;
+                }
+
+                // If both exist, insert into RefOrderProd table
+                String sql = "INSERT INTO RefOrderProd (Oid, Sid) VALUES (" + orderId + ", " + soapId + ")";
+                Statement insertStatement = connection.createStatement();
+                int affectedRows = insertStatement.executeUpdate(sql);
 
                 if (affectedRows > 0) {
                     System.out.println("Order-Product reference successfully added.");
-                } else { 
-
-                    System.out.println("product "+ soapId + "order id "+orderId);
-                    System.out.println("Error adding Order-Product reference."); 
+                } else {
+                    System.out.println("Product ID: " + soapId + " Order ID: " + orderId);
+                    System.out.println("Error adding Order-Product reference.");
                 }
 
+                connection.commit(); // Commit transaction
                 connection.close();
             } catch (Exception e) {
-
-                System.out.println("product "+ soapId + "order id "+orderId);
+                System.out.println("Product ID: " + soapId + " Order ID: " + orderId);
                 System.out.println("Error adding Order-Product reference: " + e.getMessage());
             }
         }
-        
-        
+
+
+      
+        public void deleteOrderProductReference(int orderId, int soapId) {
+            try {
+                Connection connection = DriverManager.getConnection(url, username, password);
+                Statement statement = connection.createStatement();
+
+                // Delete from the reference table (RefOrderProd)
+                String deleteRefOrderProdSQL = "DELETE FROM RefOrderProd WHERE Oid = " + orderId + " AND Sid = " + soapId;
+                int rowsDeletedRefOrderProd = statement.executeUpdate(deleteRefOrderProdSQL);
+
+                if (rowsDeletedRefOrderProd > 0) {
+                    System.out.println("Deleted from RefOrderProd for Order ID: " + orderId + " and Soap ID: " + soapId);
+                } else {
+                    System.out.println("No records deleted from RefOrderProd for Order ID: " + orderId + " and Soap ID: " + soapId);
+                }
+
+                connection.close();
+            } catch (SQLException ex) {
+                System.out.println("Error deleting order references: " + ex.getMessage());
+            }
+        }
+    
+       
+
+
         
         public ArrayList<String> fetchCategoriesFromDatabase() {
             ArrayList<String> categories = new ArrayList<>();
@@ -651,25 +718,7 @@
         }
 
         
-//        public int getSoapIdByTitle(String title) {
-//            int soapId = -1;
-//            try {
-//                Connection connection = DriverManager.getConnection(url, username, password);
-//                Statement statement = connection.createStatement();
-//                
-//                String sql = "SELECT id FROM soap WHERE titel = '" + title + "'";
-//                ResultSet resultSet = statement.executeQuery(sql);
-    //
-//                if (resultSet.next()) {
-//                    soapId = resultSet.getInt("id");
-//                }
-    //
-//                connection.close();
-//            } catch (Exception e) {
-//                System.out.println("Error fetching soap ID by title: " + e.getMessage());
-//            }
-//            return soapId;
-//        }
+
         
         public int getSoapIdByTitle(String title) {
             int soapId = -1;
@@ -688,6 +737,9 @@
             }
             return soapId;
         }
+
+
+	
         
 
 
@@ -695,4 +747,4 @@
       
   
       
-  
+    
