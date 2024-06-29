@@ -8,12 +8,14 @@
     import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
     public class Data_management {
 
     	private String url;
     	private String username;
     	private String password;
+    	public String errorMessage = "";
     	
 //    	public static int employerId = 0;
 //        public static int customerId = 0;
@@ -254,6 +256,7 @@ import javax.swing.DefaultListModel;
                 connection.close();
             } catch (Exception e) {
             	System.out.println("Error adding employer: " + e.getMessage());
+            	errorMessage = "Error adding employer: " + e.getMessage();
             }
         }
 
@@ -282,6 +285,7 @@ import javax.swing.DefaultListModel;
                 connection.close();
             } catch (Exception e) {
             	System.out.println("Error adding customer: " + e.getMessage());
+            	errorMessage = "Error adding customer: " + e.getMessage();
             }
         }
 
@@ -310,6 +314,7 @@ import javax.swing.DefaultListModel;
                 connection.close();
             } catch (Exception e) {
             	System.out.println("Error adding order: " + e.getMessage());
+            	errorMessage = "Error adding order: " + e.getMessage();
             }
         }
 
@@ -336,6 +341,7 @@ import javax.swing.DefaultListModel;
                 connection.close();
             } catch (Exception e) {
             	System.out.println("Error adding soap: " + e.getMessage());
+            	errorMessage = "Error adding soap: " + e.getMessage();
             }
         }
         
@@ -567,6 +573,7 @@ import javax.swing.DefaultListModel;
                         }
                     } catch (Exception e) {
                         System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
+                        errorMessage =  "Error updating Employer. Error updating column: " + update + ". Error message: " + e.getMessage();
                     }
                 }
 
@@ -603,7 +610,8 @@ import javax.swing.DefaultListModel;
                             System.out.println("Error updating column: " + update);
                         }
                     } catch (Exception e) {
-                        System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
+                        System.out.println("Error updating order. Error updating column: " + update + ". Error message: " + e.getMessage());
+                        errorMessage =  "Error updating order. Error updating column: " + update + ". Error message: " + e.getMessage();
                     }
                 }
 
@@ -636,6 +644,7 @@ import javax.swing.DefaultListModel;
                         }
                     } catch (Exception e) {
                         System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
+                        errorMessage =  "Error updating Soap. Error updating column: " + update + ". Error message: " + e.getMessage();
                     }
                 }
 
@@ -666,10 +675,11 @@ import javax.swing.DefaultListModel;
                         if (affectedRows > 0) {
                             System.out.println("Column successfully updated: " + update);
                         } else {
-                            System.out.println("Error updating column: " + update);
+                            System.out.println("Error updating column: " + update);          
                         }
                     } catch (Exception e) {
                         System.out.println("Error updating column: " + update + ". Error message: " + e.getMessage());
+                        errorMessage =  "Error updating Customer. Error updating column: " + update + ". Error message: " + e.getMessage();
                     }
                 }
 

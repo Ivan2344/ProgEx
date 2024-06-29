@@ -1087,7 +1087,8 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            	dataManagement.updateOrder(order);
 	            } else if("add".equals(operation)) {
 	            	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
-	            	dataManagement.addOrder(order); }
+	            	dataManagement.addOrder(order);
+	            }
 	            for (JTextField textField : textFields) {
 	                textField.setText("");
 	            }
@@ -1262,7 +1263,10 @@ public class GUI extends Mainframe implements MiddlePanel{
         	     readTextfield(menuItem, EDIT_AND_ADD, selectedOrder);
         	     System.out.println("Selected Order ID: " + selectedOrder.getId());
 //                 System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
-//                 dataManagement.addOrder(order);       	     
+//                 dataManagement.addOrder(order);
+        	     if (!dataManagement.errorMessage.isEmpty()) {
+        	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+        	    	}
         	break;
             
         case 1:
@@ -1270,18 +1274,27 @@ public class GUI extends Mainframe implements MiddlePanel{
         		Soap selectedSoap = soap.get(selectedRow);  
         		readTextfield(menuItem, EDIT_AND_ADD, selectedSoap);
         		System.out.println("Selected Order ID: " + selectedSoap.getId());
+        		if (!dataManagement.errorMessage.isEmpty()) {
+    	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+    	    	}
             break;
         case 2:
         		ArrayList<Employer> employer = dataManagement.fetchEmployersFromDatabase();
         		Employer selectedEmployer = employer.get(selectedRow);  
         		readTextfield(menuItem, EDIT_AND_ADD, selectedEmployer);
         		System.out.println("Selected Order ID: " + selectedEmployer.getEmployerId());
+        		if (!dataManagement.errorMessage.isEmpty()) {
+    	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+    	    	}
             break;
         case 3:
         		ArrayList<Customers> customer = dataManagement.fetchCustomersFromDatabase();
         		Customers selectedCustomers = customer.get(selectedRow);  
         		readTextfield(menuItem, EDIT_AND_ADD, selectedCustomers);
    	     		System.out.println("Selected Order ID: " + selectedCustomers.getId());
+   	     	if (!dataManagement.errorMessage.isEmpty()) {
+	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+	    	}
             break;
         default:
             break;
