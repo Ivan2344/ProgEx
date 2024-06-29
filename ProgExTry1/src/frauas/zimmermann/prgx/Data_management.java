@@ -612,13 +612,19 @@ import javax.swing.JOptionPane;
                     } catch (Exception e) {
                         System.out.println("Error updating order. Error updating column: " + update + ". Error message: " + e.getMessage());
                         errorMessage =  "Error updating order. Error updating column: " + update + ". Error message: " + e.getMessage();
+                        
                     }
                 }
 
                 connection.close();
             } catch (Exception e) {
+            	getErrorMessage("Error updating order");   // catch block nicht ausgeführt
                 System.out.println("Error updating order: " + e.getMessage());
             }
+        }
+        public String getErrorMessage(String errorMessage) {   // versuch catch block komplet auszuführen fehlgeschlagen
+        	this.errorMessage = errorMessage;
+            return this.errorMessage;
         }
 
         public void updateSoap(Soap soap) {
