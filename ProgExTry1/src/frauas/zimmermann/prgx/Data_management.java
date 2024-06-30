@@ -587,6 +587,7 @@ import javax.swing.JOptionPane;
   
         
         public void updateOrder(Orders order) {
+
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
@@ -608,6 +609,7 @@ import javax.swing.JOptionPane;
                             System.out.println("Column successfully updated: " + update);
                         } else {
                             System.out.println("Error updating column: " + update);
+                          //  errorMessage = "Error updating column: " + update;  funktioniert nicht
                         }
                     } catch (Exception e) {
                         System.out.println("Error updating order. Error updating column: " + update + ". Error message: " + e.getMessage());
@@ -615,17 +617,18 @@ import javax.swing.JOptionPane;
                         
                     }
                 }
-
+                
                 connection.close();
             } catch (Exception e) {
-            	getErrorMessage("Error updating order");   // catch block nicht ausgeführt
                 System.out.println("Error updating order: " + e.getMessage());
             }
+            
         }
-        public String getErrorMessage(String errorMessage) {   // versuch catch block komplet auszuführen fehlgeschlagen
+       
+  /*      public String getErrorMessage(String errorMessage) {   // versuch catch block komplet auszuführen fehlgeschlagen
         	this.errorMessage = errorMessage;
             return this.errorMessage;
-        }
+        }  funktioniert nicht*/
 
         public void updateSoap(Soap soap) {
             try {
