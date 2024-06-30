@@ -11,7 +11,6 @@ public class Soap {
 	private String category;
 	private double price;
 	private Timestamp created_at;
-	private int quantity;
 
 	
 	public int getId() {
@@ -26,12 +25,7 @@ public class Soap {
 	public void setEAN(int eAN) {
 		EAN = eAN;
 	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity=quantity;
-	}
+
 	public String getTitle() {
 		return title;
 	}

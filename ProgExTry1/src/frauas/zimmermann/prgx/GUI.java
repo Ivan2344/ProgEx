@@ -4,6 +4,7 @@ package frauas.zimmermann.prgx;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -47,6 +48,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.TransferHandler;
@@ -58,12 +60,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 
 import frauas.zimmermann.prgx.MiddlePanel.ProductTransferHandler;
 
 public class GUI extends Mainframe implements MiddlePanel{
+	JFrame newFrame;
     JPanel[] panelList;
     String[] menuItems = {"Orders", "Products", "Employees", "Customers"};
     JPanel leftPanel, rightPanel ,secondLeftPanel, firstLeftPanel;
@@ -792,116 +797,145 @@ public class GUI extends Mainframe implements MiddlePanel{
     
     private void addProductsToOrderFrame(Data_management dataManagement) {
         int orderId;
-    	if ("Orders".equals("Orders") && selectedRow != -1) {								//gives OrderId of selected row to add products
+        if ("Orders".equals("Orders") && selectedRow != -1) { // Gives OrderId of selected row to add products
             ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
             Orders selectedOrder = orders.get(selectedRow);
             orderId = selectedOrder.getId();
         } else {
-        	orderId = dataManagement.findMaxId("Orders") + 1;
+            orderId = dataManagement.findMaxId("Orders") + 1;
         }
-    	 
-        JFrame newFrame = new JFrame("Product Drag and Drop");
-        newFrame.setSize(600, 400);
+
+        newFrame = new JFrame("Product Drag and Drop");
+        newFrame.setSize(800, 600); // Adjusted size to accommodate all panels
         newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newFrame.setLayout(new BorderLayout());
 
+        JPanel existingPanel = new JPanel(new BorderLayout());
+        JLabel existingLabel = createCustomLabel("Existing Products");
+        existingPanel.add(existingLabel, BorderLayout.NORTH);
+
+        DefaultListModel<String> existingListModel = new DefaultListModel<>();
         DefaultListModel<String> cartListModel = new DefaultListModel<>();
-        
-       
+
         JTree productTree = new JTree(productTreeModel(dataManagement));
+        JList<String> existingList = new JList<>(existingListModel);
         JList<String> cartList = new JList<>(cartListModel);
-//        
-//        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
-//        for (Soap soap : existingSoaps) {
-//            cartListModel.addElement(soap.getTitle());
-//        }
-        
-//        ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
-//        for (Soap soap : existingSoaps) {
-//        	System.out.println("quantity:"+ soap.getQuantity());
-//            for (int i = 0; i < soap.getQuantity(); i++) {
-//                cartListModel.addElement(soap.getTitle());
-//                
-//            }
-//        }
 
         ArrayList<Soap> existingSoaps = dataManagement.fetchProductsByOrderId(orderId);
         for (Soap soap : existingSoaps) {
-        	System.out.println("quantity:"+ soap.getQuantity());
-            for (int i = 0; i < soap.getQuantity(); i++) {
-                cartListModel.addElement(soap.getTitle());
-                
-            }
+            existingListModel.addElement(soap.getTitle());
         }
+        existingPanel.add(new JScrollPane(existingList), BorderLayout.CENTER);
+        existingList.setFont(new java.awt.Font("Book Antiqua", 0, 14));
+        existingList.setCellRenderer(createListCellRenderer());
+        newFrame.add(existingPanel, BorderLayout.WEST);
 
-        
+        JPanel productsPanel = new JPanel(new BorderLayout());
+        JLabel productsLabel = createCustomLabel("Products");
+        productsPanel.add(productsLabel, BorderLayout.NORTH);
 
         productTree.setDragEnabled(true);
         productTree.setTransferHandler(new TreeTransferHandler());
+        productsPanel.add(new JScrollPane(productTree), BorderLayout.CENTER);
+        productTree.setCellRenderer(createTreeCellRenderer());
+        newFrame.add(productsPanel, BorderLayout.CENTER);
 
+        JPanel cartPanel = new JPanel(new BorderLayout());
+        JLabel cartLabel = createCustomLabel("Drop New Products Here");
+        cartPanel.add(cartLabel, BorderLayout.NORTH);
         cartList.setDropMode(DropMode.INSERT);
         cartList.setTransferHandler(new ProductTransferHandler());
+        cartList.setFont(new java.awt.Font("Book Antiqua", 0, 14));
+        cartList.setCellRenderer(createListCellRenderer());
+        cartPanel.add(new JScrollPane(cartList), BorderLayout.CENTER);
+        newFrame.add(cartPanel, BorderLayout.EAST);
 
         // Add tree selection listener to add selected product to the cart
         productTree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) productTree.getLastSelectedPathComponent();
             if (selectedNode != null && selectedNode.isLeaf()) {
                 String selectedProduct = selectedNode.toString();
-                if (selectedProduct != null && !cartListModel.contains(selectedProduct)) {
+                if (!cartListModel.contains(selectedProduct)) {
                     cartListModel.addElement(selectedProduct);
                 }
             }
         });
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(productTree), new JScrollPane(cartList));
-        splitPane.setResizeWeight(0.5); // Initial divider location
-
-        // Add component listener to adjust the split pane divider location on frame resize
-        newFrame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                splitPane.setDividerLocation(0.5);
-            }
-        });
-
-        newFrame.add(splitPane, BorderLayout.CENTER);
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton deleteButton = new JButton("Delete");
         JButton saveButton = new JButton("Save");
 
-//        deleteButton.addActionListener(e -> {
-//            int selectedIndex = cartList.getSelectedIndex();
-//            if (selectedIndex != -1) {
-//                cartListModel.remove(selectedIndex);
-//            }
-//        });
         deleteButton.addActionListener(e -> {
-            int selectedIndex = cartList.getSelectedIndex();
-            System.out.println("index:"+selectedIndex);
-            if (selectedIndex != -1) {
-                // Assuming cartListModel contains objects of type Orders, and you can get orderId from the selected item
-              String selectedProduct = cartListModel.getElementAt(selectedIndex);
-              int soapId = dataManagement.getSoapIdByTitle(selectedProduct);
-//           
-                // Delegate deletion to DataManagement instance
-                dataManagement.deleteOrderProductReference(orderId,soapId);
-                cartListModel.remove(selectedIndex);  //incase product is not saved-> no reference
+            int selectedCartIndex = cartList.getSelectedIndex();
+            int selectedExistingIndex = existingList.getSelectedIndex();
+
+            if (selectedCartIndex != -1) {
+                String selectedProduct = cartListModel.getElementAt(selectedCartIndex);
+                int soapId = dataManagement.getSoapIdByTitle(selectedProduct);
+                int quantity = dataManagement.getTotalCount(orderId, soapId);
+                if (quantity > 1) {
+                    dataManagement.deleteOrderProductReference(orderId, soapId);
+                    for (int i = 0; i < quantity - 1; i++) {
+                        dataManagement.addOrderProductReference(orderId, soapId);
+                    }
+                } else {
+                    dataManagement.deleteOrderProductReference(orderId, soapId);
+                }
+                cartListModel.remove(selectedCartIndex); // In case product is not saved -> no reference
+            } else if (selectedExistingIndex != -1) {
+                String selectedProduct = existingListModel.getElementAt(selectedExistingIndex);
+                int soapId = dataManagement.getSoapIdByTitle(selectedProduct);
+                int quantity = dataManagement.getTotalCount(orderId, soapId);
+                if (quantity > 1) {
+                    dataManagement.deleteOrderProductReference(orderId, soapId);
+                    for (int i = 0; i < quantity - 1; i++) {
+                        dataManagement.addOrderProductReference(orderId, soapId);
+                    }
+                } else {
+                    dataManagement.deleteOrderProductReference(orderId, soapId);
+                }
+                existingListModel.remove(selectedExistingIndex); // Remove from the existing list
             }
         });
 
-//        saveButton.addActionListener(e -> {
-//        	// saveCartContentsToDatabase(cartListModel, dataManagement, 1); // Assuming order ID is 1
-//        	 saveCartContentsToDatabase(cartListModel, dataManagement, orderId, existingSoaps);
-//        });
-
+        saveButton.addActionListener(e -> {
+            saveCartContentsToDatabase(cartListModel, dataManagement, orderId, existingSoaps);
+            newFrame.dispose(); // Close the JFrame after saving
+        });
         buttonPanel.add(deleteButton);
         buttonPanel.add(saveButton);
-
         newFrame.add(buttonPanel, BorderLayout.SOUTH);
 
         newFrame.setVisible(true);
     }
+
+
+    private ListCellRenderer<? super String> createListCellRenderer() {
+        return new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                label.setBorder(new EmptyBorder(2, 5, 2, 5)); // Add padding to the label
+                label.setFont(new Font("Book Antiqua", 0, 14)); // Set font for list items
+                return label;
+            }
+        };
+    }
+    private TreeCellRenderer createTreeCellRenderer() {
+        return new DefaultTreeCellRenderer() {
+            private Font font = new Font("Book Antiqua", 0, 14); // Custom font for tree nodes
+
+            @Override
+            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel,
+                                                          boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                JLabel label = (JLabel) super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+                label.setFont(font); // Set the custom font
+                return label;
+            }
+        };
+    }
+
 
     private static TreeModel productTreeModel(Data_management dataManagement) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Products");
@@ -918,99 +952,28 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
 
     
-//    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int orderId, ArrayList<Soap> existingSoaps) {
-////    	Set<String> existingProductTitles = new HashSet<>();
-////        for (Soap soap : existingSoaps) {
-////            existingProductTitles.add(soap.getTitle());
-////        }
-//        Map<String, Integer> existingProductCounts = new HashMap<>();
-//        for (Soap soap : existingSoaps) {
-//            existingProductCounts.put(soap.getTitle(), soap.getQuantity());
-//        }
-//       
-////        for (int i = 0; i < cartListModel.getSize(); i++) {
-////            String productTitle = cartListModel.getElementAt(i);
-////            if (!existingProductTitles.contains(productTitle)) {
-////                int soapId = dataManagement.getSoapIdByTitle(productTitle);
-////                if (soapId != -1) {
-////                    dataManagement.addOrderProductReference(orderId, soapId);
-////                    System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
-////                } else {
-////                    System.out.println("Error: Could not find soap ID for title: " + productTitle);
-////                }
-////            }
-////        }
-//        for (int i = 0; i < cartListModel.getSize(); i++) {
-//            String productTitle = cartListModel.getElementAt(i);
-//            int soapId = dataManagement.getSoapIdByTitle(productTitle);
-//            if (soapId != -1) {
-//                if (existingProductCounts.containsKey(productTitle)) {
-//                    // Product already exists, so update the quantity if necessary
-//                    int newQuantity = existingProductCounts.get(productTitle) + 1;
-//                    dataManagement.updateOrderProductQuantity(orderId, soapId, newQuantity);
-//                    existingProductCounts.put(productTitle, newQuantity);
-//                } else {
-//                    // New product, so add it to the order
-//                    dataManagement.addOrderProductReference(orderId, soapId);
-//                    existingProductCounts.put(productTitle, 1);
-//                    System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
-//                }
-//            } else {
-//                System.out.println("Error: Could not find soap ID for title: " + productTitle);
-//            }
-//        }
-//        System.out.println("Cart contents saved to database.");
-//     	
-//        
-//    }
-    
-    private static void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId, ArrayList<Soap> existingSoaps) {
-
-
-    	// Track existing products and their quantities
-        Map<String, Integer> existingProductCounts = new HashMap<>();
-
+    private void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int orderId, ArrayList<Soap> existingSoaps) {
+    	Set<String> existingProductTitles = new HashSet<>();
         for (Soap soap : existingSoaps) {
-            existingProductCounts.put(soap.getTitle(), soap.getQuantity());
+            existingProductTitles.add(soap.getTitle());
         }
 
-
-        // Track new products to be added
-        Map<String, Integer> newProductCounts = new HashMap<>();
+       
         for (int i = 0; i < cartListModel.getSize(); i++) {
-            String productTitle = cartListModel.getElementAt(i);
-            newProductCounts.put(productTitle, newProductCounts.getOrDefault(productTitle, 0) + 1);
-        }
-
-        // Update quantities of existing products or add new products
-        for (Map.Entry<String, Integer> entry : newProductCounts.entrySet()) {
-            String productTitle = entry.getKey();
-            int newQuantity = entry.getValue();
-            int soapId = dataManagement.getSoapIdByTitle(productTitle);
-
-            if (soapId != -1) {
-                if (existingProductCounts.containsKey(productTitle)) {
-                    // Product already exists, update the quantity if necessary
-                    int existingQuantity = existingProductCounts.get(productTitle);
-                    int totalQuantity = existingQuantity + newQuantity;
-
-//                    dataManagement.updateOrderProductQuantity(orderId, soapId, totalQuantity);
-
-                    dataManagement.updateOrderProductQuantity(orderId, soapId, totalQuantity);
-
-                    System.out.println("Updated quantity for Product ID: " + soapId + ", Product Title: " + productTitle + " to " + totalQuantity);
+        	String productTitle = cartListModel.getElementAt(i);
+           // if (!existingProductTitles.contains(productTitle)) {
+                int soapId = dataManagement.getSoapIdByTitle(productTitle);
+                if (soapId != -1) {
+                    dataManagement.addOrderProductReference(orderId, soapId);
+                    System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
                 } else {
-                    // New product, add it to the order
-                    for (int i = 0; i < newQuantity; i++) {
-                        dataManagement.addOrderProductReference(orderId, soapId);
-                    }
-                    System.out.println("Added Product ID: " + soapId + ", Product Title: " + productTitle + " Quantity: " + newQuantity);
+                    System.out.println("Error: Could not find soap ID for title: " + productTitle);
                 }
-            } else {
-                System.out.println("Error: Could not find soap ID for title: " + productTitle);
-            }
+           // }
         }
+
         System.out.println("Cart contents saved to database.");
+        
     }
 
 

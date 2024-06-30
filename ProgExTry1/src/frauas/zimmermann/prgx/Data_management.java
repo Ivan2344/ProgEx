@@ -902,26 +902,24 @@ import javax.swing.JOptionPane;
         }
         
         
-        public void updateOrderProductQuantity(int orderId, int soapId, int quantity) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                String sql = "UPDATE RefOrderProd SET quantity = ? WHERE Oid = ? AND Sid = ?";
+        public int getTotalCount(int orderId, int soapId) {
+            int totalCount = 0;
+
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
+                String sql = "SELECT COUNT(*) AS total_count FROM RefOrderProd WHERE Oid = ? AND Sid = ?";
                 PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setInt(1, quantity);
-                statement.setInt(2, orderId);
-                statement.setInt(3, soapId);
-                
-                int affectedRows = statement.executeUpdate();
-                if (affectedRows > 0) {
-                    System.out.println("Order-Product quantity successfully updated.");
-                } else {
-                    System.out.println("Error updating Order-Product quantity.");
+                statement.setInt(1, orderId);
+                statement.setInt(2, soapId);
+
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    totalCount = resultSet.getInt("total_count");
                 }
-                
-                connection.close();
             } catch (Exception e) {
-                System.out.println("Error updating Order-Product quantity: " + e.getMessage());
+                System.out.println("Error retrieving total count: " + e.getMessage());
             }
+
+            return totalCount;
         }
 
 
