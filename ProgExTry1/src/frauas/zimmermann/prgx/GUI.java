@@ -337,7 +337,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         employerPanel.setPreferredSize(new Dimension(200, 200));
 
         // Set upper panel
-        employerPanel.add(setUpper("Employer Database"), BorderLayout.NORTH);
+        employerPanel.add(setUpper("Employer Table"), BorderLayout.NORTH);
 
         setLeft(employerPanel);
         setRight(employerPanel);
@@ -417,7 +417,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         soapPanel.setPreferredSize(new Dimension(300, 300));
 
         // Set upper panel
-        soapPanel.add(setUpper("Product Database"), BorderLayout.NORTH);
+        soapPanel.add(setUpper("Product Table"), BorderLayout.NORTH);
 
         setLeft(soapPanel);
         setRight(soapPanel);
@@ -495,7 +495,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         orderPanel.setPreferredSize(new Dimension(300, 300));
 
         // Set upper panel
-        orderPanel.add(setUpper("Order Database"), BorderLayout.NORTH);
+        orderPanel.add(setUpper("Order Table"), BorderLayout.NORTH);
 
         setLeft(orderPanel);
         setRight(orderPanel);
@@ -591,7 +591,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         customerPanel.setPreferredSize(new Dimension(300, 300));
 
         // Set upper panel
-        customerPanel.add(setUpper("Customer Database"), BorderLayout.NORTH);
+        customerPanel.add(setUpper("Customer Table"), BorderLayout.NORTH);
 
         setLeft(customerPanel);
         setRight(customerPanel);

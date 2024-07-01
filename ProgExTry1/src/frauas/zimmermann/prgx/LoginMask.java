@@ -39,23 +39,23 @@ public class LoginMask extends Mainframe {
         loginPanel.setPreferredSize(new Dimension(200, 50));
 
         JLabel userNameLabel = new JLabel("Username:");
-        userNameLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        userNameLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 25));
         userNameLabel.setHorizontalAlignment(JLabel.CENTER);
         userNameLabel.setVerticalAlignment(JLabel.CENTER);
         
         JTextField userNameField = new JTextField(10);
-        userNameField.setFont(new Font("Arial", Font.PLAIN, 30));
+        userNameField.setFont(new Font("Book Antiqua", Font.PLAIN, 25));
         
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        passwordLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 25));
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
         passwordLabel.setVerticalAlignment(JLabel.CENTER);
         
         JPasswordField passwordField = new JPasswordField(10);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 30));
+        passwordField.setFont(new Font("Book Antiqua", Font.PLAIN, 25));
 
         JButton loginButton = new JButton("Login");
-        loginButton.setFont(new Font("Arial", Font.PLAIN, 30));  // Set font size for login button
+        loginButton.setFont(new Font("Book Antiqua", Font.PLAIN, 20));  // Set font size for login button
 
         
        		
@@ -125,28 +125,28 @@ public class LoginMask extends Mainframe {
     private void setNorth(JPanel Panel) {
         JPanel northPanel = new JPanel();
         northPanel.setBackground(Color.LIGHT_GRAY);
-        northPanel.setPreferredSize(new Dimension(0, 100)); // Breite einstellen
+        northPanel.setPreferredSize(new Dimension(0, 130)); // Breite einstellen
         Panel.add(northPanel, BorderLayout.NORTH);
     }
     
     private void setSouth(JPanel Panel) {
         JPanel southPanel = new JPanel();
         southPanel.setBackground(Color.LIGHT_GRAY);
-        southPanel.setPreferredSize(new Dimension(0, 100)); // Breite einstellen
+        southPanel.setPreferredSize(new Dimension(0, 130)); // Breite einstellen
         Panel.add(southPanel, BorderLayout.SOUTH);
     }
     
     private void setLeft(JPanel Panel) {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.LIGHT_GRAY);
-        leftPanel.setPreferredSize(new Dimension(300, 0)); // Breite einstellen
+        leftPanel.setPreferredSize(new Dimension(400, 0)); // Breite einstellen
         Panel.add(leftPanel, BorderLayout.WEST);
     }
 
     private void setRight(JPanel Panel) {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.LIGHT_GRAY);
-        rightPanel.setPreferredSize(new Dimension(300, 0)); // Breite einstellen
+        rightPanel.setPreferredSize(new Dimension(400, 0)); // Breite einstellen
         Panel.add(rightPanel, BorderLayout.EAST);
     }
     
