@@ -705,9 +705,9 @@ import javax.swing.JOptionPane;
                 Statement statement = connection.createStatement();
                 
                 String sql = "SELECT s.id, s.EAN, s.titel, s.category, s.price, s.created_at " +
-                             "FROM soap AS s " +
+                             "FROM Soap AS s " +
                              "INNER JOIN RefOrderProd AS ref ON s.id = ref.Sid " +
-                             "INNER JOIN orders AS o ON o.id = ref.Oid " +
+                             "INNER JOIN Orders AS o ON o.id = ref.Oid " +
                              "WHERE o.id = " + orderId;
                 
                 ResultSet resultSet = statement.executeQuery(sql);
