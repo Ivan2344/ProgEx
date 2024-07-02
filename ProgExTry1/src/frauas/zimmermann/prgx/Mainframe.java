@@ -97,7 +97,7 @@ public class Mainframe{
 	    
 	    innerCenterPanel = new JPanel();
 	    innerCenterPanel.setLayout(new BorderLayout(0,0));
-	    innerCenterPanel.setBackground(Color.GRAY);
+	    innerCenterPanel.setBackground(Color.DARK_GRAY);
 	    //mainPanel.add(innerCenterPanel);
 	    JPanel leftSidePanel = new JPanel();
 	    JPanel rightSidePanel = new JPanel();

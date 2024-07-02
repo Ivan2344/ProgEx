@@ -178,7 +178,7 @@ import javax.swing.JOptionPane;
             try {       
                 Connection connection = DriverManager.getConnection(url, username, password);  
                 Statement statement = connection.createStatement();  
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");  
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM Orders");  
                 
                 while(resultSet.next()) { 
                     Orders order = new Orders();
@@ -208,7 +208,7 @@ import javax.swing.JOptionPane;
             try {       
                 Connection connection = DriverManager.getConnection(url, username, password);  
                 Statement statement = connection.createStatement();  
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM soap");  
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM Soap");  
                 
                 while(resultSet.next()) { 
                     Soap soap = new Soap();
@@ -294,7 +294,7 @@ import javax.swing.JOptionPane;
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
                 
-                String sql = "INSERT INTO orders (user_id, employer_id, order_date, status, total, tax, discount) VALUES (" 
+                String sql = "INSERT INTO Orders (user_id, employer_id, order_date, status, total, tax, discount) VALUES (" 
                         + order.getUser_id() + ", " 
                         + order.getEmployee_id() + ", '" 
                         + order.getOrder_date() + "', '" 
@@ -323,7 +323,7 @@ import javax.swing.JOptionPane;
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
                 
-                String sql = "INSERT INTO soap (EAN, titel, category, price, created_at) VALUES (" 
+                String sql = "INSERT INTO Soap (EAN, titel, category, price, created_at) VALUES (" 
                              + soap.getEAN() + ", '" 
                              + soap.getTitle() + "', '" 
                              + soap.getCategory() + "', " 
@@ -389,7 +389,7 @@ import javax.swing.JOptionPane;
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
 
-                String sql = "DELETE FROM orders WHERE id = " + order.getId();
+                String sql = "DELETE FROM Orders WHERE id = " + order.getId();
                 int affectedRows = statement.executeUpdate(sql);
 
                 if (affectedRows > 0) {
@@ -408,7 +408,7 @@ import javax.swing.JOptionPane;
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
 
-                String sql = "DELETE FROM soap WHERE id = " + soap.getId();
+                String sql = "DELETE FROM Soap WHERE id = " + soap.getId();
                 int affectedRows = statement.executeUpdate(sql);
 
                 if (affectedRows > 0) {
@@ -602,7 +602,7 @@ import javax.swing.JOptionPane;
                 updates.add("discount = " + order.getDiscount());
 
                 for (String update : updates) {
-                    String sql = "UPDATE orders SET " + update + " WHERE id = " + order.getId();
+                    String sql = "UPDATE Orders SET " + update + " WHERE id = " + order.getId();
                     try {
                         int affectedRows = statement.executeUpdate(sql);
                         if (affectedRows > 0) {
@@ -643,7 +643,7 @@ import javax.swing.JOptionPane;
                 updates.add("created_at = '" + soap.getCreatedAt() + "'");
 
                 for (String update : updates) {
-                    String sql = "UPDATE soap SET " + update + " WHERE id = " + soap.getId();
+                    String sql = "UPDATE Soap SET " + update + " WHERE id = " + soap.getId();
                     try {
                         int affectedRows = statement.executeUpdate(sql);
                         if (affectedRows > 0) {
@@ -767,7 +767,7 @@ import javax.swing.JOptionPane;
 
                 // Check if orderId exists in orders table
                 Statement checkOrderStatement = connection.createStatement();
-                ResultSet orderResult = checkOrderStatement.executeQuery("SELECT id FROM orders WHERE id = " + orderId); //added checks to order and soap table
+                ResultSet orderResult = checkOrderStatement.executeQuery("SELECT id FROM Orders WHERE id = " + orderId); //added checks to order and soap table
                 if (!orderResult.next()) {
                     System.out.println("Order ID " + orderId + " does not exist in orders table.");
                     return;
@@ -833,7 +833,7 @@ import javax.swing.JOptionPane;
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT DISTINCT category FROM soap");
+                ResultSet resultSet = statement.executeQuery("SELECT DISTINCT category FROM Soap");
 
                 while (resultSet.next()) {
                     categories.add(resultSet.getString("category"));
@@ -858,7 +858,7 @@ import javax.swing.JOptionPane;
                 // Escape single quotes in the category to prevent SQL injection
                 String escapedCategory = category.replace("'", "''");
                 
-                String query = "SELECT * FROM soap WHERE category = '" + escapedCategory + "'";
+                String query = "SELECT * FROM Soap WHERE category = '" + escapedCategory + "'";
                 ResultSet resultSet = statement.executeQuery(query);
 
                 while (resultSet.next()) {
@@ -885,7 +885,7 @@ import javax.swing.JOptionPane;
         
         public int getSoapIdByTitle(String title) {
             int soapId = -1;
-            String sql = "SELECT id FROM soap WHERE titel = ?";
+            String sql = "SELECT id FROM Soap WHERE titel = ?";
             try (Connection connection = DriverManager.getConnection(url, username, password);
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
