@@ -1051,6 +1051,10 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            } else if("add".equals(operation)) {
 	            	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
 	            	dataManagement.addOrder(order);
+	            	if (!dataManagement.errorMessage.isEmpty()) {
+        	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+        	    	    dataManagement.errorMessage = "";
+        	    	}
 	            }
 	            for (JTextField textField : textFields) {
 	                textField.setText("");
@@ -1071,6 +1075,10 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            } else if("add".equals(operation)) {
 	            	System.out.println("Orders: " + soap.getId() + ", " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice());
 	            	dataManagement.addSoap(soap);
+	            	if (!dataManagement.errorMessage.isEmpty()) {
+        	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+        	    	    dataManagement.errorMessage = "";
+        	    	}
 	            }
 	            for (JTextField textField : textFields) {
 	                textField.setText("");
@@ -1096,6 +1104,10 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          } else if("add".equals(operation)) {
 		          	System.out.println("Orders: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber()  + ", "+ employer.getIndustry() + ", " + employer.getEstablishedDate());
 		          	dataManagement.addEmployer(employer);
+		          	if (!dataManagement.errorMessage.isEmpty()) {
+        	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+        	    	    dataManagement.errorMessage = "";
+        	    	}
 		          }
 		          for (JTextField textField : textFields) {
 		                textField.setText("");
@@ -1118,6 +1130,10 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          } else if("add".equals(operation)) {
 		          	System.out.println("Orders: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", "+ customer.getBirthDate() );
 		          	dataManagement.addCustomer(customer);
+		          	if (!dataManagement.errorMessage.isEmpty()) {
+        	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+        	    	    dataManagement.errorMessage = "";
+        	    	}
 		          }
 		          for (JTextField textField : textFields) {
 		                textField.setText("");
@@ -1229,6 +1245,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 //                 dataManagement.addOrder(order);
         	     if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+        	    	    dataManagement.errorMessage = "";
         	    	}
         	break;
             
@@ -1239,6 +1256,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         		System.out.println("Selected Order ID: " + selectedSoap.getId());
         		if (!dataManagement.errorMessage.isEmpty()) {
     	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+    	    	    dataManagement.errorMessage = "";
     	    	}
             break;
         case 2:
@@ -1248,6 +1266,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         		System.out.println("Selected Order ID: " + selectedEmployer.getEmployerId());
         		if (!dataManagement.errorMessage.isEmpty()) {
     	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+    	    	    dataManagement.errorMessage = "";
     	    	}
             break;
         case 3:
@@ -1257,6 +1276,7 @@ public class GUI extends Mainframe implements MiddlePanel{
    	     		System.out.println("Selected Order ID: " + selectedCustomers.getId());
    	     	if (!dataManagement.errorMessage.isEmpty()) {
 	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
+	    	    dataManagement.errorMessage = "";
 	    	}
             break;
         default:
