@@ -79,6 +79,14 @@ public class GUI extends Mainframe implements MiddlePanel{
     public static final String ONLY_ADD = "add",EDIT_AND_ADD = "edit";
     private JButton addButton , deleteButton , editButton,refreshButton ;
    private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
+     
+   /**
+    * Constructor: GUI
+    * @param usr the username for data management
+    * @param psw the password for data management
+    * Description: Initializes the GUI and sets up the main panel and menu list.
+    */
+    
     public GUI(String usr, String psw) { 
         super();
         dataManagement = new Data_management(usr, psw);
@@ -89,7 +97,11 @@ public class GUI extends Mainframe implements MiddlePanel{
         
     }
 
-    //create the menulist
+    /**
+     * Method: createMenuList
+     * @param items an array of menu item names
+     * Description: Creates and sets up the menu list for the GUI.
+     */
     
     public void createMenuList(String[] items) {
         JList<String> menuList = new JList<>(items);
@@ -131,6 +143,11 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
 
 
+    /**
+     * Method: createMainPanel
+     * Description: Creates and sets up the main panel and its components.
+     */
+    
     public void createMainPanel() {
         panelList = new JPanel[menuItems.length];
         innerCenterPanel.setLayout(new CardLayout());
@@ -144,12 +161,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         frame.add(center, BorderLayout.CENTER);
     }
 
-    public JPanel createPanel() {
-    	JPanel tempPanel = new JPanel();
-    	tempPanel.setLayout(new BorderLayout());
-    	tempPanel = createPanelWithBorder(BUTTON_PANEL);
-    	return tempPanel;
-    }
+    /**
+     * Method: setMainPanels
+     * @param menuItem the index of the menu item
+     * @return a JPanel configured based on the menu item
+     * Description: Configures and returns a JPanel based on the provided menu item index.
+     */
     
     public JPanel setMainPanels(int menuItem) {
     	JPanel titlePanel = new JPanel();
@@ -218,18 +235,14 @@ public class GUI extends Mainframe implements MiddlePanel{
 		 
 		 firstLeftPanel.add(titlePanel, BorderLayout.NORTH);
 		 firstLeftPanel.add(fLTPanel, BorderLayout.CENTER);
-//		 firstLeftPanel.add(addButtonPanel);
-//		 firstLeftPanel.add(deleteButtonPanel);
-//		 firstLeftPanel.add(editButtonPanel);
-//		 firstLeftPanel.add(refreshButtonPanel);
 		
-       // JLabel secondLabel = new JLabel("Second Left Panel", SwingConstants.CENTER);
+
 		secondLeftPanel.setLayout(new BorderLayout());
 		
         JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
         rightPanel.add(rightLabel);
         
-        //code eingefügt bzw gui fix
+
         String selectedItem = menuItems[menuItem];
         setViewPanel(selectedItem);
         
@@ -238,10 +251,28 @@ public class GUI extends Mainframe implements MiddlePanel{
         tempPanel.add(leftPanel);
         tempPanel.add(rightPanel);
         
-//        setContents(menuItem);
-        
         return tempPanel;
     }
+    
+    /**
+     * Method: createPanel
+     * @return a new JPanel with a BorderLayout and border settings
+     * Description: Creates and returns a JPanel with BorderLayout and border settings.
+     */
+    
+    public JPanel createPanel() {
+    	JPanel tempPanel = new JPanel();
+    	tempPanel.setLayout(new BorderLayout());
+    	tempPanel = createPanelWithBorder(BUTTON_PANEL);
+    	return tempPanel;
+    }
+    
+    /**
+     * Method: setButtons
+     * @param button the JButton to be styled
+     * @return the styled JButton
+     * Description: Styles the provided JButton with custom settings.
+     */
     
     public JButton setButtons(JButton button) {
     	button.setFont(new java.awt.Font("Book Antiqua", 0, 18));
@@ -250,7 +281,12 @@ public class GUI extends Mainframe implements MiddlePanel{
 		return button;   	
     }
     
-   
+    /**
+     * Method: setViewPanel
+     * @param viewName the name of the view to be displayed
+     * Description: Sets up the view panel based on the provided view name.
+     */
+    
     public void setViewPanel(String viewName) {
         switch (viewName) {
             case "Employees":
@@ -279,6 +315,16 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
         //firstLeftPanel.add(setEditButtons);
     }
+    
+    
+    /**
+     * Method: createPanelWithBorder
+     * @param panelType the type of panel to create
+     * @return a JPanel with specified border settings
+     * Description: Creates and returns a JPanel with specific border settings based on panel type.
+     */
+    
+    
     protected JPanel createPanelWithBorder(int panelType) {
         JPanel panel = new JPanel();
 //        Color myColor = new Color(230, 230, 255);
@@ -1020,6 +1066,14 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
+    /**
+     * Method: readTextfield
+     * @param menuItem the index of the menu item
+     * @param operation the operation to perform ("edit" or "add")
+     * @param selectedObject the selected object to be processed
+     * Description: Reads data from text fields, updates the corresponding object, and performs the specified operation.
+     */
+    
     
     public void readTextfield(int menuItem, String operation, Object selectedObject) {
     	 JTextField[] textFields;
@@ -1136,96 +1190,14 @@ public class GUI extends Mainframe implements MiddlePanel{
         	
         }
         }
-    
-//    public void readTextfield(int menuItem, String operation, Object object) {
-//        JTextField[] textFields;
-//        
-//        switch (menuItem) {
-//            case 0:  // Orders
-//                textFields = textFieldMap.get("Orders");
-////                object = new Orders();
-//                object.setUser_id(Integer.parseInt(textFields[1].getText()));  // User ID
-//                object.setEmployee_id(Integer.parseInt(textFields[2].getText()));
-//                object.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
-//                object.setStatus(textFields[4].getText());                     // Status
-//                object.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
-//                object.setTax(Float.parseFloat(textFields[6].getText()));      // Tax
-//                object.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
-//
-//                if (operation == "edit") {
-//                	dataManagement.updateOrder(order);
-//                } else if(operation == "add") {
-//                	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
-//                	dataManagement.addOrder(order); 
-//                	
-//                	for (JTextField textField : textFields) {
-//                    textField.setText("");
-//                }              	
-//                }
-//                
-//                
-//                
-//                break;
-//            case 1:  // Soap
-//                textFields = textFieldMap.get("Products");
-//                Soap soap = new Soap();
-//                soap.setEAN(Integer.parseInt(textFields[1].getText()));       // EAN
-//                soap.setTitle(textFields[2].getText());                       // Title
-//                soap.setCategory(textFields[3].getText());                    // Category
-//                soap.setPrice(Double.parseDouble(textFields[4].getText()));     // Price
-//
-//                if (operation == "edit") {
-//                	dataManagement.updateSoap(soap);
-//                } else if(operation == "add") {
-//                	System.out.println("Orders: " + soap.getId() + ", " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice());
-//                	dataManagement.addSoap(soap);
-//                }
-//                break;
-//            case 2:  // Employer
-//                textFields = textFieldMap.get("Employees");
-//                Employer employer = new Employer();
-//                employer.setEmployerName(textFields[1].getText());            // Name
-//                employer.setAddress(textFields[2].getText());                 // Address
-//                employer.setEmail(textFields[3].getText());                   // Email
-//                employer.setPhoneNumber(textFields[4].getText());             // Phone Number
-//                employer.setIndustry(textFields[5].getText());                // Industry
-//                employer.setEstablishedDate(convertToDate(textFields[6].getText())); // Established Date
-//
-//                if (operation == "edit") {
-//                	dataManagement.updateEmployer(employer);
-//                } else if(operation == "add") {
-//                	System.out.println("Orders: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber()  + ", "+ employer.getIndustry() + ", " + employer.getEstablishedDate());
-//                	dataManagement.addEmployer(employer);
-//                }
-//                break;
-//            case 3:  // Customers
-//                textFields = textFieldMap.get("Customers");
-//                Customers customer = new Customers();
-//                customer.setName(textFields[1].getText());                    // Name
-//                customer.setAddress(textFields[2].getText());                 // Address
-//                customer.setEmail(textFields[3].getText());                   // Email
-//                customer.setPassword(textFields[4].getText());                // Password
-//                customer.setCity(textFields[5].getText());                    // City
-//                customer.setBirthDate(convertToDate(textFields[6].getText())); // Birth Date
-//
-//                if (operation == "edit") {
-//                	dataManagement.updateCustomer(customer);
-//                } else if(operation == "add") {
-//                	System.out.println("Orders: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", "+ customer.getBirthDate() );
-//                	dataManagement.addCustomer(customer);
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
-    	
     	
     
+
+    /**
+     * Method to edit a row in the database based on the selected menu item.
+     * @param menuItem the index of the menu item
+     */
     
-
-
     public void editRowInDatabase(int menuItem) {
 
     	switch (menuItem) {
@@ -1234,8 +1206,6 @@ public class GUI extends Mainframe implements MiddlePanel{
         	     Orders selectedOrder = orders.get(selectedRow);      
         	     readTextfield(menuItem, EDIT_AND_ADD, selectedOrder);
         	     System.out.println("Selected Order ID: " + selectedOrder.getId());
-//                 System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
-//                 dataManagement.addOrder(order);
         	     if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
         	    	    dataManagement.errorMessage = "";
@@ -1278,6 +1248,10 @@ public class GUI extends Mainframe implements MiddlePanel{
     	
     }
     
+    /**
+     * Method to refresh all panels in the GUI.
+     */
+    
     public void refreshALL() {
     		
     	for (int i = 0; i < panelList.length; i++) {
@@ -1298,7 +1272,10 @@ public class GUI extends Mainframe implements MiddlePanel{
 
         	
         	
-
+    /**
+     * Method to set action for the add button.
+     * @param menuItem the index of the menu item
+     */
     
     	
     public void setActionAddButton(int menuItem) {
@@ -1330,6 +1307,13 @@ public class GUI extends Mainframe implements MiddlePanel{
             }
         });
     }
+    
+    
+    /**
+     * Method to delete a row in the database based on the selected menu item.
+     * @param menuItem the index of the menu item
+     */
+    
     public void deleteRowInDatabase(int menuItem) {
     	switch (menuItem) {
         case 0:
@@ -1361,11 +1345,10 @@ public class GUI extends Mainframe implements MiddlePanel{
             break;
     }
     	
-//        if (selectedIndex != -1 && selectedIndex < orders.size()) {
-        
-        
-        
-//    }
+    	/**
+    	 * Method to set action for the delete button.
+    	 * @param menuItem the index of the menu item
+    	 */
     }
     public void setActionDeleteButton(int menuItem) {   	
         deleteButton.addActionListener(new ActionListener() {
@@ -1377,6 +1360,12 @@ public class GUI extends Mainframe implements MiddlePanel{
             }
         });
     }
+    
+    /**
+     * Method to set action for the edit button.
+     * @param menuItem the index of the menu item
+     */
+    
     public void setActionEditButton(int menuItem) {
         editButton.addActionListener(new ActionListener() {
             @Override
@@ -1386,6 +1375,12 @@ public class GUI extends Mainframe implements MiddlePanel{
             }
         });
     }
+    
+    /**
+     * Method to set action for the refresh button.
+     * @param menuItem the index of the menu item
+     */
+    
     public void setActionRefreshButton(int menuItem) {
         refreshButton.addActionListener(new ActionListener() {
             @Override
@@ -1394,6 +1389,15 @@ public class GUI extends Mainframe implements MiddlePanel{
             }
         });
     }
+    
+    
+    /**
+     * Method to convert a date string to a Timestamp object.
+     * @param dateString the date string to convert
+     * @return the converted Timestamp object
+     */
+    
+    
     public static Timestamp convertToTimestamp(String dateString) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -1406,11 +1410,23 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
 
     
+    /**
+     * Method to convert a Date object to a string.
+     * @param date the Date object to convert
+     * @return the converted date string
+     */
+    
     public static String convertDateToString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return dateFormat.format(date);
     }
     
+    
+    /**
+     * Method to convert a date string to a Date object.
+     * @param dateString the date string to convert
+     * @return the converted Date object
+     */
     
     public static Date convertToDate(String dateString) {
         try {
