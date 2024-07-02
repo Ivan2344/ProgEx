@@ -78,22 +78,6 @@ public class Mainframe{
 	    northCenterPanel.setLayout(new FlowLayout((FlowLayout.CENTER)));
 	    northCenterPanel.setPreferredSize(new Dimension(1300, 50));
 	    
-//	    mainPanel = new JPanel();
-//	    mainPanel.setBackground(Color.WHITE);
-//	    mainPanel.setLayout(new GridLayout(1, 2));
-//	    
-//	    JPanel leftPanel = createPanelWithBorder(LEFT_PANEL);
-//	    JPanel rightPanel = createPanelWithBorder(RIGHT_PANEL);
-//	    
-//	    JPanel firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
-//	    JPanel secondLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
-//	    
-//	    
-//	    leftPanel.add(firstLeftPanel);
-//	    leftPanel.add(secondLeftPanel);
-//	    
-//	    mainPanel.add(leftPanel);
-//	    mainPanel.add(rightPanel);
 	    
 	    innerCenterPanel = new JPanel();
 	    innerCenterPanel.setLayout(new BorderLayout(0,0));
@@ -103,9 +87,6 @@ public class Mainframe{
 	    JPanel rightSidePanel = new JPanel();
 	    leftSidePanel.setBackground(Color.DARK_GRAY);
 	    rightSidePanel.setBackground(Color.DARK_GRAY);
-//	    leftSidePanel.setPreferredSize(new Dimension(40, 500));
-//	    rightSidePanel.setPreferredSize(new Dimension(40, 500));
-	    
 	    
 	    center.add(northCenterPanel, BorderLayout.NORTH);
 	    center.add(innerCenterPanel, BorderLayout.CENTER);
@@ -116,45 +97,4 @@ public class Mainframe{
 	    frame.add(center, BorderLayout.CENTER);
 	}
 
-
-//	private JPanel createPanelWithBorder(int panelType) {
-//		JPanel panel = new JPanel();
-//		Color myColor = new Color(230,230,255);
-//	    panel.setBackground(myColor);
-//	    
-//	    int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
-//	    
-//	    
-//	    switch(panelType){
-//	    	case RIGHT_PANEL: 
-//	    		topBorderWidth = 100;
-//	    		leftBorderWidth = 20;
-//	    		bottomBorderWidth = 100;
-//	    		rightBorderWidth = 20;
-//	    		break;
-//	    	case INNER_LEFT_PANEL:
-//				 topBorderWidth = 0; 
-//				 leftBorderWidth = 10;
-//			     bottomBorderWidth = 100;
-//			     rightBorderWidth = 10;
-//				 break;
-//	    	case LEFT_PANEL:
-//					topBorderWidth = 100; 
-//				 leftBorderWidth = 10;
-//			     bottomBorderWidth = 0;
-//			     rightBorderWidth = 10;
-//				 break;
-//				default:
-//				 topBorderWidth = 0; 
-//	                leftBorderWidth = 0;
-//	                bottomBorderWidth = 0;
-//	                rightBorderWidth = 0;
-//	                break;
-////			}
-//		
-//		panel.setBorder(BorderFactory.createMatteBorder(
-//		        topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth, BORDER_COLOR));
-//		    panel.setLayout(new GridLayout(1, 2));
-//	    return panel;
-//	}
 }

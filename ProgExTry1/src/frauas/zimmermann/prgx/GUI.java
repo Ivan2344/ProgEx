@@ -114,11 +114,6 @@ public class GUI extends Mainframe implements MiddlePanel{
                     for (int i = 0; i < panelList.length; i++) {
                         if (i == selectedIndex) {
                             panelList[i].setVisible(true);
-//                            System.out.print("item click is recognized\n");
-//                            System.out.print(i);
-//                            System.out.print("\n");
-//                            String selectedItem = menuItems[selectedIndex];
-//                            setViewPanel(selectedItem);
       
                         } else {
                             panelList[i].setVisible(false);
@@ -143,8 +138,6 @@ public class GUI extends Mainframe implements MiddlePanel{
         for (int i = 0; i < menuItems.length; i++) {
         	
             panelList[i] = setMainPanels(i);
-//            panelList[i] = setContents(i); 
-//            panelList[i].setVisible(true);
             innerCenterPanel.add(panelList[i]);
         }
         
@@ -744,7 +737,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         label.setOpaque(true); // Needed for background color to be visible
         Border margin = new EmptyBorder(0, 10, 0, 0);
         
-        Border border = BorderFactory.createLineBorder(Color.gray);
+        Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
         label.setBorder(BorderFactory.createCompoundBorder(border, margin));
         return label;
     }
