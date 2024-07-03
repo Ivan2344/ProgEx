@@ -697,7 +697,12 @@ import javax.swing.JOptionPane;
                 System.out.println("Error updating customer: " + e.getMessage());
             }
         }
-        
+        /**
+         * Fetches products associated with a specific order ID.
+         *
+         * @param orderId the ID of the order
+         * @return a list of Soap products
+         */
         public ArrayList<Soap> fetchProductsByOrderId(int orderId) {
             ArrayList<Soap> soaps = new ArrayList<>();
             try {
@@ -732,34 +737,12 @@ import javax.swing.JOptionPane;
             return soaps;
         }
         
-//        public void addOrderProductReference(int orderId, int soapId) {
-//            try {
-//                Connection connection = DriverManager.getConnection(url, username, password);
-//                Statement statement = connection.createStatement();
-//                
-//                String sql = "INSERT INTO RefOrderProd ( Oid, Sid) VALUES (" 
-//                      //  + (refOrderProdId+1) + ", "
-////                		+2+ ","
-//                        + orderId + ", "
-//                        + soapId + ")";
-//                
-//                int affectedRows = statement.executeUpdate(sql);
-//
-//                if (affectedRows > 0) {
-//                    System.out.println("Order-Product reference successfully added.");
-//                } else { 
-//
-//                    System.out.println("Product ID:"+ soapId + " Order ID: "+orderId);
-//                    System.out.println("Error adding Order-Product reference."); 
-//                }
-//
-//                connection.close();
-//            } catch (Exception e) {
-//
-//                System.out.println("product "+ soapId + "order id "+orderId);
-//                System.out.println("Error adding Order-Product reference: " + e.getMessage());
-//            }
-//        }
+        /**
+         * Adds a reference between an order and a soap product.
+         *
+         * @param orderId the ID of the order
+         * @param soapId  the ID of the soap product
+         */
         public void addOrderProductReference(int orderId, int soapId) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -802,7 +785,12 @@ import javax.swing.JOptionPane;
         }
 
 
-      
+        /**
+         * Deletes the reference between an order and a soap product.
+         *
+         * @param orderId the ID of the order
+         * @param soapId  the ID of the soap product
+         */
         public void deleteOrderProductReference(int orderId, int soapId) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -827,7 +815,11 @@ import javax.swing.JOptionPane;
        
 
 
-        
+        /**
+         * Fetches all unique categories from the Soap table.
+         *
+         * @return a list of categories
+         */
         public ArrayList<String> fetchCategoriesFromDatabase() {
             ArrayList<String> categories = new ArrayList<>();
             try {
@@ -846,9 +838,12 @@ import javax.swing.JOptionPane;
             return categories;
         }
 
-        // Fetch soaps by category
-
-        
+        /**
+         * Fetches soaps by category.
+         *
+         * @param category the category of the soaps
+         * @return a list of Soap products
+         */
         public ArrayList<Soap> fetchSoapsByCategory(String category) {
             ArrayList<Soap> soaps = new ArrayList<>();
             try {
@@ -879,10 +874,13 @@ import javax.swing.JOptionPane;
             }
             return soaps;
         }
-
         
-
-        
+        /**
+         * Retrieves the soap ID based on its title.
+         *
+         * @param title the title of the soap
+         * @return the ID of the soap, or -1 if not found
+         */
         public int getSoapIdByTitle(String title) {
             int soapId = -1;
             String sql = "SELECT id FROM Soap WHERE titel = ?";
@@ -901,7 +899,13 @@ import javax.swing.JOptionPane;
             return soapId;
         }
         
-        
+        /**
+         * Retrieves the total count of a specific soap in a specific order.
+         *
+         * @param orderId the ID of the order
+         * @param soapId  the ID of the soap
+         * @return the total count of the soap in the order
+         */
         public int getTotalCount(int orderId, int soapId) {
             int totalCount = 0;
 
