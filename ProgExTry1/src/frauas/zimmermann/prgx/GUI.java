@@ -814,7 +814,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         label.setForeground(Color.DARK_GRAY);
         label.setOpaque(true); // Needed for background color to be visible
         Border margin = new EmptyBorder(0, 10, 0, 0);
-        Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
+        Border border = BorderFactory.createLineBorder(Color.GRAY);
         label.setBorder(BorderFactory.createCompoundBorder(border, margin));
         return label;
     }
