@@ -23,10 +23,10 @@ public class LoginMask extends Mainframe {
 	
 	LoginMask(){
 		super();
-        appgui();
+        loggui();
     }
 
-    public void appgui() {
+    public void loggui() {
         // Set up the center panel for the login form
     	JPanel MainPanel = new JPanel(new BorderLayout());
     	
