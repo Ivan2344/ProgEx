@@ -3,6 +3,12 @@ package frauas.zimmermann.prgx;
 import java.sql.*;
 
 public class Create_Shema {
+	/**
+	 * Constructor: Create_Shema()
+	 * @param usr Nutzernamen von dem user für die MySql Datenbank
+	 * @param pwd Passwort von dem user für die MySql Datenbank
+	 */
+	
 	private String url;
 	private String user;
 	private String password;
@@ -12,7 +18,11 @@ public class Create_Shema {
 		this.user = usr;
 		this.password = pwd;
 	}
-
+	/**
+	 * @param - nothing due the constructor gets all info
+	 * @return - a true value if it worked
+	 * This Methods creates a Shema and a the nessesery tabels
+	 */
 	boolean CreateDB() {
 		boolean success = false;
 		try {
@@ -61,7 +71,9 @@ public class Create_Shema {
 		
 		return success;
 	}
-
+	/**
+	 * This method is for inserting some demo values
+	 */
 	void InsertDemoValues() {
 
 		try (Connection conn = DriverManager.getConnection(url, user, password)) {
@@ -224,7 +236,10 @@ public class Create_Shema {
 					+ e.getMessage());
 		}
 	}
-
+	/**
+	 * This method is to change the location of the database and selecting the right sheme
+	 * @param 
+	 */
 	void setSch(String sh) {
 		this.url = sh;
 	}
