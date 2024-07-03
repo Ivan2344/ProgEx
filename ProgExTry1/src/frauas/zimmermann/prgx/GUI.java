@@ -86,22 +86,44 @@ public class GUI extends Mainframe implements MiddlePanel{
     * @param psw the password for data management
     * Description: Initializes the GUI and sets up the main panel and menu list.
     */
-    
+   
     public GUI(String usr, String psw) { 
         super();
         dataManagement = new Data_management(usr, psw);
         createMainPanel();
         createMenuList(menuItems);
         northCenterPanel.revalidate();
-        northCenterPanel.repaint();
-        
+        northCenterPanel.repaint();        
     }
+    
+    
+    
+    
+    /**
+     * Method: createMainPanel
+     * Description: Creates and sets up the main panel and its components.
+     */
+    
+    public void createMainPanel() {
+        panelList = new JPanel[menuItems.length];
+        innerCenterPanel.setLayout(new CardLayout());
+        
+        for (int i = 0; i < menuItems.length; i++) {
+        	
+            panelList[i] = setMainPanels(i);
+            innerCenterPanel.add(panelList[i]);
+        }
+        
+        frame.add(center, BorderLayout.CENTER);
+    }
+    
+    
 
     /**
      * Method: createMenuList
      * @param items an array of menu item names
      * Description: Creates and sets up the menu list for the GUI.
-     */
+     */    
     
     public void createMenuList(String[] items) {
         JList<String> menuList = new JList<>(items);
@@ -144,29 +166,11 @@ public class GUI extends Mainframe implements MiddlePanel{
 
 
     /**
-     * Method: createMainPanel
-     * Description: Creates and sets up the main panel and its components.
-     */
-    
-    public void createMainPanel() {
-        panelList = new JPanel[menuItems.length];
-        innerCenterPanel.setLayout(new CardLayout());
-        
-        for (int i = 0; i < menuItems.length; i++) {
-        	
-            panelList[i] = setMainPanels(i);
-            innerCenterPanel.add(panelList[i]);
-        }
-        
-        frame.add(center, BorderLayout.CENTER);
-    }
-
-    /**
      * Method: setMainPanels
      * @param menuItem the index of the menu item
      * @return a JPanel configured based on the menu item
      * Description: Configures and returns a JPanel based on the provided menu item index.
-     */
+     */   
     
     public JPanel setMainPanels(int menuItem) {
     	JPanel titlePanel = new JPanel();
@@ -254,11 +258,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         return tempPanel;
     }
     
+    
     /**
      * Method: createPanel
      * @return a new JPanel with a BorderLayout and border settings
      * Description: Creates and returns a JPanel with BorderLayout and border settings.
-     */
+     */   
     
     public JPanel createPanel() {
     	JPanel tempPanel = new JPanel();
@@ -267,13 +272,14 @@ public class GUI extends Mainframe implements MiddlePanel{
     	return tempPanel;
     }
     
+    
+    
     /**
      * Method: setButtons
      * @param button the JButton to be styled
      * @return the styled JButton
      * Description: Styles the provided JButton with custom settings.
-     */
-    
+     */   
     public JButton setButtons(JButton button) {
     	button.setFont(new java.awt.Font("Book Antiqua", 0, 18));
 		button.setBackground(LIGHT_BLUE);
@@ -281,11 +287,14 @@ public class GUI extends Mainframe implements MiddlePanel{
 		return button;   	
     }
     
+    
+    
+    
     /**
      * Method: setViewPanel
      * @param viewName the name of the view to be displayed
      * Description: Sets up the view panel based on the provided view name.
-     */
+     */   
     
     public void setViewPanel(String viewName) {
         switch (viewName) {
@@ -310,11 +319,13 @@ public class GUI extends Mainframe implements MiddlePanel{
 //                secondLeftPanel.add(setSoapMask());
                 break;
             default:
-                // Handle unknown view
+                
                 break;       
         }
         //firstLeftPanel.add(setEditButtons);
     }
+    
+    
     
     
     /**
@@ -324,10 +335,8 @@ public class GUI extends Mainframe implements MiddlePanel{
      * Description: Creates and returns a JPanel with specific border settings based on panel type.
      */
     
-    
     protected JPanel createPanelWithBorder(int panelType) {
         JPanel panel = new JPanel();
-//        Color myColor = new Color(230, 230, 255);
         panel.setBackground(Color.LIGHT_GRAY);
 
         int topBorderWidth, leftBorderWidth, bottomBorderWidth, rightBorderWidth;
@@ -582,6 +591,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         
         JButton openProductsButton = new JButton("Add Products");
         openProductsButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+        openProductsButton.setBackground(LIGHT_BLUE);
         openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
