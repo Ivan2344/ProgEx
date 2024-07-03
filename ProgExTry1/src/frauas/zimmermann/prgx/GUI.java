@@ -167,6 +167,8 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
 
 
+    
+    
     /**
      * Method: setMainPanels
      * @param menuItem the index of the menu item
@@ -261,6 +263,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
+    
     /**
      * Method: createPanel
      * @return a new JPanel with a BorderLayout and border settings
@@ -290,8 +293,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
-    
-    
+       
     /**
      * Method: setViewPanel
      * @param viewName the name of the view to be displayed
@@ -303,31 +305,29 @@ public class GUI extends Mainframe implements MiddlePanel{
             case "Employees":
                 setEmployerPanel();
                 setEmployerTextPanel();
-//                secondLeftPanel.add(setEmployeeMask());
                 break;
+                
             case "Customers":
                 setCustomerPanel();
                 setCustomerTextPanel();
-//               secondLeftPanel.add(setCustomerMask());
                 break;
+                
             case "Orders":
                 setOrderPanel();
                 setOrderTextPanel();
-//                secondLeftPanel.add(setOrderMask());
                 break;
+                
             case "Products":
                 setSoapPanel();
                 setSoapTextPanel();
-//                secondLeftPanel.add(setSoapMask());
                 break;
+                
             default:
                 
                 break;       
         }
         //firstLeftPanel.add(setEditButtons);
     }
-    
-    
     
     
     /**
@@ -377,6 +377,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
+    
     private void setEmployerPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -413,9 +414,9 @@ public class GUI extends Mainframe implements MiddlePanel{
             public void mouseClicked(MouseEvent e) {
             	selectedRow = employerDatabase.getSelectedRow();
                 if (selectedRow != -1) {
-                    handleSelectedRow(selectedRow, employerDatabase, "Employer");
                     ArrayList<Employer> employer = dataManagement.fetchEmployersFromDatabase();
                     Employer selectedOrder = employer.get(selectedRow);  
+                    
 	           	    JTextField[] textFields;
 	           	    textFields = textFieldMap.get("Employees"); //FEHLERMEDLUNG
 	
@@ -491,11 +492,11 @@ public class GUI extends Mainframe implements MiddlePanel{
             @Override
             public void mouseClicked(MouseEvent e) {
             	selectedRow = soapDatabase.getSelectedRow();
-            	System.out.print(selectedRow);
+            	
                 if (selectedRow != -1) {
-                    handleSelectedRow(selectedRow, soapDatabase, "Soap");
                     ArrayList<Soap> soaps = dataManagement.fetchSoapsFromDatabase();
-                    Soap selectedOrder = soaps.get(selectedRow);  
+                    Soap selectedOrder = soaps.get(selectedRow); 
+                    
 	           	    JTextField[] textFields;
 	           	    textFields = textFieldMap.get("Products");
 	
@@ -572,10 +573,9 @@ public class GUI extends Mainframe implements MiddlePanel{
             public void mouseClicked(MouseEvent e) {
             	selectedRow = orderDatabase.getSelectedRow();
                 if (selectedRow != -1) {
-                    handleSelectedRow(selectedRow, orderDatabase, "Order");
-                    System.out.print("selectedrow: " + selectedRow);
                     ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
            	     	Orders selectedOrder = orders.get(selectedRow);  
+           	     	
 	           	    JTextField[] textFields;
 	           	    textFields = textFieldMap.get("Orders");
 	
@@ -671,11 +671,9 @@ public class GUI extends Mainframe implements MiddlePanel{
             public void mouseClicked(MouseEvent e) {
             	selectedRow = customerDatabase.getSelectedRow();
                 if (selectedRow != -1) {
-                	System.out.printf("KLICK!");
-                	System.out.print(selectedRow);
-                    handleSelectedRow(selectedRow, customerDatabase, "Customer");
                     ArrayList<Customers> customers = dataManagement.fetchCustomersFromDatabase();
                     Customers selectedOrder = customers.get(selectedRow);  
+                    
 	           	    JTextField[] textFields;
 	           	    textFields = textFieldMap.get("Customers");
 	
@@ -730,6 +728,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         return createMaskPanel(labels, className);
     }
 
+    
     /**
      * Sets up the Employee text panel.
      *
@@ -741,6 +740,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         return createMaskPanel(labels, className);
     }
 
+    
     /**
      * Sets up the Product text panel.
      *
@@ -752,6 +752,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         return createMaskPanel(labels, className);
     }
 
+    
     /**
      * Sets up the Customer text panel.
      *
@@ -763,6 +764,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         return createMaskPanel(labels, className);
     }
 
+    
     /**
      * Creates a mask panel with specified labels and panel name.
      *
@@ -996,6 +998,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         newFrame.setVisible(true);
     }
 
+    
     /**
      * Creates a list cell renderer with custom settings.
      *
@@ -1014,6 +1017,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         };
     }
 
+    
     /**
      * Creates a tree cell renderer with custom settings.
      *
@@ -1033,6 +1037,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         };
     }
 
+    
     /**
      * Creates a tree model for products.
      *
@@ -1109,27 +1114,6 @@ public class GUI extends Mainframe implements MiddlePanel{
         label.setFont(new Font("Georgia", Font.PLAIN, 20));
         return label;
     }
-
-    private void handleSelectedRow(int row, JTable table, String tableName) {
-        String selectedData = "";
-//        switch (tableName) {
-//            case "Employer":
-//                selectedData = "Selected " + tableName + ": " + table.getValueAt(row, 1);
-//                break;
-//            case "Customer":
-//                selectedData = "Selected " + tableName + ": " + table.getValueAt(row, 1);
-//                break;
-//            case "Soap":
-//                selectedData = "Selected " + tableName + ": " + table.getValueAt(row, 1);
-//                break;
-//            case "Order":
-//                selectedData = "Selected " + tableName + ": " + table.getValueAt(row, 1);
-//                break;
-//            default:
-//                break;
-//        }
-//        JOptionPane.showMessageDialog(null, selectedData);
-    }
     
     
     /**
@@ -1145,7 +1129,6 @@ public class GUI extends Mainframe implements MiddlePanel{
     	 JTextField[] textFields;
          System.out.println("Lesen der Textfelder für menuItem: " + menuItem + ", Modus: " + operation);
 
-
         if (selectedObject instanceof Orders) {
 	        	textFields = textFieldMap.get("Orders");
 	            Orders order = (Orders) selectedObject;
@@ -1160,10 +1143,11 @@ public class GUI extends Mainframe implements MiddlePanel{
 	 
 	            System.out.println("Order verarbeitet: " + order);
 	            if ("edit".equals(operation)) {
-	            	dataManagement.updateOrder(order);
+	            	dataManagement.updateOrder(order);	            	
 	            } else if("add".equals(operation)) {
 	            	System.out.println("Orders: " + order.getId() + ", " + order.getUser_id() + ", " + order.getEmployee_id() + ", " + order.getOrder_date() + ", " + order.getStatus() + ", " + order.getTotal() + ", "+ order.getTax() + ", " + order.getDiscount());
 	            	dataManagement.addOrder(order);
+	            	
 	            	if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
         	    	    dataManagement.errorMessage = "";
@@ -1188,6 +1172,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            } else if("add".equals(operation)) {
 	            	System.out.println("Orders: " + soap.getId() + ", " + soap.getId() + ", " + soap.getEAN() + ", " + soap.getTitle() + ", " + soap.getCategory() + ", " + soap.getPrice());
 	            	dataManagement.addSoap(soap);
+	            	
 	            	if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
         	    	    dataManagement.errorMessage = "";
@@ -1217,6 +1202,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          } else if("add".equals(operation)) {
 		          	System.out.println("Orders: " + employer.getEmployerId() + ", " + employer.getEmployerName() + ", " + employer.getAddress() + ", " + employer.getEmail() + ", " + employer.getPhoneNumber()  + ", "+ employer.getIndustry() + ", " + employer.getEstablishedDate());
 		          	dataManagement.addEmployer(employer);
+		          	
 		          	if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
         	    	    dataManagement.errorMessage = "";
@@ -1243,6 +1229,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          } else if("add".equals(operation)) {
 		          	System.out.println("Orders: " + customer.getId() + ", " + customer.getName() + ", " + customer.getAddress() + ", " + customer.getEmail() + ", " + customer.getPassword() + ", " + customer.getCity() + ", "+ customer.getBirthDate() );
 		          	dataManagement.addCustomer(customer);
+		          	
 		          	if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
         	    	    dataManagement.errorMessage = "";
@@ -1271,6 +1258,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         	     ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
         	     Orders selectedOrder = orders.get(selectedRow);      
         	     readTextfield(menuItem, EDIT_AND_ADD, selectedOrder);
+        	     
         	     System.out.println("Selected Order ID: " + selectedOrder.getId());
         	     if (!dataManagement.errorMessage.isEmpty()) {
         	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
@@ -1282,37 +1270,43 @@ public class GUI extends Mainframe implements MiddlePanel{
         		ArrayList<Soap> soap = dataManagement.fetchSoapsFromDatabase();
         		Soap selectedSoap = soap.get(selectedRow);  
         		readTextfield(menuItem, EDIT_AND_ADD, selectedSoap);
+        		
         		System.out.println("Selected Order ID: " + selectedSoap.getId());
         		if (!dataManagement.errorMessage.isEmpty()) {
     	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
     	    	    dataManagement.errorMessage = "";
     	    	}
             break;
+            
         case 2:
         		ArrayList<Employer> employer = dataManagement.fetchEmployersFromDatabase();
         		Employer selectedEmployer = employer.get(selectedRow);  
         		readTextfield(menuItem, EDIT_AND_ADD, selectedEmployer);
+        		
         		System.out.println("Selected Order ID: " + selectedEmployer.getEmployerId());
         		if (!dataManagement.errorMessage.isEmpty()) {
     	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
     	    	    dataManagement.errorMessage = "";
     	    	}
             break;
+            
         case 3:
         		ArrayList<Customers> customer = dataManagement.fetchCustomersFromDatabase();
         		Customers selectedCustomers = customer.get(selectedRow);  
         		readTextfield(menuItem, EDIT_AND_ADD, selectedCustomers);
+        		
    	     		System.out.println("Selected Order ID: " + selectedCustomers.getId());
    	     	if (!dataManagement.errorMessage.isEmpty()) {
 	    	    JOptionPane.showMessageDialog(null, dataManagement.errorMessage, "Edit Error", JOptionPane.ERROR_MESSAGE);
 	    	    dataManagement.errorMessage = "";
 	    	}
             break;
+            
         default:
             break;
+    	}    	
     }
-    	
-    }
+    
     
     /**
      * Method to refresh all panels in the GUI.
@@ -1322,18 +1316,20 @@ public class GUI extends Mainframe implements MiddlePanel{
     		
     	for (int i = 0; i < panelList.length; i++) {
     		panelList[i].removeAll();
-        	innerCenterPanel.add(panelList[i]);}
+        	innerCenterPanel.add(panelList[i]);
+        }
     	
         	createMainPanel(); 
         	createMenuList(menuItems);
         	
         for (int i = 0; i <= selectedIndex; i++) {
         	
-            if(i== selectedIndex ) {panelList[i].setVisible(true);}
-            else {panelList[i].setVisible(false);}
-                 
-
-         }
+            if(i== selectedIndex ) {
+            	panelList[i].setVisible(true);
+            }
+            else {panelList[i].setVisible(false);
+            }
+        }
     }
 
         	
@@ -1386,27 +1382,30 @@ public class GUI extends Mainframe implements MiddlePanel{
         	     ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
         	     Orders selectedOrder = orders.get(selectedRow);  
         	     dataManagement.deleteOrder(selectedOrder);
-        	     System.out.println("Selected Order ID: " + selectedOrder.getId());
+//        	     System.out.println("Selected Order ID: " + selectedOrder.getId());
         	break;
             
         case 1:
         		ArrayList<Soap> soap = dataManagement.fetchSoapsFromDatabase();
         		Soap selectedSoap = soap.get(selectedRow);  
         		dataManagement.deleteSoap(selectedSoap);
-        		System.out.println("Selected Order ID: " + selectedSoap.getId());
+//        		System.out.println("Selected Order ID: " + selectedSoap.getId());
             break;
+            
         case 2:
         		ArrayList<Employer> employer = dataManagement.fetchEmployersFromDatabase();
         		Employer selectedEmployer = employer.get(selectedRow);  
         		dataManagement.deleteEmployer(selectedEmployer);
-        		System.out.println("Selected Order ID: " + selectedEmployer.getEmployerId());
+//        		System.out.println("Selected Order ID: " + selectedEmployer.getEmployerId());
             break;
+            
         case 3:
         		ArrayList<Customers> customer = dataManagement.fetchCustomersFromDatabase();
         		Customers selectedCustomers = customer.get(selectedRow);  
    	     		dataManagement.deleteCustomer(selectedCustomers);
-   	     		System.out.println("Selected Order ID: " + selectedCustomers.getId());
+//   	     		System.out.println("Selected Order ID: " + selectedCustomers.getId());
             break;
+            
         default:
             break;
     }
