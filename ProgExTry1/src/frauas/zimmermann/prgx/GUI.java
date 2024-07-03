@@ -1241,7 +1241,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 		          	System.out.println("Customer verarbeitet: " + customer);
         
         	
-        }
+        	}
         }
     	
     
@@ -1254,6 +1254,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     public void editRowInDatabase(int menuItem) {
 
     	switch (menuItem) {
+    	
         case 0:
         	     ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
         	     Orders selectedOrder = orders.get(selectedRow);      
@@ -1308,69 +1309,7 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
-    /**
-     * Method to refresh all panels in the GUI.
-     */
-    
-    public void refreshALL() {
-    		
-    	for (int i = 0; i < panelList.length; i++) {
-    		panelList[i].removeAll();
-        	innerCenterPanel.add(panelList[i]);
-        }
-    	
-        	createMainPanel(); 
-        	createMenuList(menuItems);
-        	
-        for (int i = 0; i <= selectedIndex; i++) {
-        	
-            if(i== selectedIndex ) {
-            	panelList[i].setVisible(true);
-            }
-            else {panelList[i].setVisible(false);
-            }
-        }
-    }
 
-        	
-        	
-    /**
-     * Method to set action for the add button.
-     * @param menuItem the index of the menu item
-     */
-    
-    	
-    public void setActionAddButton(int menuItem) {
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object selectedObject = null;
-
-                switch (menuItem) {
-                    case 0:
-                        selectedObject = new Orders();
-                        break;
-                    case 1:
-                        selectedObject = new Soap();
-                        break;
-                    case 2:
-                        selectedObject = new Employer();
-                        break;
-                    case 3:
-                        selectedObject = new Customers();
-                        break;
-                    default:
-                        System.out.println("Ungültige Auswahl");
-                        return;
-                }
-
-                readTextfield(menuItem, ONLY_ADD, selectedObject);
-                refreshALL();
-            }
-        });
-    }
-    
-    
     /**
      * Method to delete a row in the database based on the selected menu item.
      * @param menuItem the index of the menu item
@@ -1409,23 +1348,68 @@ public class GUI extends Mainframe implements MiddlePanel{
         default:
             break;
     }
-    	
-    	/**
-    	 * Method to set action for the delete button.
-    	 * @param menuItem the index of the menu item
-    	 */
+    }	
+    
+    /**
+     * Method to refresh all panels in the GUI.
+     */
+    
+    public void refreshALL() {
+    		
+    	for (int i = 0; i < panelList.length; i++) {
+    		panelList[i].removeAll();
+        	innerCenterPanel.add(panelList[i]);
+        }   	
+        	createMainPanel(); 
+        	createMenuList(menuItems);
+        	
+        for (int i = 0; i <= selectedIndex; i++) {
+        	
+            if(i== selectedIndex ) {
+            	panelList[i].setVisible(true);
+            }
+            else {panelList[i].setVisible(false);
+            }
+        }
     }
-    public void setActionDeleteButton(int menuItem) {   	
-        deleteButton.addActionListener(new ActionListener() {
+    
+    
+    /**
+     * Method to set action for the add button.
+     * @param menuItem the index of the menu item
+     */
+    
+    public void setActionAddButton(int menuItem) {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               deleteRowInDatabase(menuItem);
-               refreshALL();
+                Object selectedObject = null;
 
+                switch (menuItem) {
+                    case 0:
+                        selectedObject = new Orders();
+                        break;
+                    case 1:
+                        selectedObject = new Soap();
+                        break;
+                    case 2:
+                        selectedObject = new Employer();
+                        break;
+                    case 3:
+                        selectedObject = new Customers();
+                        break;
+                    default:
+                        System.out.println("Ungültige Auswahl");
+                        return;
+                }
+
+                readTextfield(menuItem, ONLY_ADD, selectedObject);
+                refreshALL();
             }
         });
     }
     
+   
     /**
      * Method to set action for the edit button.
      * @param menuItem the index of the menu item
@@ -1440,6 +1424,24 @@ public class GUI extends Mainframe implements MiddlePanel{
             }
         });
     }
+    
+    
+    /**
+     * Method to set action for the delete button.
+     * @param menuItem the index of the menu item
+     */
+    
+    public void setActionDeleteButton(int menuItem) {   	
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               deleteRowInDatabase(menuItem);
+               refreshALL();
+
+            }
+        });
+    }
+    
     
     /**
      * Method to set action for the refresh button.
