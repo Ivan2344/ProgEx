@@ -733,7 +733,6 @@ public class GUI extends Mainframe implements MiddlePanel{
 
     private JPanel createMaskPanel(String[] labels, String panelName) {
     	JPanel titlePanel = new JPanel(new BorderLayout());
-//    	titlePanel = createPanelWithBorder(RIGHT_PANEL);
     	JLabel titleLabel = new JLabel();
     	titleLabel = createCustomLabel("Insert: ");
     	titleLabel.setBackground(Color.LIGHT_GRAY);
@@ -848,6 +847,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         newFrame.setSize(800, 600); // Adjusted size to accommodate all panels
         newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         newFrame.setLayout(new BorderLayout());
+        newFrame.setResizable(false);
 
         JPanel existingPanel = new JPanel(new BorderLayout());
         JLabel existingLabel = createCustomLabel("Existing Products");

@@ -35,6 +35,7 @@ public class Mainframe{
 		frame = new JFrame("Your shop");
 		
 		frame.setSize(1500,900);
+		frame.setMinimumSize(new Dimension(1200, 800)); 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
