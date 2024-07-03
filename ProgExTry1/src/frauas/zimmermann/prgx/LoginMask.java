@@ -55,6 +55,7 @@ public class LoginMask extends Mainframe {
         passwordField.setFont(new Font("Book Antiqua", Font.PLAIN, 25));
 
         JButton loginButton = new JButton("Login");
+        loginButton.setBackground(LIGHT_BLUE);
         loginButton.setFont(new Font("Book Antiqua", Font.PLAIN, 20));  // Set font size for login button
 
         
