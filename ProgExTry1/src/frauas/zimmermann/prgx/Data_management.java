@@ -1,7 +1,4 @@
 
-
-   
-
     package frauas.zimmermann.prgx;
 
     import java.sql.*;
@@ -17,74 +14,21 @@ import javax.swing.JOptionPane;
     	private String password;
     	public String errorMessage = "";
     	
-//    	public static int employerId = 0;
-//        public static int customerId = 0;
-//        public static int orderId = 0;
-//        public static int soapId = 0;
-//        public static int refOrderProdId = 0;
-    	
+
+    	/**
+    	    * Constructor: Data_Management
+    	    * @param usr the username for access to mysql workbench
+    	    * @param psw the password for access to the mysql workbench
+    	    * Description: sets username, password and the JDBC-url to locally connect with the MySql-Database through port 3360
+    	    */
         public Data_management(String usr, String pwd) { 
         	this.url = "jdbc:mysql://localhost:3306/SEIFENdemo2";
             this.username = usr;
             this.password = pwd;
-          //  findMaxId();
         }
         
         
-     // Initialize the IDs by fetching the maximum values from the database
-//        public void findMaxId() {
-//            try {
-//                Connection connection = DriverManager.getConnection(url, username, password);
-//                Statement statement = connection.createStatement();
-//                
-//                // Fetch the maximum employer_id
-//                ResultSet resultSet = statement.executeQuery("SELECT MAX(employer_id) FROM employer"); //resultSet.next(): Bewegt den Cursor auf den ersten Datensatz (die erste Zeile des ResultSet). Da die Abfrage SELECT MAX(employer_id) immer eine Zeile zurückgibt, wird diese Bedingung immer true sein, es sei denn, es gibt ein Problem bei der Ausführung der Abfrage.
-//                if (resultSet.next()) {
-//                    employerId = resultSet.getInt(1)+1;  //resultSet.getInt(1): Liest den Wert der ersten Spalte der aktuellen Zeile des ResultSet. Da wir die maximale employer_id abgefragt haben, wird dieser Wert die höchste employer_id in der Tabelle sein. Wenn die Tabelle leer ist, wird dieser Wert null sein.
-//                } else {
-//                    employerId = 1;
-//                }
-//    
-//                // Fetch the maximum customer_id
-//                resultSet = statement.executeQuery("SELECT MAX(id) FROM customers");
-//                if (resultSet.next()) {
-//                    customerId = resultSet.getInt(1)+1;
-//                } else {
-//                    customerId = 1;
-//                }
-//    
-//                // Fetch the maximum order_id
-//                resultSet = statement.executeQuery("SELECT MAX(id) FROM orders");
-//                if (resultSet.next()) {
-//                    orderId = resultSet.getInt(1)+1;
-//                } else {
-//                    orderId = 1;
-//                }
-//    
-//                // Fetch the maximum soap_id
-//                resultSet = statement.executeQuery("SELECT MAX(id) FROM soap");
-//                if (resultSet.next()) {
-//                    soapId = resultSet.getInt(1)+1;
-//                } else {
-//                    soapId = 1;
-//                }
-//                
-//             // Fetch the maximum id from RefOrderProd
-//                resultSet = statement.executeQuery("SELECT MAX(id) FROM RefOrderProd");
-//                if (resultSet.next()) {
-//                    refOrderProdId = resultSet.getInt(1)+1;
-//                } else {
-//                    refOrderProdId = 1;
-//                }
-//                
-//                System.out.println("refOrderId"+ refOrderProdId);
-//                connection.close();
-//                
-//            } catch (Exception e) {
-//                System.out.println("Error finding maximal ID " + e.getMessage());
-//            }
-//        }
-  // the IDs by fetching the maximum values from the database
+
         public int findMaxId(String panelName) {
         	int nextId =-1;
 
@@ -114,7 +58,11 @@ import javax.swing.JOptionPane;
         }
         
 
-     // Fetch methods
+        /**
+         * Fetches employers and adds them to the ArrayList
+         *
+         * @return a list of employers
+         */
         public ArrayList<Employer> fetchEmployersFromDatabase() {
             ArrayList<Employer> employers = new ArrayList<>();
             try {       
@@ -143,6 +91,11 @@ import javax.swing.JOptionPane;
             return employers;
         }
 
+        /**
+         * Fetches customers and adds them to the ArrayList
+         *
+         * @return a list of customers
+         */
         public ArrayList<Customers> fetchCustomersFromDatabase() {
             ArrayList<Customers> customers = new ArrayList<>();
             try {       
@@ -173,6 +126,11 @@ import javax.swing.JOptionPane;
             return customers;
         }
 
+        /**
+         * Fetches orders and adds them to the ArrayList
+         *
+         * @return a list of orders
+         */
         public ArrayList<Orders> fetchOrdersFromDatabase() {
             ArrayList<Orders> orders = new ArrayList<>();
             try {       
@@ -203,6 +161,11 @@ import javax.swing.JOptionPane;
             return orders;
         }
 
+        /**
+         * Fetches soaps and adds them to the ArrayList
+         *
+         * @return a list of soaps
+         */
         public ArrayList<Soap> fetchSoapsFromDatabase() {
             ArrayList<Soap> soaps = new ArrayList<>();
             try {       
@@ -231,7 +194,11 @@ import javax.swing.JOptionPane;
             return soaps;
         }
 
-      // Add methods
+        /**
+         * Adds an employer dataset to the database table
+         *
+         * @param Employer employer
+         */
         public void addEmployer(Employer employer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -260,6 +227,11 @@ import javax.swing.JOptionPane;
             }
         }
 
+        /**
+         * Adds an customer dataset to the database table
+         *
+         * @param Customer customer
+         */
         public void addCustomer(Customers customer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -289,6 +261,11 @@ import javax.swing.JOptionPane;
             }
         }
 
+        /**
+         * Adds an order dataset to the database table
+         *
+         * @param Orders order
+         */
         public void addOrder(Orders order) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -318,6 +295,11 @@ import javax.swing.JOptionPane;
             }
         }
 
+        /**
+         * Adds an product dataset to the database table
+         *
+         * @param Soap soap
+         */
         public void addSoap(Soap soap) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -345,7 +327,11 @@ import javax.swing.JOptionPane;
             }
         }
         
-     //delete methods
+        /**
+         * Deletes an employer dataset from the database table
+         *
+         * @param Employer employer
+         */
         public void deleteEmployer(Employer employer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -364,7 +350,12 @@ import javax.swing.JOptionPane;
                 System.out.println("Error deleting employer: " + e.getMessage());
             }
         }
-
+        
+        /**
+         * Deletes an employer dataset from the database table
+         *
+         * @param Customer customer
+         */
         public void deleteCustomer(Customers customer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -384,6 +375,11 @@ import javax.swing.JOptionPane;
             }
         }
 
+        /**
+         * Deletes an order dataset from the database table
+         *
+         * @param Order order
+         */
         public void deleteOrder(Orders order) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -403,6 +399,11 @@ import javax.swing.JOptionPane;
             }
         }
 
+        /**
+         * Deletes an soap dataset from the database table
+         *
+         * @param Soap soap
+         */
         public void deleteSoap(Soap soap) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -422,131 +423,13 @@ import javax.swing.JOptionPane;
             }
         }
         
-        /*
-        public void updateEmployer(Employer employer) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                // Form the SQL query for update
-                String sql = "UPDATE employer SET " +
-                             "employer_name = '" + employer.getEmployerName() + "', " +
-                             "address = '" + employer.getAddress() + "', " +
-                             "email = '" + employer.getEmail() + "', " +
-                             "phone_number = '" + employer.getPhoneNumber() + "', " +
-                             "industry = '" + employer.getIndustry() + "', " +
-                             "established_date = '" + employer.getEstablishedDate() + "' " +
-                             "WHERE employer_id = " + employer.getEmployerId();
-                
-                // Execute the update
-                int affectedRows = statement.executeUpdate(sql);
-
-                if (affectedRows > 0) {
-                    System.out.println("Employer successfully updated.");
-                } else {
-                    System.out.println("Error updating Employer.");
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating employer: " + e.getMessage());
-            }
-        }
-        
-        public void updateOrder(Orders order) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                // Form the SQL query for update
-                String sql = "UPDATE orders SET " +
-                             "user_id = " + order.getUser_id() + ", " +
-                             "employer_id = " + order.getEmployee_id() + ", " +
-                             "order_date = '" + order.getOrder_date() + "', " +
-                             "status = '" + order.getStatus() + "', " +
-                             "total = " + order.getTotal() + ", " +
-                             "tax = " + order.getTax() + ", " +
-                             "discount = " + order.getDiscount() + " " +
-                             "WHERE id = " + order.getId();
-                
-                // Execute the update
-                int affectedRows = statement.executeUpdate(sql);
-
-                if (affectedRows > 0) {
-                    System.out.println("Order successfully updated.");
-                } else {
-                    System.out.println("Error updating Order.");
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating order: " + e.getMessage());
-            }
-        }
-        
-        public void updateSoap(Soap soap) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                // Form the SQL query for update
-                String sql = "UPDATE soap SET " +
-                             "EAN = " + soap.getEAN() + ", " +
-                             "titel = '" + soap.getTitle() + "', " +
-                             "category = '" + soap.getCategory() + "', " +
-                             "price = " + soap.getPrice() + ", " +
-                             "created_at = '" + soap.getCreatedAt() + "' " +
-                             "WHERE id = " + soap.getId();
-                
-                // Execute the update
-                int affectedRows = statement.executeUpdate(sql);
-
-                if (affectedRows > 0) {
-                    System.out.println("Soap successfully updated.");
-                } else {
-                    System.out.println("Error updating Soap.");
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating soap: " + e.getMessage());
-            }
-        }
-        
-        public void updateCustomer(Customers customer) {
-            try {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                Statement statement = connection.createStatement();
-
-                // Form the SQL query for update
-                String sql = "UPDATE customers SET " +
-                             "address = '" + customer.getAddress() + "', " +
-                             "email = '" + customer.getEmail() + "', " +
-                             "password = '" + customer.getPassword() + "', " +
-                             "name = '" + customer.getName() + "', " +
-                             "city = '" + customer.getCity() + "', " +
-                             "birth_date = '" + customer.getBirthDate() + "', " +
-                             "created_at = '" + customer.getCreatedAt() + "' " +
-                             "WHERE id = " + customer.getId();
-                
-                // Execute the update
-                int affectedRows = statement.executeUpdate(sql);
-
-                if (affectedRows > 0) {
-                    System.out.println("Customer successfully updated.");
-                } else {
-                    System.out.println("Error updating Customer.");
-                }
-
-                connection.close();
-            } catch (Exception e) {
-                System.out.println("Error updating customer: " + e.getMessage());
-            }
-        }*/
-        
-        
 
         
+        /**
+         * Updates an dataset of the database table
+         *
+         * @param Employer employer
+         */
         public void updateEmployer(Employer employer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -585,7 +468,11 @@ import javax.swing.JOptionPane;
             
          
   
-        
+        /**
+         * Updates an dataset of the database table
+         *
+         * @param Orders order
+         */
         public void updateOrder(Orders order) {
 
             try {
@@ -609,7 +496,6 @@ import javax.swing.JOptionPane;
                             System.out.println("Column successfully updated: " + update);
                         } else {
                             System.out.println("Error updating column: " + update);
-                          //  errorMessage = "Error updating column: " + update;  funktioniert nicht
                         }
                     } catch (Exception e) {
                         System.out.println("Error updating order. Error updating column: " + update + ". Error message: " + e.getMessage());
@@ -625,11 +511,11 @@ import javax.swing.JOptionPane;
             
         }
        
-  /*      public String getErrorMessage(String errorMessage) {   // versuch catch block komplet auszuführen fehlgeschlagen
-        	this.errorMessage = errorMessage;
-            return this.errorMessage;
-        }  funktioniert nicht*/
-
+        /**
+         * Updates an dataset of the database table
+         *
+         * @param Soap soap
+         */
         public void updateSoap(Soap soap) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -663,6 +549,11 @@ import javax.swing.JOptionPane;
             }
         }
 
+        /**
+         * Updates an dataset of the database table
+         *
+         * @param Customers customer
+         */
         public void updateCustomer(Customers customer) {
             try {
                 Connection connection = DriverManager.getConnection(url, username, password);

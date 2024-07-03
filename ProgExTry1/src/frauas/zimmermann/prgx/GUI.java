@@ -365,7 +365,12 @@ public class GUI extends Mainframe implements MiddlePanel{
     }
     
     
-    
+    /**
+     * Method: setEmployerPanel
+     * 
+     * Description: Sets a table specifically for displaying the data of an Employer 
+     * in the rightPanel of the GUI
+     */
     private void setEmployerPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -429,6 +434,11 @@ public class GUI extends Mainframe implements MiddlePanel{
         rightPanel.repaint();
     }
     
+    /***
+     * Method: addEmployerData
+     * 
+     * Description: fetches employer data from the database and inserts the into the TableModel
+     */
     private void addEmployerData() {
         ArrayList<Employer> employers = dataManagement.fetchEmployersFromDatabase();
 
@@ -445,6 +455,13 @@ public class GUI extends Mainframe implements MiddlePanel{
             employerTableModel.addRow(rowData);
         }
     }
+    
+    /**
+     * Method: setSoapPanel
+     * 
+     * Description: Sets a table specifically for displaying the data of an Product 
+     * in the rightPanel of the GUI
+     */
 
     private void setSoapPanel() {
         rightPanel.removeAll();
@@ -507,6 +524,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         rightPanel.revalidate();
         rightPanel.repaint();
     }
+    
+    /***
+     * Method: addSoapData
+     * 
+     * Description: fetches soap data from the database and inserts the into the TableModel
+     */
 
     private void addSoapData(DefaultTableModel soapTableModel) {
         ArrayList<Soap> soaps = dataManagement.fetchSoapsFromDatabase();
@@ -524,6 +547,13 @@ public class GUI extends Mainframe implements MiddlePanel{
         }
     }
 
+    /**
+     * Method: setOrderPanel
+     * 
+     * Description: Sets a table specifically for displaying the data of an Order 
+     * in the rightPanel of the GUI
+     */
+    
     private void setOrderPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -599,7 +629,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         rightPanel.repaint();
     }
     
-
+    /***
+     * Method: addOrderData
+     * 
+     * Description: fetches order data from the database and inserts the into the TableModel
+     */
+    
     private void addOrderData(DefaultTableModel orderTableModel) {
         ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
 
@@ -620,6 +655,12 @@ public class GUI extends Mainframe implements MiddlePanel{
 
     }
 
+    /**
+     * Method: setCustomerPanel
+     * 
+     * Description: Sets a table specifically for displaying the data of an customer
+     * in the rightPanel of the GUI
+     */
     private void setCustomerPanel() {
         rightPanel.removeAll();
         rightPanel.setLayout(new BorderLayout());
@@ -685,6 +726,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         rightPanel.revalidate();
         rightPanel.repaint();
     }
+    
+    /***
+     * Method: addCustomerData
+     * 
+     * Description: fetches customer data from the database and inserts the into the TableModel
+     */
 
     private void addCustomerData(DefaultTableModel customerTableModel) {
         ArrayList<Customers> customers = dataManagement.fetchCustomersFromDatabase();

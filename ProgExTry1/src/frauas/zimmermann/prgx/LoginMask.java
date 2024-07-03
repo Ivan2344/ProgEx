@@ -26,8 +26,11 @@ public class LoginMask extends Mainframe {
         loggui();
     }
 
+	/**
+     * Method: loggui
+     * Description: Sets up the graphical user interface for the login
+     */
     public void loggui() {
-        // Set up the center panel for the login form
     	JPanel MainPanel = new JPanel(new BorderLayout());
     	
     	setNorth(MainPanel);
@@ -56,12 +59,9 @@ public class LoginMask extends Mainframe {
 
         JButton loginButton = new JButton("Login");
         loginButton.setBackground(LIGHT_BLUE);
-        loginButton.setFont(new Font("Book Antiqua", Font.PLAIN, 20));  // Set font size for login button
-
+        loginButton.setFont(new Font("Book Antiqua", Font.PLAIN, 20)); 
         
-       		
         
-    //ActionListener für den Login-Button
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,7 +71,7 @@ public class LoginMask extends Mainframe {
             }
         });
 
-        // KeyListener für das Passwortfeld
+
         passwordField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -84,39 +84,13 @@ public class LoginMask extends Mainframe {
         });
 
        
-  /*   // ActionListener to handle login button click
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = userNameField.getText();
-                String password = new String(passwordField.getPassword());
-
-                // Prüfe, ob die Verbindung zur Datenbank hergestellt werden kann
-                Create_Shema schema = new Create_Shema(username, password);
-                boolean success = schema.CreateDB();
-                schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
-        		schema.InsertDemoValues();
-        		//schema.createForeignKeys();
-                if (success) {
-                	GUI new2 = new GUI(username, password);
-                    JOptionPane.showMessageDialog(frame, "Login successful!");
-                    // Hier könnten Sie zur Hauptanwendung wechseln oder weitere Aktionen ausführen
-                    frame.setVisible(false);
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
-                }
-            }
-        });*/
-
-        // Add components to the login panel
         loginPanel.add(userNameLabel);
         loginPanel.add(userNameField);
         loginPanel.add(passwordLabel);
         loginPanel.add(passwordField);
-        loginPanel.add(new JLabel()); // Empty label for spacing
+        loginPanel.add(new JLabel());
         loginPanel.add(loginButton);
 
-        // Add the login panel to the center of the MainFrame
         MainPanel.add(loginPanel, BorderLayout.CENTER);
         innerCenterPanel.add(MainPanel, BorderLayout.CENTER);
         frame.revalidate();
@@ -151,9 +125,14 @@ public class LoginMask extends Mainframe {
         Panel.add(rightPanel, BorderLayout.EAST);
     }
     
+    /**
+     * Method: login
+     * @param username the username entered by the user
+     * @param password the password entered by the user
+     * Description: Authenticates the user and proceeds to the main GUI if successful.
+     */
     public void login(String username, String password) {
 
-        // Prüfe, ob die Verbindung zur Datenbank hergestellt werden kann
         Create_Shema schema = new Create_Shema(username, password);
         boolean success = schema.CreateDB();
         schema.setSch("jdbc:mysql://localhost:3306/SEIFENdemo2");
@@ -161,9 +140,7 @@ public class LoginMask extends Mainframe {
 
         if (success) {
             GUI new2 = new GUI(username, password);
-            //JOptionPane.showMessageDialog(frame, "Login successful!");
-            // Hier könnten Sie zur Hauptanwendung wechseln oder weitere Aktionen ausführen
-            frame.setVisible(false); // Login-Fenster ausblenden
+            frame.setVisible(false); 
         } else {
             JOptionPane.showMessageDialog(frame, "Invalid username or password for database.");
         }
