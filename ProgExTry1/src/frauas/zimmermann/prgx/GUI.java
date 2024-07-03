@@ -582,6 +582,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         
         JButton openProductsButton = new JButton("Add Products");
         openProductsButton.setFont(new java.awt.Font("Book Antiqua", 0, 18));
+        openProductsButton.setBackground(LIGHT_BLUE);
         openProductsButton.addActionListener(e ->addProductsToOrderFrame(dataManagement));
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
