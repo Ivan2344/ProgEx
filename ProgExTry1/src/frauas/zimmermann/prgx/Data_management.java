@@ -145,7 +145,7 @@ import javax.swing.JOptionPane;
                     order.setEmployee_id(resultSet.getInt("employer_id"));
                     order.setOrder_date(resultSet.getDate("order_date"));
                     order.setStatus(resultSet.getString("status"));
-                    order.setTotal(resultSet.getInt("total"));
+                    order.setTotal(resultSet.getFloat("total"));
                     order.setTax(resultSet.getFloat("tax"));
                     order.setDiscount(resultSet.getInt("discount"));
                     

@@ -8,7 +8,7 @@ public class Orders {
     private int employee_id;
     private Date order_date;
     private String status;
-    private int total;
+    private float total;
  //   private int subtotal;
     private float tax;
     private int discount;
@@ -43,10 +43,10 @@ public class Orders {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public int getTotal() {
+	public float getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(float total) {
 		this.total = total;
 	}
 //	public int getSubtotal() {

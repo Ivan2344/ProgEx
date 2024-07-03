@@ -602,7 +602,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 	           	    textFields[2].setText(Integer.toString(selectedOrder.getEmployee_id()));
 	           	    textFields[3].setText(convertDateToString(selectedOrder.getOrder_date()));
 	           	    textFields[4].setText(selectedOrder.getStatus());
-	           	    textFields[5].setText(Integer.toString(selectedOrder.getTotal()));
+	           	    textFields[5].setText(Float.toString(selectedOrder.getTotal()));
 	           	    textFields[6].setText(Float.toString(selectedOrder.getTax()));
 	           	    textFields[7].setText(Integer.toString(selectedOrder.getDiscount())); 
                 }
@@ -1172,7 +1172,7 @@ public class GUI extends Mainframe implements MiddlePanel{
 	            order.setEmployee_id(Integer.parseInt(textFields[2].getText()));
 	            order.setOrder_date(convertToDate(textFields[3].getText()));  // Order Date
 	            order.setStatus(textFields[4].getText());                     // Status
-	            order.setTotal(Integer.parseInt(textFields[5].getText()));    // Total
+	            order.setTotal(Float.parseFloat(textFields[5].getText()));    // Total
 	            order.setTax(Float.parseFloat(textFields[6].getText()));      // Tax
 	            order.setDiscount(Integer.parseInt(textFields[7].getText())); // Discount
 	 
