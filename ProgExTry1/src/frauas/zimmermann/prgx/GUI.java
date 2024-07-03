@@ -79,7 +79,9 @@ public class GUI extends Mainframe implements MiddlePanel{
     public static final String ONLY_ADD = "add",EDIT_AND_ADD = "edit";
     private JButton addButton , deleteButton , editButton,refreshButton ;
    private JTable soapDatabase, employerDatabase, orderDatabase , customerDatabase;
-     
+
+   private final Map<String, JTextField[]> textFieldMap = new HashMap<>();
+  
    /**
     * Constructor: GUI
     * @param usr the username for data management
@@ -715,49 +717,75 @@ public class GUI extends Mainframe implements MiddlePanel{
             customerTableModel.addRow(rowData);
         }
     }
+
+
+    /**
+     * Sets up the Order text panel.
+     *
+     * @return JPanel for Orders
+     */
     public JPanel setOrderTextPanel() {
-    	String className = "Orders";
-        String[] labels = {"ID", "User ID","Employee ID", "Order Date", "Status", "Total", "Tax", "Discount"};
+        String className = "Orders";
+        String[] labels = {"ID", "User ID", "Employee ID", "Order Date", "Status", "Total", "Tax", "Discount"};
         return createMaskPanel(labels, className);
     }
 
+    /**
+     * Sets up the Employee text panel.
+     *
+     * @return JPanel for Employees
+     */
     public JPanel setEmployerTextPanel() {
-    	String className = "Employees";
+        String className = "Employees";
         String[] labels = {"ID", "Name", "Address", "Email", "Phone Number", "Industry", "Established Date"};
         return createMaskPanel(labels, className);
     }
 
+    /**
+     * Sets up the Product text panel.
+     *
+     * @return JPanel for Products
+     */
     public JPanel setSoapTextPanel() {
-    	String className = "Products";
+        String className = "Products";
         String[] labels = {"ID", "EAN", "Title", "Category", "Price"};
         return createMaskPanel(labels, className);
     }
 
+    /**
+     * Sets up the Customer text panel.
+     *
+     * @return JPanel for Customers
+     */
     public JPanel setCustomerTextPanel() {
-    	String className = "Customers";
-    	String[] labels ={"ID", "Name", "Address", "Email", "Password", "City", "Birth Date"};
+        String className = "Customers";
+        String[] labels = {"ID", "Name", "Address", "Email", "Password", "City", "Birth Date"};
         return createMaskPanel(labels, className);
     }
 
-    private Map<String, JTextField[]> textFieldMap = new HashMap<>();				//mapping panel name to JTextFields
-
+    /**
+     * Creates a mask panel with specified labels and panel name.
+     *
+     * @param labels    the labels for the fields
+     * @param panelName the name of the panel
+     * @return JPanel with specified labels
+     */
     private JPanel createMaskPanel(String[] labels, String panelName) {
-    	JPanel titlePanel = new JPanel(new BorderLayout());
-    	JLabel titleLabel = new JLabel();
-    	titleLabel = createCustomLabel("Insert: ");
-    	titleLabel.setBackground(Color.LIGHT_GRAY);
-    	titleLabel.setFont(new java.awt.Font("Book Antiqua", 0, 20));
-    	titlePanel.add(titleLabel);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel titleLabel = createCustomLabel("Insert: ");
+        titleLabel.setBackground(Color.LIGHT_GRAY);
+        titleLabel.setFont(new java.awt.Font("Book Antiqua", 0, 20));
+        titlePanel.add(titleLabel, BorderLayout.NORTH);
+
         JPanel tempPanel = new JPanel(new BorderLayout());
         JPanel leftTempPanel = new JPanel(new GridLayout(labels.length, 1));
         JPanel rightTempPanel = new JPanel(new GridLayout(labels.length, 1));
-  
+
         JLabel[] customLabels = new JLabel[labels.length];
         JTextField[] textFields = new JTextField[labels.length];
-        
+
         int nextId = dataManagement.findMaxId(panelName) + 1;
-    
-        
+
         for (int i = 0; i < labels.length; i++) {
             customLabels[i] = createCustomLabel(labels[i]);
             leftTempPanel.add(customLabels[i]);
@@ -770,39 +798,44 @@ public class GUI extends Mainframe implements MiddlePanel{
             textFields[i] = textField;
             rightTempPanel.add(textField);
         }
-//       
 
         textFieldMap.put(panelName, textFields);
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTempPanel, rightTempPanel);
         splitPane.setDividerLocation(3.0 / 3.0);
         splitPane.setResizeWeight(0.33);
-        tempPanel.add(splitPane, BorderLayout.CENTER);        
+        tempPanel.add(splitPane, BorderLayout.CENTER);
         tempPanel.add(titlePanel, BorderLayout.NORTH);
 
         secondLeftPanel.add(tempPanel);
 
-        
         return tempPanel;
     }
+
+    /**
+     * Creates a custom JLabel.
+     *
+     * @param text the text for the label
+     * @return JLabel with custom settings
+     */
     private JLabel createCustomLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new java.awt.Font("Book Antiqua", 0, 18));
-        label.setBackground(BLUE);
+        label.setBackground(LIGHT_BLUE);
         label.setForeground(Color.DARK_GRAY);
         label.setOpaque(true); // Needed for background color to be visible
         Border margin = new EmptyBorder(0, 10, 0, 0);
-        
         Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
         label.setBorder(BorderFactory.createCompoundBorder(border, margin));
         return label;
     }
-    //handles select and drop function in Product frame
+
+    /**
+     * Transfer handler for product drag and drop functionality.
+     */
     static class ProductTransferHandler extends TransferHandler {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		@Override
+        private static final long serialVersionUID = 1L;
+
+        @Override
         public int getSourceActions(JComponent c) {
             return COPY_OR_MOVE;
         }
@@ -816,6 +849,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         public boolean canImport(TransferSupport support) {
             return support.isDataFlavorSupported(DataFlavor.stringFlavor);
         }
+
         @Override
         public boolean importData(TransferSupport support) {
             if (!canImport(support)) {
@@ -841,8 +875,12 @@ public class GUI extends Mainframe implements MiddlePanel{
             return false;
         }
     }
-    
-    
+
+    /**
+     * Adds products to the order frame with drag and drop functionality.
+     *
+     * @param dataManagement the data management object
+     */
     private void addProductsToOrderFrame(Data_management dataManagement) {
         int orderId;
         if ("Orders".equals("Orders") && selectedRow != -1) { // Gives OrderId of selected row to add products
@@ -958,7 +996,11 @@ public class GUI extends Mainframe implements MiddlePanel{
         newFrame.setVisible(true);
     }
 
-
+    /**
+     * Creates a list cell renderer with custom settings.
+     *
+     * @return ListCellRenderer with custom settings
+     */
     private ListCellRenderer<? super String> createListCellRenderer() {
         return new DefaultListCellRenderer() {
             @Override
@@ -971,9 +1013,15 @@ public class GUI extends Mainframe implements MiddlePanel{
             }
         };
     }
+
+    /**
+     * Creates a tree cell renderer with custom settings.
+     *
+     * @return TreeCellRenderer with custom settings
+     */
     private TreeCellRenderer createTreeCellRenderer() {
         return new DefaultTreeCellRenderer() {
-            private Font font = new Font("Book Antiqua", 0, 14); // Custom font for tree nodes
+            private final Font font = new Font("Book Antiqua", 0, 14); // Custom font for tree nodes
 
             @Override
             public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel,
@@ -985,7 +1033,12 @@ public class GUI extends Mainframe implements MiddlePanel{
         };
     }
 
-
+    /**
+     * Creates a tree model for products.
+     *
+     * @param dataManagement the data management object
+     * @return TreeModel for products
+     */
     private static TreeModel productTreeModel(Data_management dataManagement) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Products");
         ArrayList<String> categories = dataManagement.fetchCategoriesFromDatabase();
@@ -1000,29 +1053,32 @@ public class GUI extends Mainframe implements MiddlePanel{
         return new DefaultTreeModel(root);
     }
 
-    
-    private void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement,int orderId, ArrayList<Soap> existingSoaps) {
-    	Set<String> existingProductTitles = new HashSet<>();
+    /**
+     * Saves the contents of the cart to the database.
+     *
+     * @param cartListModel     the list model for the cart
+     * @param dataManagement    the data management object
+     * @param orderId           the ID of the order
+     * @param existingSoaps     the existing soaps
+     */
+    private void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId, ArrayList<Soap> existingSoaps) {
+        Set<String> existingProductTitles = new HashSet<>();
         for (Soap soap : existingSoaps) {
             existingProductTitles.add(soap.getTitle());
         }
 
-       
         for (int i = 0; i < cartListModel.getSize(); i++) {
-        	String productTitle = cartListModel.getElementAt(i);
-           // if (!existingProductTitles.contains(productTitle)) {
-                int soapId = dataManagement.getSoapIdByTitle(productTitle);
-                if (soapId != -1) {
-                    dataManagement.addOrderProductReference(orderId, soapId);
-                    System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
-                } else {
-                    System.out.println("Error: Could not find soap ID for title: " + productTitle);
-                }
-           // }
+            String productTitle = cartListModel.getElementAt(i);
+            int soapId = dataManagement.getSoapIdByTitle(productTitle);
+            if (soapId != -1) {
+                dataManagement.addOrderProductReference(orderId, soapId);
+                System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
+            } else {
+                System.out.println("Error: Could not find soap ID for title: " + productTitle);
+            }
         }
 
         System.out.println("Cart contents saved to database.");
-        
     }
 
 
