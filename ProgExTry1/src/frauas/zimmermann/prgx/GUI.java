@@ -179,23 +179,24 @@ public class GUI extends Mainframe implements MiddlePanel{
     public JPanel setMainPanels(int menuItem) {
     	JPanel titlePanel = new JPanel();
         JPanel tempPanel = new JPanel(); 
-        JPanel fLTPanel = new JPanel();
-        fLTPanel.setLayout(new GridLayout(4,1));
+        JPanel fLTPanel = new JPanel();        
         JPanel addButtonPanel = new JPanel();
         JPanel editButtonPanel = new JPanel();  
         JPanel deleteButtonPanel = new JPanel();     
         JPanel refreshButtonPanel = new JPanel();
         JLabel titleLabel = new JLabel();
+        JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);   
+           
+        fLTPanel.setLayout(new GridLayout(4,1));
+        fLTPanel.setBackground(Color.LIGHT_GRAY);
         titleLabel = createCustomLabel("Commands:");
         titleLabel.setBackground(Color.LIGHT_GRAY);
         titlePanel = createPanelWithBorder(BUTTON_PANEL);
         titlePanel.setFont(new java.awt.Font("Book Antiqua", 0, 17));
-        titlePanel.add(titleLabel);
-                
+        titlePanel.add(titleLabel);      
         tempPanel.setBackground(Color.WHITE);
         tempPanel.setLayout(new GridLayout(1, 2));
-		
-        
+		        
         leftPanel = createPanelWithBorder(LEFT_PANEL);
         rightPanel = createPanelWithBorder(RIGHT_PANEL);        
         firstLeftPanel = createPanelWithBorder(INNER_LEFT_PANEL);
@@ -213,51 +214,43 @@ public class GUI extends Mainframe implements MiddlePanel{
 		editButtonPanel= createPanel();
 		deleteButtonPanel= createPanel();
 		refreshButtonPanel= createPanel();
-		
-		
-		 addButton = new JButton("Add");
-		 addButton = setButtons(addButton);
-		 deleteButton = new JButton("Delete");
-		 deleteButton = setButtons(deleteButton);
-		 editButton = new JButton("Edit");
-		 editButton = setButtons(editButton);
-		 refreshButton = new JButton("Refresh");
-		 refreshButton = setButtons(refreshButton);
+				
+		addButton = new JButton("Add");
+		addButton = setButtons(addButton);
+		deleteButton = new JButton("Delete");
+		deleteButton = setButtons(deleteButton);
+		editButton = new JButton("Edit");
+		editButton = setButtons(editButton);
+		refreshButton = new JButton("Refresh");
+		refreshButton = setButtons(refreshButton);
 		 
-		 setActionAddButton(menuItem);
-		 setActionDeleteButton(menuItem);
-		 setActionEditButton(menuItem);
-		 setActionRefreshButton(menuItem);
+		setActionAddButton(menuItem);
+		setActionDeleteButton(menuItem);
+		setActionEditButton(menuItem);
+		setActionRefreshButton(menuItem);
+		  
+		addButtonPanel.add(addButton);
+		deleteButtonPanel.add(deleteButton);
+		editButtonPanel.add(editButton);
+		refreshButtonPanel.add(refreshButton);
+    	 
+		fLTPanel.add(addButtonPanel);
+		fLTPanel.add(deleteButtonPanel);
+		fLTPanel.add(editButtonPanel);
+		fLTPanel.add(refreshButtonPanel);
 		 
-		 
-		 addButtonPanel.add(addButton);
-		 deleteButtonPanel.add(deleteButton);
-		 editButtonPanel.add(editButton);
-		 refreshButtonPanel.add(refreshButton);
-    	
-		 
-		 fLTPanel.add(addButtonPanel);
-		 fLTPanel.add(deleteButtonPanel);
-		 fLTPanel.add(editButtonPanel);
-		 fLTPanel.add(refreshButtonPanel);
-		 
-		 firstLeftPanel.add(titlePanel, BorderLayout.NORTH);
-		 firstLeftPanel.add(fLTPanel, BorderLayout.CENTER);
-		
-
-		secondLeftPanel.setLayout(new BorderLayout());
-		
-        JLabel rightLabel = new JLabel("Right Panel", SwingConstants.CENTER);        
+		firstLeftPanel.add(titlePanel, BorderLayout.NORTH);
+		firstLeftPanel.add(fLTPanel, BorderLayout.CENTER);
+		secondLeftPanel.setLayout(new BorderLayout());  
         rightPanel.add(rightLabel);
-        
 
-        String selectedItem = menuItems[menuItem];
-        setViewPanel(selectedItem);
-        
         leftPanel.add(firstLeftPanel);
         leftPanel.add(secondLeftPanel);
         tempPanel.add(leftPanel);
         tempPanel.add(rightPanel);
+        
+        String selectedItem = menuItems[menuItem];
+        setViewPanel(selectedItem);
         
         return tempPanel;
     }
