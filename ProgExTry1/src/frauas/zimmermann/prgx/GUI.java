@@ -875,8 +875,8 @@ public class GUI extends Mainframe implements MiddlePanel{
      */
     private void addProductsToOrderFrame(Data_management dataManagement) {
         int orderId;
-        if ("Orders".equals("Orders") && selectedRow != -1) { // Gives OrderId of selected row to add products
-            ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
+        if (selectedRow != -1) { 
+        	ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
             Orders selectedOrder = orders.get(selectedRow);
             orderId = selectedOrder.getId();
         }
