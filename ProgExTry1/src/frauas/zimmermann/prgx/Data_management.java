@@ -772,21 +772,24 @@ import javax.swing.JOptionPane;
          */
         public int getSoapIdByTitle(String title) {
             int soapId = -1;
-            String sql = "SELECT id FROM Soap WHERE titel = ?";
+            String sql = "SELECT id FROM Soap WHERE titel = '" + title + "'";
+            
             try (Connection connection = DriverManager.getConnection(url, username, password);
-                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                preparedStatement.setString(1, title);
-                ResultSet resultSet = preparedStatement.executeQuery();
+                 Statement statement = connection.createStatement()) {
+                
+                ResultSet resultSet = statement.executeQuery(sql);
 
                 if (resultSet.next()) {
                     soapId = resultSet.getInt("id");
                 }
+                
             } catch (Exception e) {
                 System.out.println("Error fetching soap ID by title: " + e.getMessage());
             }
+            
             return soapId;
         }
+
         
         /**
          * Retrieves the total count of a specific soap in a specific order.
@@ -798,16 +801,17 @@ import javax.swing.JOptionPane;
         public int getTotalCount(int orderId, int soapId) {
             int totalCount = 0;
 
-            try (Connection connection = DriverManager.getConnection(url, username, password)) {
-                String sql = "SELECT COUNT(*) AS total_count FROM RefOrderProd WHERE Oid = ? AND Sid = ?";
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setInt(1, orderId);
-                statement.setInt(2, soapId);
+            try (Connection connection = DriverManager.getConnection(url, username, password);
+                 Statement statement = connection.createStatement()) {
+                
+                String sql = "SELECT COUNT(*) AS total_count FROM RefOrderProd WHERE Oid = " + orderId + " AND Sid = " + soapId;
+                
+                ResultSet resultSet = statement.executeQuery(sql);
 
-                ResultSet resultSet = statement.executeQuery();
                 if (resultSet.next()) {
                     totalCount = resultSet.getInt("total_count");
                 }
+                
             } catch (Exception e) {
                 System.out.println("Error retrieving total count: " + e.getMessage());
             }
