@@ -866,52 +866,7 @@ public class GUI extends Mainframe implements MiddlePanel{
         return label;
     }
 
-    /**
-     * Transfer handler for product drag and drop functionality.
-     */
-    static class ProductTransferHandler extends TransferHandler {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public int getSourceActions(JComponent c) {
-            return COPY_OR_MOVE;
-        }
-
-        @Override
-        protected Transferable createTransferable(JComponent c) {
-            return new StringSelection(((JList<?>) c).getSelectedValue().toString());
-        }
-
-        @Override
-        public boolean canImport(TransferSupport support) {
-            return support.isDataFlavorSupported(DataFlavor.stringFlavor);
-        }
-
-        @Override
-        public boolean importData(TransferSupport support) {
-            if (!canImport(support)) {
-                return false;
-            }
-
-            try {
-                String data = (String) support.getTransferable().getTransferData(DataFlavor.stringFlavor);
-                JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
-                int index = dl.getIndex();
-                boolean insert = dl.isInsert();
-
-                DefaultListModel<String> listModel = (DefaultListModel<String>) ((JList<?>) support.getComponent()).getModel();
-                if (insert) {
-                    listModel.add(index, data);
-                } else {
-                    listModel.set(index, data);
-                }
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-    }
+   
 
     /**
      * Adds products to the order frame with drag and drop functionality.
@@ -1114,9 +1069,6 @@ public class GUI extends Mainframe implements MiddlePanel{
             int soapId = dataManagement.getSoapIdByTitle(productTitle);
             if (soapId != -1) {
                 dataManagement.addOrderProductReference(orderId, soapId);
-//            	if (orderId > dataManagement.findMaxId("Orders")) {
-//    	    	    JOptionPane.showMessageDialog(null, "Select an Order to add Products.","Information", JOptionPane.INFORMATION_MESSAGE);
-//    	    	}
                 System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
                 System.out.println("Cart contents saved to database.");
             } else {
@@ -1542,6 +1494,52 @@ public class GUI extends Mainframe implements MiddlePanel{
         } catch (ParseException e) {
             e.printStackTrace(); // Handle parsing exception properly in your application
             return null; // Return null or handle error case as appropriate
+        }
+    }
+    /**
+     * Transfer handler for product drag and drop functionality.
+     */
+    static class ProductTransferHandler extends TransferHandler {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int getSourceActions(JComponent c) {
+            return COPY_OR_MOVE;
+        }
+
+        @Override
+        protected Transferable createTransferable(JComponent c) {
+            return new StringSelection(((JList<?>) c).getSelectedValue().toString());
+        }
+
+        @Override
+        public boolean canImport(TransferSupport support) {
+            return support.isDataFlavorSupported(DataFlavor.stringFlavor);
+        }
+
+        @Override
+        public boolean importData(TransferSupport support) {
+            if (!canImport(support)) {
+                return false;
+            }
+
+            try {
+                String data = (String) support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+                int index = dl.getIndex();
+                boolean insert = dl.isInsert();
+
+                DefaultListModel<String> listModel = (DefaultListModel<String>) ((JList<?>) support.getComponent()).getModel();
+                if (insert) {
+                    listModel.add(index, data);
+                } else {
+                    listModel.set(index, data);
+                }
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
         }
     }
 }
