@@ -924,7 +924,8 @@ public class GUI extends Mainframe implements MiddlePanel{
             ArrayList<Orders> orders = dataManagement.fetchOrdersFromDatabase();
             Orders selectedOrder = orders.get(selectedRow);
             orderId = selectedOrder.getId();
-        } else {
+        }
+        else {
             orderId = dataManagement.findMaxId("Orders") + 1;
         }
 
@@ -979,9 +980,7 @@ public class GUI extends Mainframe implements MiddlePanel{
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) productTree.getLastSelectedPathComponent();
             if (selectedNode != null && selectedNode.isLeaf()) {
                 String selectedProduct = selectedNode.toString();
-                if (!cartListModel.contains(selectedProduct)) {
-                    cartListModel.addElement(selectedProduct);
-                }
+                cartListModel.addElement(selectedProduct);
             }
         });
 
@@ -1023,8 +1022,11 @@ public class GUI extends Mainframe implements MiddlePanel{
         });
 
         saveButton.addActionListener(e -> {
+        	if (orderId > dataManagement.findMaxId("Orders")) {
+	    	    JOptionPane.showMessageDialog(null, "Select an Order from Order Table to add Products.","Information", JOptionPane.INFORMATION_MESSAGE);
+	    	}
             saveCartContentsToDatabase(cartListModel, dataManagement, orderId, existingSoaps);
-            newFrame.dispose(); // Close the JFrame after saving
+            newFrame.dispose(); 
         });
         buttonPanel.add(deleteButton);
         buttonPanel.add(saveButton);
@@ -1112,13 +1114,15 @@ public class GUI extends Mainframe implements MiddlePanel{
             int soapId = dataManagement.getSoapIdByTitle(productTitle);
             if (soapId != -1) {
                 dataManagement.addOrderProductReference(orderId, soapId);
+//            	if (orderId > dataManagement.findMaxId("Orders")) {
+//    	    	    JOptionPane.showMessageDialog(null, "Select an Order to add Products.","Information", JOptionPane.INFORMATION_MESSAGE);
+//    	    	}
                 System.out.println("Product ID:" + soapId + ", Product Title: " + productTitle);
+                System.out.println("Cart contents saved to database.");
             } else {
                 System.out.println("Error: Could not find soap ID for title: " + productTitle);
             }
-        }
-
-        System.out.println("Cart contents saved to database.");
+        }   
     }
 
 
