@@ -1059,12 +1059,7 @@ public class GUI extends Mainframe implements MiddlePanel{
      * @param existingSoaps     the existing soaps
      */
     private void saveCartContentsToDatabase(DefaultListModel<String> cartListModel, Data_management dataManagement, int orderId, ArrayList<Soap> existingSoaps) {
-        Set<String> existingProductTitles = new HashSet<>();
-        for (Soap soap : existingSoaps) {
-            existingProductTitles.add(soap.getTitle());
-        }
-
-        for (int i = 0; i < cartListModel.getSize(); i++) {
+    	for (int i = 0; i < cartListModel.getSize(); i++) {
             String productTitle = cartListModel.getElementAt(i);
             int soapId = dataManagement.getSoapIdByTitle(productTitle);
             if (soapId != -1) {
