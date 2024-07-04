@@ -741,10 +741,8 @@ import javax.swing.JOptionPane;
                 Connection connection = DriverManager.getConnection(url, username, password);
                 Statement statement = connection.createStatement();
                 
-                // Escape single quotes in the category to prevent SQL injection
-                String escapedCategory = category.replace("'", "''");
-                
-                String query = "SELECT * FROM Soap WHERE category = '" + escapedCategory + "'";
+                String query = "SELECT * FROM Soap WHERE category = '" + category + "'";
+         
                 ResultSet resultSet = statement.executeQuery(query);
 
                 while (resultSet.next()) {
